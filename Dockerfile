@@ -3,9 +3,9 @@
 ############################
 # Shared Node base (Debian slim, not Alpine)
 ############################
-ARG NODE_VERSION=24.11.0-slim
+ARG NODE_IMAGE=public.ecr.aws/docker/library/node:24.11.0-slim
 
-FROM node:${NODE_VERSION} AS base
+FROM ${NODE_IMAGE} AS base
 WORKDIR /app
 
 # Basic OS deps (includes wget for HEALTHCHECK)
