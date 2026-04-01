@@ -103,73 +103,15 @@ jobs:
       - name: Enable pnpm (corepack)
         run: corepack enable
 
-      - name: Ensure jq and curl
+      - name: Ensure jq
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq curl
+          sudo apt-get install -y jq
 
       - uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-
-      # 🔍 Resolve EC2 + SG + public DNS from SSM (we already know env_name from preflight)
-      - name: Resolve EC2 + SG + DNS
-        id: ec2
-        shell: bash
-        run: |
-          set -euo pipefail
-          ENV_NAME="${{ needs.preflight.outputs.env_name }}"
-          PARAM="/infra/${ENV_NAME}/ci/ec2_instance_id"
-          echo "Using env: $ENV_NAME (param: $PARAM)"
-
-          EC2_ID=$(aws ssm get-parameter \
-            --name "$PARAM" \
-            --query 'Parameter.Value' \
-            --output text)
-
-          SG_ID=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_ID" \
-            --query 'Reservations[0].Instances[0].SecurityGroups[0].GroupId' \
-            --output text)
-
-          PUBLIC_DNS=$(aws ec2 describe-instances \
-            --instance-ids "$EC2_ID" \
-            --query 'Reservations[0].Instances[0].PublicDnsName' \
-            --output text)
-
-          echo "ec2_id=$EC2_ID" >> "$GITHUB_OUTPUT"
-          echo "sg_id=$SG_ID" >> "$GITHUB_OUTPUT"
-          echo "public_dns=$PUBLIC_DNS" >> "$GITHUB_OUTPUT"
-
-      # 🌍 Current runner public IP (for /32 rule)
-      - name: Get runner public IP
-        id: runner_ip
-        shell: bash
-        run: |
-          set -euo pipefail
-          IP=$(curl -s https://checkip.amazonaws.com)
-          echo "Runner IP: $IP"
-          echo "ip=$IP" >> "$GITHUB_OUTPUT"
-
-      # 🔓 TEMPORARILY open Postgres (5432) to this runner ONLY
-      - name: Open DB for CI runner
-        id: open_db
-        shell: bash
-        run: |
-          set -euo pipefail
-          SG_ID="${{ steps.ec2.outputs.sg_id }}"
-          IP="${{ steps.runner_ip.outputs.ip }}/32"
-          echo "Authorizing $IP on sg $SG_ID (5432/tcp)…"
-          aws ec2 authorize-security-group-ingress \
-            --group-id "$SG_ID" \
-            --protocol tcp \
-            --port 5432 \
-            --cidr "$IP" || {
-              echo "Ingress rule may already exist; continuing."
-            }
-
-
 
       # 🧬 Create .env.production from PUBLIC_ENV_JSON + SSM (plain + secure)
       - name: Create .env.production from SSM env
@@ -181,10 +123,8 @@ jobs:
 
           ENV_NAME="${{ needs.preflight.outputs.env_name }}"
           APP_SLUG="${{ env.APP }}"
-          PUBLIC_DNS="${{ steps.ec2.outputs.public_dns }}"
 
           echo "Building .env.production for env=${ENV_NAME}, app=${APP_SLUG}"
-          echo "EC2 public DNS for build-time DB traffic: ${PUBLIC_DNS}"
 
           # Start fresh
           : > .env.production
@@ -218,79 +158,8 @@ jobs:
             fi
           done
 
-          # 3) For CI build ONLY, rewrite DATABASE_URL host from 'postgres'
-          #    (docker service inside EC2) to the EC2 public DNS so GitHub can reach it.
-          if [ -n "${PUBLIC_DNS}" ] && grep -q '^DATABASE_URL=' .env.production; then
-            ORIG_LINE=$(grep '^DATABASE_URL=' .env.production | tail -n1)
-            ORIG_VALUE="${ORIG_LINE#DATABASE_URL=}"
-            echo "Original DATABASE_URL (masked host):"
-            echo "${ORIG_LINE}" | sed 's/@.*/@***:*****/'
-
-            # If the URL uses '@postgres:', rewrite just the host part for build time
-            UPDATED_VALUE=$(printf '%s' "${ORIG_VALUE}" | sed "s/@postgres:/@${PUBLIC_DNS}:/")
-            if [ "${UPDATED_VALUE}" != "${ORIG_VALUE}" ]; then
-              echo "Rewriting DATABASE_URL host to EC2 public DNS for build time..."
-              # Remove old DATABASE_URL lines and append the updated one
-              sed -i '/^DATABASE_URL=/d' .env.production
-              echo "DATABASE_URL=${UPDATED_VALUE}" >> .env.production
-            else
-              echo "DATABASE_URL did not contain '@postgres:'; leaving it as-is."
-            fi
-          else
-            echo "No DATABASE_URL in .env.production OR missing PUBLIC_DNS; no rewrite done."
-          fi
-
           echo "Final .env.production (masked):"
           sed 's/=.*/=***MASKED***/' .env.production || true
-
-      
-
-      - name: Relax Prisma pool for CI build only
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if ! grep -q '^DATABASE_URL=' .env.production; then
-            echo "DATABASE_URL not found in .env.production; nothing to tweak."
-            exit 0
-          fi
-
-          echo "Tweaking Prisma connection_limit and pool_timeout for CI build..."
-
-          ORIG_LINE=$(grep '^DATABASE_URL=' .env.production | tail -n1)
-          ORIG_VALUE="${ORIG_LINE#DATABASE_URL=}"
-
-          # Strip any existing connection_limit/pool_timeout from the query string
-          BASE_VALUE="$ORIG_VALUE"
-          SEP='?'
-
-          if [[ "$ORIG_VALUE" == *'?'* ]]; then
-            BASE_VALUE=$(printf '%s' "$ORIG_VALUE" \
-              | sed -E 's/[?&](connection_limit|pool_timeout)=[0-9]+//g' \
-              | sed -E 's/[?&]$//')
-            SEP='&'
-          fi
-
-          UPDATED_VALUE="${BASE_VALUE}${SEP}connection_limit=10&pool_timeout=60"
-
-          # Replace DATABASE_URL line
-          sed -i '/^DATABASE_URL=/d' .env.production
-          echo "DATABASE_URL=${UPDATED_VALUE}" >> .env.production
-
-          echo "DATABASE_URL after tweak (masked):"
-          grep '^DATABASE_URL=' .env.production | sed 's/=.*/=***MASKED***/'
-
-      - name: Run Prisma migrations (build-time)
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "Running prisma migrate deploy BEFORE build..."
-      
-          DATABASE_URL="$(grep '^DATABASE_URL=' .env.production | tail -n1 | cut -d= -f2-)"
-          [ -n "$DATABASE_URL" ] || { echo "::error::DATABASE_URL missing in .env.production"; exit 1; }
-      
-          export DATABASE_URL
-          pnpm dlx prisma migrate deploy
 
       - name: Export DATABASE_URL for Docker build
         shell: bash
@@ -358,39 +227,6 @@ jobs:
           cache-to: type=gha,mode=max
           provenance: false
           sbom: false
-
-
-
-      # 🔐 ALWAYS close the DB hole, even if build fails
-      - uses: aws-actions/configure-aws-credentials@v5
-        if: always()
-        with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      # 🔐 ALWAYS close the DB hole, even if build fails
-      - name: Close DB for CI runner
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          SG_ID="${{ steps.ec2.outputs.sg_id }}"
-          RUNNER_IP="${{ steps.runner_ip.outputs.ip }}"
-
-          if [ -z "${SG_ID}" ] || [ -z "${RUNNER_IP}" ]; then
-            echo "Skipping DB ingress revoke: missing sg_id or runner_ip."
-            exit 0
-          fi
-
-          IP="${RUNNER_IP}/32"
-          echo "Revoking $IP on sg $SG_ID (5432/tcp)…"
-          aws ec2 revoke-security-group-ingress \
-            --group-id "$SG_ID" \
-            --protocol tcp \
-            --port 5432 \
-            --cidr "$IP" || {
-              echo "Revoke failed (rule may already be gone)."
-            }
 
   deploy_meta:
     name: "📝 Deploy Meta (SSM env + DB)"

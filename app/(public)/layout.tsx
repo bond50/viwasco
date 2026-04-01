@@ -1,11 +1,14 @@
 // app/layout.tsx
 
 import { SiteHeader } from '@/components/public/layout/site-header';
+import { connection } from 'next/server';
 
 import React, { Suspense } from 'react';
 import { Footer } from '@/components/public/layout/footer';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  await connection();
+
   return (
     <div>
       <Suspense
