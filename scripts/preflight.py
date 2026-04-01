@@ -47,6 +47,15 @@ def _classify_db_auth_failure(stdout: str, stderr: str) -> str:
         return "DB_AUTH_TIMEOUT"
     return "DB_AUTH"
 
+def _trim_remote_output(text: str, limit: int = 12) -> str:
+    lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
+    if not lines:
+        return ""
+    trimmed = lines[:limit]
+    if len(lines) > limit:
+        trimmed.append("... (truncated)")
+    return " | ".join(trimmed)
+
 def main():
     aws_region = os.getenv("AWS_REGION") or os.getenv("AWS_DEFAULT_REGION") or "us-east-1"
     ecr_repo_name_in = os.getenv("ECR_REPO_NAME","")
@@ -141,7 +150,15 @@ fi
         db_auth_ok = (st == "Success" and "db_auth_ok" in (so or ""))
 
         if not db_auth_ok:
-            missing.append(_classify_db_auth_failure(so, se))
+            reason = _classify_db_auth_failure(so, se)
+            missing.append(reason)
+            stdout_summary = _trim_remote_output(so)
+            stderr_summary = _trim_remote_output(se)
+            print(f"Preflight DB check failed: {reason} (status={st})")
+            if stdout_summary:
+                print(f"Preflight DB stdout: {stdout_summary}")
+            if stderr_summary:
+                print(f"Preflight DB stderr: {stderr_summary}", file=sys.stderr)
 
     ready = (ecr_exists and ssm_ready and ec2_ready and db_auth_ok)
 
