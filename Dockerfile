@@ -43,6 +43,7 @@ FROM base AS build
 ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/generated ./generated
 COPY . .
 
 # Show toolchain versions (so CI logs reveal what's running)
