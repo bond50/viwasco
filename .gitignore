@@ -60,3 +60,9 @@ extra/
 
 secrets/
 **/secrets/
+# --- Prisma ---
+prisma/*.db
+prisma/dev.db
+
+# --- Playwright cleanup ---
+.playwright/
