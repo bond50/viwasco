@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-import { connection } from 'next/server';
 import SiteHeader from '@/components/public/layout/site-header';
 import { VideoHeroSkeleton } from '@/components/public/home/hero/video/video-skeleton';
 import { HeroResolver } from '@/components/public/home/hero/hero-resolver';
@@ -11,9 +10,7 @@ import { PartnersStripSection } from '@/components/public/about/partners';
 import { FaqsSkeleton } from '@/components/public/about/faqs/skeleton';
 import { FaqsSection } from '@/components/public/about/faqs';
 
-const Page = async () => {
-  await connection();
-
+const Page = () => {
   return (
     <div className="d-flex flex-column min-vh-100">
       <SiteHeader />

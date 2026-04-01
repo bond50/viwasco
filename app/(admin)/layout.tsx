@@ -1,5 +1,4 @@
 import { ReactNode, Suspense } from 'react';
-import { connection } from 'next/server';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './admin.css';
 
@@ -8,9 +7,7 @@ import { Sidebar } from '@/components/admin/sidebar';
 import { Footer } from '@/components/admin/footer';
 import { AdminHeader } from '@/components/admin/admin-header';
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
-  await connection();
-
+export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     // Scope admin fonts to this wrapper so Root fonts stay untouched
     <div>
