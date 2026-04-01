@@ -96,11 +96,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 🔥 ADD THESE TWO LINES HERE
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
 
       - name: Enable pnpm (corepack)
         run: corepack enable
