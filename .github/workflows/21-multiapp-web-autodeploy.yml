@@ -351,6 +351,13 @@ jobs:
 
 
       # 🔐 ALWAYS close the DB hole, even if build fails
+      - uses: aws-actions/configure-aws-credentials@v5
+        if: always()
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # 🔐 ALWAYS close the DB hole, even if build fails
       - name: Close DB for CI runner
         if: always()
         shell: bash
