@@ -20,11 +20,12 @@ env:
 
 permissions:
   id-token: write
-  contents: read
 
 jobs:
   invoke:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Ensure jq
         shell: bash
@@ -43,6 +44,46 @@ jobs:
           IN_ACME_EMAIL: ${{ inputs.acme_email }}
         run: |
           set -Eeuo pipefail
+
+          poll_ssm_command() {
+            local cmd_id="$1"
+            local ec2_id="$2"
+            local label="$3"
+            local attempts="${4:-60}"
+            local sleep_seconds="${5:-5}"
+            local status=""
+
+            for attempt in $(seq 1 "$attempts"); do
+              status="$(aws ssm get-command-invocation \
+                --command-id "$cmd_id" \
+                --instance-id "$ec2_id" \
+                --query 'Status' \
+                --output text 2>/dev/null || true)"
+
+              echo "${label} status (${attempt}/${attempts}): ${status:-<none>}"
+
+              case "$status" in
+                Success) return 0 ;;
+                Failed|Cancelled|TimedOut)
+                  echo "::error::${label} status=${status}"
+                  aws ssm get-command-invocation \
+                    --command-id "$cmd_id" \
+                    --instance-id "$ec2_id" \
+                    --output text || true
+                  return 1
+                  ;;
+              esac
+
+              sleep "$sleep_seconds"
+            done
+
+            echo "::error::${label} timed out after ${attempts} attempts"
+            aws ssm get-command-invocation \
+              --command-id "$cmd_id" \
+              --instance-id "$ec2_id" \
+              --output text || true
+            return 1
+          }
 
           # Resolve env
           ENV_NAME="${IN_ENV_NAME}"
@@ -81,30 +122,7 @@ jobs:
             --output text)"
 
           echo "render_cmd_id=$CMD_ID"
-
-          for _ in $(seq 1 60); do
-            STATUS="$(aws ssm get-command-invocation \
-              --command-id "$CMD_ID" \
-              --instance-id "$EC2_ID" \
-              --query 'Status' \
-              --output text 2>/dev/null || true)"
-
-            echo "Current render status: ${STATUS:-<none>}"
-
-            case "$STATUS" in
-              Success) break ;;
-              Failed|Cancelled|TimedOut)
-                echo "::error::render status=${STATUS}"
-                aws ssm get-command-invocation \
-                  --command-id "$CMD_ID" \
-                  --instance-id "$EC2_ID" \
-                  --output text || true
-                exit 1
-                ;;
-            esac
-
-            sleep 5
-          done
+          poll_ssm_command "$CMD_ID" "$EC2_ID" "render" 60 5
 
           echo "Final SSM invocation output:"
           aws ssm get-command-invocation \
@@ -136,30 +154,7 @@ jobs:
             --output text)"
 
           echo "cleanup_cmd_id=$CLEANUP_CMD_ID"
-
-          for _ in $(seq 1 60); do
-            CLEANUP_STATUS="$(aws ssm get-command-invocation \
-              --command-id "$CLEANUP_CMD_ID" \
-              --instance-id "$EC2_ID" \
-              --query 'Status' \
-              --output text 2>/dev/null || true)"
-
-            echo "Current cleanup status: ${CLEANUP_STATUS:-<none>}"
-
-            case "$CLEANUP_STATUS" in
-              Success) break ;;
-              Failed|Cancelled|TimedOut)
-                echo "::error::cleanup status=${CLEANUP_STATUS}"
-                aws ssm get-command-invocation \
-                  --command-id "$CLEANUP_CMD_ID" \
-                  --instance-id "$EC2_ID" \
-                  --output text || true
-                exit 1
-                ;;
-            esac
-
-            sleep 5
-          done
+          poll_ssm_command "$CLEANUP_CMD_ID" "$EC2_ID" "cleanup" 60 5
 
           echo "Final cleanup output:"
           aws ssm get-command-invocation \

@@ -28,6 +28,9 @@ jobs:
   preflight:
     name: "🛫 Preflight — AWS/SSM/ECR/DB"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       ready: ${{ steps.pref.outputs.ready }}
       env_name: ${{ steps.pref.outputs.env_name }}
@@ -65,6 +68,8 @@ jobs:
   quality:
     name: "✅ Quality"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     container:
       image: node:24.11.0-bookworm
     steps:
@@ -91,6 +96,9 @@ jobs:
   build_push:
     name: "📦 Build & Push"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: [ preflight, quality ]
     if: needs.preflight.outputs.ready == 'true'
     steps:
@@ -161,13 +169,16 @@ jobs:
           SG_ID="${{ steps.ec2.outputs.sg_id }}"
           IP="${{ steps.runner_ip.outputs.ip }}/32"
           echo "Authorizing $IP on sg $SG_ID (5432/tcp)…"
-          aws ec2 authorize-security-group-ingress \
+          if aws ec2 authorize-security-group-ingress \
             --group-id "$SG_ID" \
             --protocol tcp \
             --port 5432 \
-            --cidr "$IP" || {
-              echo "Ingress rule may already exist; continuing."
-            }
+            --cidr "$IP"; then
+            echo "opened=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Ingress rule already existed or authorize failed; skipping revoke for this run."
+            echo "opened=false" >> "$GITHUB_OUTPUT"
+          fi
 
       # 🧬 Create .env.production from PUBLIC_ENV_JSON + SSM (plain + secure)
       - name: Create .env.production from SSM env
@@ -176,6 +187,17 @@ jobs:
           PUBLIC_ENV_JSON: ${{ env.PUBLIC_ENV_JSON }}
         run: |
           set -euo pipefail
+
+          merge_json_env() {
+            local json="$1"
+            [ -n "$json" ] || return 0
+
+            while IFS='=' read -r key value; do
+              [ -n "$key" ] || continue
+              sed -i "/^${key}=/d" .env.production
+              printf '%s=%s\n' "$key" "$value" >> .env.production
+            done < <(printf '%s' "$json" | jq -r 'to_entries[] | "\(.key)=\(.value)"')
+          }
 
           ENV_NAME="${{ needs.preflight.outputs.env_name }}"
           APP_SLUG="${{ env.APP }}"
@@ -190,9 +212,7 @@ jobs:
           # 1) Public env (NEXT_PUBLIC_*) from repo vars (unchanged)
           if [ -n "${PUBLIC_ENV_JSON:-}" ]; then
             echo "Merging PUBLIC_ENV_JSON into .env.production"
-            echo "$PUBLIC_ENV_JSON" \
-              | jq -r 'to_entries|.[]|"\(.key)=\(.value)"' \
-              >> .env.production || true
+            merge_json_env "$PUBLIC_ENV_JSON" || true
           else
             echo "No PUBLIC_ENV_JSON provided; skipping public env merge."
           fi
@@ -210,7 +230,7 @@ jobs:
                 --query 'Parameter.Value' \
                 --output text)
               echo "Loaded $PARAM from SSM; merging into .env.production"
-              echo "$JSON" | jq -r 'to_entries|.[]|"\(.key)=\(.value)"' >> .env.production
+              merge_json_env "$JSON"
             else
               echo "Param $PARAM not found; skipping."
             fi
@@ -368,6 +388,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [ "${{ steps.open_db.outputs.opened || 'false' }}" != "true" ]; then
+            echo "Skipping DB ingress revoke: this run did not open the rule."
+            exit 0
+          fi
+
           SG_ID="${{ steps.ec2.outputs.sg_id }}"
           RUNNER_IP="${{ steps.runner_ip.outputs.ip }}"
 
@@ -389,6 +414,9 @@ jobs:
   deploy_meta:
     name: "📝 Deploy Meta (SSM env + DB)"
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     needs: [ preflight, build_push ]
     if: github.event_name != 'pull_request' && github.ref_name == 'main' && needs.preflight.outputs.ready == 'true'
     steps:
