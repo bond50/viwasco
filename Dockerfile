@@ -47,18 +47,20 @@ COPY . .
 
 # Show toolchain versions (so CI logs reveal what's running)
 # NOTE: Prisma uses local CLI, not dlx (but we log both for debug).
-RUN node -v && pnpm -v && pnpm dlx next --version || true && pnpm prisma -v || true
+RUN --mount=type=secret,id=database_url \
+    sh -lc 'export DATABASE_URL="$(cat /run/secrets/database_url)" && node -v && pnpm -v && pnpm dlx next --version || true && pnpm prisma -v || true'
 
 # Generate Prisma client (no DB connection needed)
-RUN pnpm prisma generate
+RUN --mount=type=secret,id=database_url \
+    sh -lc 'export DATABASE_URL="$(cat /run/secrets/database_url)" && pnpm prisma generate'
 
 # Next.js standalone build (requires next.config.js => output: 'standalone')
 ARG CI=1
 ENV CI=${CI}
 
 RUN --mount=type=cache,target=/app/.next/cache \
-    NEXT_TELEMETRY_DISABLED=1 \
-    pnpm run build
+    --mount=type=secret,id=database_url \
+    sh -lc 'export DATABASE_URL="$(cat /run/secrets/database_url)" && NEXT_TELEMETRY_DISABLED=1 pnpm run build'
 
 ############################
 # Runtime

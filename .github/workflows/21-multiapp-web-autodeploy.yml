@@ -292,6 +292,15 @@ jobs:
           export DATABASE_URL
           pnpm dlx prisma migrate deploy
 
+      - name: Export DATABASE_URL for Docker build
+        shell: bash
+        run: |
+          set -euo pipefail
+          DATABASE_URL="$(grep '^DATABASE_URL=' .env.production | tail -n1 | cut -d= -f2-)"
+          [ -n "$DATABASE_URL" ] || { echo "::error::DATABASE_URL missing in .env.production"; exit 1; }
+          echo "::add-mask::$DATABASE_URL"
+          echo "DATABASE_URL_FOR_DOCKER_BUILD=$DATABASE_URL" >> "$GITHUB_ENV"
+
       - uses: docker/setup-buildx-action@v3
 
       - name: Login to ECR
@@ -317,6 +326,8 @@ jobs:
         with:
           context: .
           push: true
+          secrets: |
+            database_url=${{ env.DATABASE_URL_FOR_DOCKER_BUILD }}
           # 👇 Build for your EC2 host architecture (t3a.* → x86_64)
           platforms: linux/amd64
           tags: ${{ steps.tags.outputs.sha }}
@@ -335,6 +346,8 @@ jobs:
         with:
           context: .
           push: true
+          secrets: |
+            database_url=${{ env.DATABASE_URL_FOR_DOCKER_BUILD }}
           # 👇 Build for EC2 host (x86_64)
           platforms: linux/amd64
           tags: |
