@@ -278,7 +278,11 @@ jobs:
         run: |
           set -euo pipefail
           echo "Running prisma migrate deploy BEFORE build..."
-          export $(grep -v '^#' .env.production | xargs)
+      
+          DATABASE_URL="$(grep '^DATABASE_URL=' .env.production | tail -n1 | cut -d= -f2-)"
+          [ -n "$DATABASE_URL" ] || { echo "::error::DATABASE_URL missing in .env.production"; exit 1; }
+      
+          export DATABASE_URL
           pnpm dlx prisma migrate deploy
 
       - uses: docker/setup-buildx-action@v3
