@@ -236,6 +236,8 @@ jobs:
           echo "Final .env.production (masked):"
           sed 's/=.*/=***MASKED***/' .env.production || true
 
+      
+
       - name: Relax Prisma pool for CI build only
         shell: bash
         run: |
@@ -270,6 +272,14 @@ jobs:
 
           echo "DATABASE_URL after tweak (masked):"
           grep '^DATABASE_URL=' .env.production | sed 's/=.*/=***MASKED***/'
+
+      - name: Run Prisma migrations (build-time)
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Running prisma migrate deploy BEFORE build..."
+          export $(grep -v '^#' .env.production | xargs)
+          pnpm dlx prisma migrate deploy
 
       - uses: docker/setup-buildx-action@v3
 
