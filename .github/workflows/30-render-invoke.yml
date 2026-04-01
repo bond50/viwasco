@@ -73,6 +73,12 @@ jobs:
           echo "::add-mask::${AWS_CREDS[1]}"
           echo "::add-mask::${AWS_CREDS[2]}"
 
+          export AWS_ACCESS_KEY_ID="${AWS_CREDS[0]}"
+          export AWS_SECRET_ACCESS_KEY="${AWS_CREDS[1]}"
+          export AWS_SESSION_TOKEN="${AWS_CREDS[2]}"
+          export AWS_REGION="$REGION"
+          export AWS_DEFAULT_REGION="$REGION"
+
           {
             echo "AWS_ACCESS_KEY_ID=${AWS_CREDS[0]}"
             echo "AWS_SECRET_ACCESS_KEY=${AWS_CREDS[1]}"
