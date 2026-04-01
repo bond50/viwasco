@@ -14,6 +14,7 @@ PY
 )"
 
 CREDS_JSON="$(aws sts assume-role-with-web-identity \
+  --no-sign-request \
   --role-arn "$AWS_ROLE_ARN" \
   --role-session-name "GitHubActions-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" \
   --web-identity-token "$OIDC_TOKEN" \
