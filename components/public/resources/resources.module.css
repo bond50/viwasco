@@ -1,0 +1,124 @@
+.resourcesHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+}
+
+.chipActive {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.listItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow-2);
+}
+
+.listIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+  font-size: 1.25rem;
+}
+
+.listMeta h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem 0;
+}
+
+.listMeta p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.listAction {
+  font-weight: 600;
+  color: #0d6efd;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.pageNumbers {
+  display: inline-flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pageLink,
+.pageNumber {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+}
+
+.pageNumberActive {
+  background: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+.pageLinkDisabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@media (max-width: 768px) {
+  .listItem {
+    grid-template-columns: auto 1fr;
+  }
+
+  .listAction {
+    grid-column: 1 / -1;
+  }
+}

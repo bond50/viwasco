@@ -1,0 +1,142 @@
+:root {
+  --card-bg: #ffffff;
+  --card-fg: #0f172a;
+  --muted-fg: #475569;
+  --line: #e2e8f0;
+  --hint-bg: #f8fafc;
+  --primary: #0f172a;
+  --primary-hover: #1f2937;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+}
+
+.card {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  padding: clamp(20px, 3.5vw, 32px);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #e2e8f0;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+
+.title {
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.copy {
+  margin-top: 8px;
+  color: var(--muted-fg);
+  line-height: 1.6;
+  font-size: 0.975rem;
+}
+
+.em {
+  color: var(--card-fg);
+  font-weight: 600;
+}
+
+.hint {
+  margin-top: 14px;
+  background: var(--hint-bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--muted-fg);
+  font-size: 0.9rem;
+}
+
+.actions {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.03s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+  will-change: transform;
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.08);
+}
+
+.btnGhost {
+  background: #fff;
+  color: var(--primary);
+  border-color: var(--line);
+}
+.btnGhost:hover {
+  background: #f8fafc;
+}
+
+.btnPrimary {
+  background: var(--primary);
+  color: #fff;
+}
+.btnPrimary:hover {
+  background: var(--primary-hover);
+}
+
+.support {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.support a {
+  color: var(--card-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+.support a:hover {
+  text-decoration-color: var(--card-fg);
+}

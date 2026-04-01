@@ -1,0 +1,76 @@
+.sectionIntro {
+  max-width: 720px;
+}
+
+.picker {
+  max-width: 420px;
+}
+
+.pickerLabel {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.serviceCard {
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  background: #fff;
+  box-shadow: var(--card-shadow-2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.serviceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover-2);
+}
+
+.serviceTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.serviceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.detailHero {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(16, 24, 40, 0.18);
+}
+
+.detailContent h1 {
+  font-size: clamp(1.6rem, 2.2vw, 2.3rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.detailContent p {
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.detailList {
+  padding-left: 1.2rem;
+  color: #374151;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}

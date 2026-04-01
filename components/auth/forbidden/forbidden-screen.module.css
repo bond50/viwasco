@@ -1,0 +1,12 @@
+.shell {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 720px;
+}

@@ -1,0 +1,61 @@
+.socialContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.socialButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.socialButton.google {
+  border-color: #dadce0;
+  color: #3c4043;
+}
+
+.socialButton.google:hover {
+  background-color: #f8f9fa;
+  border-color: #d2e3fc;
+}
+
+.socialButton.github {
+  border-color: #d1d5da;
+  color: #24292f;
+}
+
+.socialButton.github:hover {
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  margin-right: 4px;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .socialContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .socialButton {
+    width: 100%;
+  }
+}

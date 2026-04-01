@@ -1,0 +1,112 @@
+/* components/reusables/sections/section-title.module.css */
+.section-title {
+  position: relative;
+  margin-bottom: 60px;
+}
+
+/* Alignment variants */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* Size variants */
+.size-sm .title {
+  font-size: 24px;
+}
+
+.size-md .title {
+  font-size: 32px;
+}
+
+.size-lg .title {
+  font-size: 42px;
+}
+
+.subtitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--heading-font), sans-serif;
+  /* inherit so we can use Section background variants safely */
+  color: inherit;
+  position: relative;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.align-center .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.align-center .title::before,
+.align-center .title::after {
+  content: '';
+  width: 50px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.3;
+  flex-shrink: 0;
+}
+
+.description {
+  font-size: 18px;
+  line-height: 1.6;
+  /* base color that still looks OK on dark when Section flips color */
+  color: color-mix(in srgb, currentColor, transparent 30%);
+  margin: 0;
+  max-width: 600px;
+}
+
+.align-center .description {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    margin-bottom: 40px;
+  }
+
+  .size-md .title {
+    font-size: 28px;
+  }
+
+  .size-lg .title {
+    font-size: 32px;
+  }
+
+  .align-center .title {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .align-center .title::before,
+  .align-center .title::after {
+    width: 80px;
+  }
+
+  .description {
+    font-size: 16px;
+  }
+}

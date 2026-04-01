@@ -1,0 +1,101 @@
+/* Wrapper around the tab bar */
+.tabsRow {
+  margin-bottom: 1.5rem;
+}
+
+/* Biography wrapper – align with new card style */
+.leaderShipWrapper {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 1.35rem 1.4rem;
+  background: var(--surface-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Biography heading with accent bar */
+.leaderShipHeading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin: 0 0 0.9rem;
+  position: relative;
+  padding-left: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.leaderShipHeading::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 3px;
+  height: 1.6rem;
+  border-radius: 999px;
+  background-color: var(--accent-color);
+}
+
+/* Tab list – visually like programs-filters */
+.navTabsBordered {
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  list-style: none;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* change to center if you want centered pills */
+  gap: 0.5rem;
+  border-bottom: none; /* kill classic nav-tabs underline */
+}
+
+/* Each <li> */
+.tabItem {
+  margin: 0; /* spacing now controlled by gap on parent */
+}
+
+/* Base tab link – pill style, inspired by .programs-filters li */
+.tabLink {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 999px;
+
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Active pill */
+.tabLinkActive {
+  color: white;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.tabLinkActive:hover {
+  color: white;
+}
+
+/* Hover for inactive pills */
+.tabLink:not(.tabLinkActive):hover {
+  color: white;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 10%);
+  border-color: var(--accent-color);
+}
+
+/* Content area under the tabs */
+.tabContentWrapper {
+  padding-top: 0.5rem;
+}
+
+/* Small screens: allow horizontal scroll if many tabs */
+@media (max-width: 575.98px) {
+  .navTabsBordered {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+}

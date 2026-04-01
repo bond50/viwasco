@@ -1,0 +1,193 @@
+/* components/public/about/metrics-grid.module.css */
+
+.stats {
+  padding: 20px 0 60px 0;
+}
+
+/* ============================================= */
+/* METRIC CARDS - BASE STYLES */
+/* ============================================= */
+.metricCard {
+  position: relative;
+  height: 100%;
+  padding: 1.5rem 1rem;
+  overflow: hidden;
+
+  background: var(--surface-color);
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 99%);
+
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Subtle pattern layer using element_2.png */
+.patternLayer {
+  position: absolute;
+  inset: -1px;
+  background-image: url('/assets/img/elements/element_2.png');
+  background-size: 80px 80px;
+  background-repeat: repeat;
+  background-position: center;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Wraps actual content so it sits above the pattern */
+.metricContent {
+  position: relative;
+  z-index: 1;
+}
+
+/* Top Accent Bar Animation */
+.metricCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-color),
+    var(--secondary-color)
+  );
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+/* ============================================= */
+/* METRIC HEADER STYLES */
+/* ============================================= */
+.metricHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+/* Icon Wrapper */
+.metricIconWrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+/* Icon Styles */
+.metricIconWrapper svg {
+  font-size: 1.8rem;
+  color: var(--accent-color);
+  transition: all 0.4s ease;
+}
+
+/* Value Display */
+.metricValue {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  font-family: var(--heading-font), serif;
+  line-height: 1;
+}
+
+/* ============================================= */
+/* METRIC INFO SECTION */
+/* ============================================= */
+.metricInfo h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: color-mix(in srgb, var(--heading-color), transparent 30%);
+}
+
+.metricUnit {
+  /* optional extra styling for unit text */
+}
+
+/* ============================================= */
+/* HOVER STATES & INTERACTIONS */
+/* ============================================= */
+.metricCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px
+    color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.metricCard:hover::before {
+  transform: scaleX(1);
+}
+
+.metricCard:hover .metricIconWrapper {
+  background: linear-gradient(
+    135deg,
+    var(--accent-color),
+    var(--heading-color)
+  );
+  transform: rotate(360deg);
+}
+
+.metricCard:hover .metricIconWrapper svg {
+  color: var(--contrast-color);
+}
+
+/* ============================================= */
+/* RESPONSIVE ADJUSTMENTS */
+/* ============================================= */
+@media (max-width: 1200px) {
+  .metricCard {
+    padding: 2rem 1.75rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .metricCard {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .metricIconWrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .metricIconWrapper svg {
+    font-size: 1.5rem;
+  }
+
+  .metricValue {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .metricCard {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .metricHeader {
+    margin-bottom: 1rem;
+  }
+
+  .metricInfo h4 {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .metricCard {
+    padding: 1.25rem 1rem;
+  }
+
+  .metricIconWrapper {
+    width: 45px;
+    height: 45px;
+  }
+
+  .metricValue {
+    font-size: 1.5rem;
+  }
+}

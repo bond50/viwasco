@@ -1,0 +1,84 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-left: 0.85rem;
+}
+
+.input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--surface-color);
+  transition: transform 0.2s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Checked */
+.input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+.input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+/* Focus state */
+.input:focus-visible + .slider {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color), transparent 70%);
+}
+
+/* Hover state */
+.input:not(:disabled):hover + .slider {
+  background-color: color-mix(in srgb, var(--default-color), transparent 85%);
+}
+
+/* Disabled state */
+.input:disabled + .slider {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.input:not(:disabled):checked:hover + .slider {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 85%);
+}
+
+.input:disabled + .slider {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.input[aria-invalid='true'] + .slider {
+  background-color: color-mix(in srgb, var(--secondary-color), transparent 90%);
+}
+
+.input[aria-invalid='true']:checked + .slider {
+  background-color: var(--secondary-color);
+}

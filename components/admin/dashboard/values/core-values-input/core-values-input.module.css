@@ -1,0 +1,51 @@
+.Label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: color-mix(in srgb, var(--heading-color), transparent 20%);
+  display: block;
+}
+
+.CoreValuesSection {
+  background-color: var(--surface-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.SectionTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.ValuesList {
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.ValueCard {
+  background-color: color-mix(in srgb, var(--surface-color), white 5%);
+  border-radius: 0.25rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.ValueCard:hover {
+  background-color: color-mix(in srgb, var(--surface-color), white 10%);
+}
+
+.AddValueForm {
+  background-color: color-mix(in srgb, var(--surface-color), transparent 20%);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px dashed color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+.AddValueForm:hover {
+  border-color: color-mix(in srgb, var(--accent-color), transparent 50%);
+}

@@ -1,0 +1,40 @@
+/* components/ui/progress.module.css */
+.progressContainer {
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background-color: var(--border-color);
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+/* Indeterminate animation */
+.indeterminate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  animation: indeterminateSlide 1.15s infinite linear;
+}
+
+@keyframes indeterminateSlide {
+  0% {
+    left: -40%;
+    width: 40%;
+  }
+  50% {
+    left: 20%;
+    width: 60%;
+  }
+  100% {
+    left: 100%;
+    width: 40%;
+  }
+}

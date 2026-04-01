@@ -1,0 +1,101 @@
+/* components/form-elements/button/button-group.module.css */
+
+.group {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* gaps (ignored when attached) */
+.gap-none {
+  gap: 0;
+}
+.gap-xs {
+  gap: 0.25rem;
+}
+.gap-sm {
+  gap: 0.5rem;
+}
+.gap-md {
+  gap: 0.75rem;
+}
+.gap-lg {
+  gap: 1rem;
+}
+
+.vertical {
+  flex-direction: column;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+
+/* alignment */
+.align-start {
+  align-items: flex-start;
+}
+.align-center {
+  align-items: center;
+}
+.align-end {
+  align-items: flex-end;
+}
+.align-stretch {
+  align-items: stretch;
+}
+
+/* ---------------- attached / segmented ----------------
+   Works with your Button (CSS module) and native <button>.
+   We style direct children so we don't need to know the hashed class.
+*/
+.attached {
+  gap: 0;
+}
+
+/* base corners off; restore corners on first/last */
+.attached > :where(button, a, [role='button']) {
+  border-radius: 0 !important;
+  position: relative; /* for z-index bump on hover/focus */
+}
+
+/* horizontal */
+.attached:not(.vertical) > :where(button, a, [role='button']) + :where(button, a, [role='button']) {
+  margin-left: -1px; /* collapse adjacent borders */
+}
+
+.attached:not(.vertical) > :where(button, a, [role='button']):first-child {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+}
+
+.attached:not(.vertical) > :where(button, a, [role='button']):last-child {
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+}
+
+/* vertical */
+.attached.vertical {
+  flex-direction: column;
+}
+.attached.vertical > :where(button, a, [role='button']) + :where(button, a, [role='button']) {
+  margin-top: -1px; /* collapse borders vertically */
+}
+
+.attached.vertical > :where(button, a, [role='button']):first-child {
+  border-top-left-radius: 0.25rem !important;
+  border-top-right-radius: 0.25rem !important;
+}
+
+.attached.vertical > :where(button, a, [role='button']):last-child {
+  border-bottom-left-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+}
+
+/* nicer hover/focus stacking so borders don’t look jagged */
+.attached > :where(button, a, [role='button']):is(:hover, :focus-visible) {
+  z-index: 1;
+}
+
+/* make stretch groups fill */
+.align-stretch > :where(button, a, [role='button']) {
+  flex: 1 1 auto;
+}

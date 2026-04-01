@@ -1,0 +1,426 @@
+:root {
+  /* panel should slightly overlap the toggle for a connected feel */
+  --toggle-overlap: 6px;
+}
+
+.navmenu {
+  position: relative;
+}
+
+/* ---------------- Desktop (≥1200px) ---------------- */
+@media (min-width: 1200px) {
+  .desktopBar {
+    display: block;
+  }
+
+  .onlyMobile,
+  .onlyMobileCenterFallback {
+    display: none !important;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+  }
+
+  .navmenu li {
+    position: relative;
+  }
+
+  .navmenu a {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: var(--nav-color);
+    padding: 18px 15px;
+    font-size:14px;
+    font-family: var(--nav-font), system-ui;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+
+  .navmenu li > a {
+    padding: 18px 15px;
+  }
+
+  .navmenu li:last-child a {
+    padding-right: 15px;
+  }
+
+  .list {
+    padding-right: 15px;
+  }
+
+  .navmenu a:hover,
+  .active {
+    color: var(--nav-hover-color);
+  }
+
+  .toggler :global(svg) {
+    font-size: 12px;
+    line-height: 0;
+    margin-left: 5px;
+    transition: transform 0.3s;
+  }
+
+  .dropdown:hover > a .toggler :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdowns */
+  .dropdown > ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    background: var(--nav-dropdown-background-color);
+    display: block;
+    position: absolute;
+    visibility: hidden;
+    left: 14px;
+    top: 130%;
+    opacity: 0;
+    transition:
+      opacity 0.3s,
+      top 0.3s;
+    border-radius: 4px;
+    z-index: 99;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdown > ul li {
+    min-width: 200px;
+  }
+
+  .dropdown > ul a {
+    padding: 10px 20px;
+    font-size: 13px;
+
+    color: var(--nav-dropdown-color);
+  }
+
+.dropdown > ul a:hover {
+  color: var(--nav-dropdown-hover-color);
+}
+
+.navmenu a.portalCta {
+  background: var(--accent-color);
+  color: #ffffff !important;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.navmenu a.portalCta:hover {
+  background: var(--accent-hover);
+  color: #ffffff !important;
+}
+
+  .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+
+  /* Deep dropdowns open left */
+  .dropdown .dropdown > ul {
+    top: 0;
+    left: -90%;
+    visibility: hidden;
+  }
+
+  .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: -100%;
+    visibility: visible;
+  }
+
+  .dropdown:hover > a .toggler :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  /* also rotate when submenu receives focus (keyboard/assistive) */
+  .dropdown:focus-within > a .toggler :global(svg) {
+    transform: rotate(180deg);
+  }
+}
+
+/* ---------------- Mobile (<1200px) ---------------- */
+@media (max-width: 1199px) {
+  .desktopBar {
+    display: none;
+  }
+
+  /* Centered toggle (portaled into TopRow Bar 3) */
+  .barToggle {
+    position: relative;
+    z-index: 10002; /* ABOVE the dropSheet (10000) so close icon is always visible */
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-color);
+    color: var(--nav-color);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+      transform 180ms var(--ease),
+      box-shadow 180ms var(--ease),
+      background-color 180ms var(--ease),
+      border-color 180ms var(--ease);
+  }
+
+  .barToggle:hover {
+    transform: translateY(-1px);
+  }
+
+  .barToggle:active {
+    transform: translateY(0);
+  }
+
+  .barToggle::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    border: 2px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
+    opacity: 0;
+    transform: scale(0.9);
+    transition:
+      opacity 220ms var(--ease),
+      transform 220ms var(--ease);
+    pointer-events: none;
+  }
+
+  .barToggle[data-open="true"] {
+    background: color-mix(
+      in srgb,
+      var(--accent-color) 10%,
+      var(--surface-color)
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--accent-color) 30%,
+      var(--surface-color)
+    );
+    transform: translateY(0) scale(1.02);
+  }
+
+  .barToggle[data-open="true"]::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* icon cross-fade */
+  .icon {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      opacity 160ms var(--ease),
+      transform 200ms var(--ease);
+  }
+
+  .icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .iconHamb {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  .iconClose {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.85);
+  }
+
+  .toggleActive .iconHamb {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.85);
+  }
+
+  .toggleActive .iconClose {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  /* hard-hide helper if needed (used by JSX) */
+  .iconHidden {
+    opacity: 0 !important;
+    transform: scale(0.85) !important;
+  }
+
+  /* Fallback row if portal mount missing (kept minimal) */
+  .onlyMobileCenterFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 24px;
+  }
+
+  /* Sheet anchored to bottom of Bar 3 (slight overlap) */
+  .dropSheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: calc(var(--mbar3-bottom, 0px) - var(--toggle-overlap, 6px));
+    bottom: 0;
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  .open {
+    pointer-events: auto;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    transition: opacity 220ms var(--ease);
+  }
+
+  .dropPanel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: var(--nav-mobile-background-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    transform: translateY(-12px);
+    opacity: 0;
+    transition:
+      transform 240ms var(--ease),
+      opacity 200ms var(--ease);
+  }
+
+  .open .backdrop {
+    opacity: 1;
+  }
+
+  .open .dropPanel {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Mobile list */
+  .mobileList {
+    list-style: none;
+    margin: 0;
+    padding: 10px 20px;
+  }
+
+  .mobileList > li > a {
+    text-decoration: none;
+    color: var(--nav-dropdown-color);
+    padding: 12px 16px;
+    font-family: var(--nav-font), system-ui;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .mobileList > li > a:hover {
+    background: color-mix(in srgb, var(--default-color), transparent 96%);
+  }
+
+  /* Mobile submenus */
+  .mobileSub {
+    list-style: none;
+
+    margin: 6px 12px 10px;
+    padding: 6px 0;
+    background: var(--nav-dropdown-background-color);
+    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    border-radius: var(--radius-md);
+    display: none;
+  }
+
+  .dropdownActive {
+    display: block !important;
+  }
+
+  .mobileSub a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--nav-dropdown-color);
+    padding: 10px 14px;
+    font-size: 14px;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .mobileSub a:hover {
+    background: color-mix(in srgb, var(--default-color), transparent 96%);
+  }
+
+  .toggler :global(svg) {
+    font-size: 14px;
+    margin-left: 8px;
+    width: 28px;
+    height: 28px;
+
+    transition: transform 0.25s var(--ease);
+    color: color-mix(in srgb, var(--nav-dropdown-color), transparent 40%);
+    fill: currentColor;
+    stroke: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+  }
+
+  .dropdownActive ~ a .toggler :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .dropdown:has(.dropdownActive) > a .toggler :global(svg) {
+    transform: rotate(180deg);
+    color: var(--nav-dropdown-color);
+  }
+
+  .onlyMobile {
+    display: block;
+  }
+}
+
+/* Shared helpers */
+.dropdown {
+  position: relative;
+}
+
+.active {
+  color: var(--nav-hover-color);
+}

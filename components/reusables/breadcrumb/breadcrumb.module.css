@@ -1,0 +1,55 @@
+.pageTitle {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 20px 0;
+  position: relative;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  color: var(--default-color);
+}
+
+.breadcrumbs li + li {
+  padding-left: 10px;
+}
+
+.breadcrumbs li + li::before {
+  content: '/';
+  display: inline-block;
+  padding-right: 10px;
+  color: color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+.breadcrumbs a {
+  color: var(--default-color);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.current {
+  font-weight: 600;
+  color: var(--accent-color);
+}

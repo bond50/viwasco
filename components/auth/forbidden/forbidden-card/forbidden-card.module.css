@@ -1,0 +1,167 @@
+/* components/auth/forbidden/forbidden-card.module.css */
+
+:root {
+  --card-bg: #ffffff;
+  --card-fg: #0f172a; /* slate-900 */
+  --muted-fg: #475569; /* slate-600 */
+  --line: #e2e8f0; /* slate-200 */
+  --hint-bg: #f8fafc; /* slate-50 */
+  --danger: #dc2626; /* red-600 */
+  --danger-700: #b91c1c;
+  --ghost: #0f172a;
+  --ring: rgba(15, 23, 42, 0.08);
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+}
+
+.card {
+  background: var(--card-bg);
+  color: var(--card-fg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  padding: clamp(20px, 3.5vw, 32px);
+}
+
+.card a {
+  text-decoration: none;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #fee2e2; /* red-100 */
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+}
+
+.title {
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.copy {
+  margin-top: 8px;
+  color: var(--muted-fg);
+  line-height: 1.6;
+  font-size: 0.975rem;
+}
+
+.em {
+  color: var(--card-fg);
+  font-weight: 600;
+}
+
+.hint {
+  margin-top: 14px;
+  background: var(--hint-bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--muted-fg);
+  font-size: 0.9rem;
+}
+
+.actions {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform 0.03s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+  will-change: transform;
+  width: 100%; /* ⬅ makes buttons fill grid cell */
+  text-align: center;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Primary (used for "Switch account") */
+.btnPrimary {
+  background: var(--card-fg);
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: #0b1220;
+}
+
+/* Secondary ghost (used for "Home") */
+.btnGhost {
+  background: #fff;
+  color: var(--ghost);
+  border-color: var(--line);
+}
+
+.btnGhost:hover {
+  background: #f8fafc;
+}
+
+/* Danger (used for "Sign out") */
+.btnDanger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btnDanger:hover {
+  background: var(--danger-700);
+}
+
+.support {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b; /* slate-500 */
+}
+
+.support a {
+  color: var(--card-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--line);
+}
+
+.support a:hover {
+  text-decoration-color: var(--card-fg);
+}

@@ -1,0 +1,36 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.Label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--heading-color), transparent 20%);
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.Row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.Field {
+  min-width: 0;
+}
+
+.IconBtn {
+  align-self: center;
+}
+
+.AddBtn {
+  margin-top: 0.25rem;
+}

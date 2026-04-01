@@ -1,0 +1,41 @@
+/* components/public/about/testimonials/testimonials.module.css */
+
+.testimonials {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+/* Swiper shell */
+.slider {
+  padding-bottom: 2.2rem; /* room for dots */
+}
+
+.slide {
+  height: auto;
+  display: flex;
+}
+
+/* Skeleton cards mimic QuoteCard spacing */
+.skelCard {
+  background: var(--surface-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+  height: 100%;
+}
+
+.skelHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.skelBody {
+  padding-left: 0.25rem;
+}
+
+/* Skeleton "slider" look without Swiper */
+.skelSlider {
+  background: transparent;
+}

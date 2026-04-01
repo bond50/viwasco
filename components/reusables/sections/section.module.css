@@ -1,0 +1,82 @@
+.section {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  overflow: clip;
+  /* Use a safe default if --anchor-offset is not set */
+  scroll-margin-top: var(--anchor-offset, 96px);
+  position: relative;
+  z-index: 0;
+}
+
+/* Background variants */
+.bg-default {
+  background-color: var(--background-color);
+}
+
+/* Slight soft glow for light sections */
+.bg-light {
+  background:
+    radial-gradient(
+      circle at top center,
+      color-mix(in srgb, var(--accent-color), transparent 94%) 0,
+      transparent 55%
+    ),
+    var(--surface-color);
+}
+
+/* Richer dark background with subtle vignette */
+.bg-dark {
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, #000000, transparent 70%) 0,
+      transparent 60%
+    ),
+    var(--heading-color);
+  color: var(--contrast-color);
+}
+
+/* Padding variants (vertical only; keep horizontal to container classes) */
+.padding-none {
+  padding-block: 0;
+}
+
+.padding-sm {
+  padding-block: 40px;
+}
+
+.padding-md {
+  padding-block: 60px;
+}
+
+.padding-lg {
+  padding-block: 80px;
+}
+
+@media (max-width: 1199px) {
+  .section {
+    scroll-margin-top: 66px;
+  }
+
+  .padding-lg {
+    padding-block: 60px;
+  }
+
+  .padding-md {
+    padding-block: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .padding-lg {
+    padding-block: 50px;
+  }
+
+  .padding-md {
+    padding-block: 40px;
+  }
+
+  .padding-sm {
+    padding-block: 30px;
+  }
+}

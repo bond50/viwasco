@@ -1,0 +1,58 @@
+/* components/card/Card.module.css */
+.card {
+  margin-bottom: 1.875rem;
+  min-width: 420px;
+  border: none;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0 1.875rem color-mix(in srgb, var(--accent-color), transparent 90%);
+  background-color: var(--surface-color);
+  overflow: hidden; /* Prevent content from breaking rounded corners */
+}
+
+.card--auto-width {
+  min-width: auto;
+}
+.card-header {
+  background-color: var(--surface-color);
+  color: var(--text-muted);
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.card-header-2 {
+  border-bottom: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.card-body {
+  padding: 2rem 1.25rem;
+}
+
+.card-footer {
+  background-color: var(--surface-color);
+  border-top: 1px solid var(--border-color);
+  padding: 0.9375rem; /* 15px */
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-family: var(--nav-font), serif;
+  color: var(--heading-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Utility classes for card content */
+.card-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 8px */
+}

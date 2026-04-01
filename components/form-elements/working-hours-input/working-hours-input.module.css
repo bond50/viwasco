@@ -1,0 +1,7 @@
+/* components/form-elements/working-hours-input/working-hours-input.module.css */
+.Label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--accent-color);
+}

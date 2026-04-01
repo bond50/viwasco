@@ -1,0 +1,27 @@
+.logo {
+  padding: 4px 0;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  line-height: 1;
+}
+
+.image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.logo:hover .image,
+.logo:focus-visible .image {
+  transform: scale(1.02);
+}
+
+@media (max-width: 575.98px) {
+  .logo {
+    padding: 2px 0;
+  }
+}

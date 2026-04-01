@@ -1,0 +1,359 @@
+:root {
+  /* Fonts */
+  --default-font:
+    'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+  --heading-font: 'Raleway', sans-serif;
+  --nav-font: 'Inter', sans-serif;
+
+  /* Core colors */
+  --default-color: #394450;
+  --heading-color: #223a58;
+  --accent-color: #147ee7;
+  --secondary-color: #179849;
+  --danger-color: #dc2626;
+
+  /* Surfaces */
+  --surface-color: #ffffff;
+  --background-color: #f1f5f7;
+  --white-background-color: #ffffff;
+  --contrast-color: #ffffff;
+
+  --surface-0: #ffffff; /* pure white */
+  --surface-50: #fafcfb; /* soft off-white (very subtle green tint) */
+  --surface-100: #f3f6f4;
+
+  /* Derived / utility colors */
+  --text-muted: color-mix(in srgb, var(--default-color) 70%, transparent);
+  --border-color: color-mix(in srgb, var(--default-color) 10%, transparent);
+  --accent-hover: color-mix(in srgb, var(--accent-color) 85%, black 15%);
+  --accent-active: color-mix(in srgb, var(--accent-color) 80%, black 20%);
+  --secondary-hover: color-mix(in srgb, var(--secondary-color) 90%, black 10%);
+  --secondary-active: color-mix(in srgb, var(--secondary-color) 80%, black 20%);
+  --danger-hover: color-mix(in srgb, var(--danger-color) 90%, black 10%);
+  --danger-active: color-mix(in srgb, var(--danger-color) 80%, black 20%);
+  --input-focus-color: color-mix(in srgb, var(--accent-color), transparent 10%);
+
+  /* Navigation */
+  --nav-color: #04415f;
+  --nav-hover-color: var(--accent-color);
+  --nav-mobile-background-color: #ffffff;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #010608;
+  --nav-dropdown-hover-color: var(--accent-color);
+
+  /* Radii & shadow & spacing */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 20px;
+  --space-5: 30px;
+
+  --admin-header-h: 60px;
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition: 180ms var(--ease);
+  --rte-toolbar-offset: var(--admin-header-h);
+  --logo-height: 56px;
+  --logo-max-width: 150px;
+}
+
+:root {
+  --card-border: color-mix(in srgb, var(--default-color), transparent 92%);
+  --card-shadow-1: 0 1px 1px color-mix(in srgb, var(--default-color), transparent 96%);
+  --card-shadow-2: 0 6px 12px color-mix(in srgb, var(--default-color), transparent 92%);
+  --card-shadow-3: 0 16px 32px color-mix(in srgb, var(--default-color), transparent 90%);
+  --card-shadow-hover-1: 0 2px 2px color-mix(in srgb, var(--default-color), transparent 95%);
+  --card-shadow-hover-2: 0 10px 20px color-mix(in srgb, var(--default-color), transparent 88%);
+  --card-shadow-hover-3: 0 28px 56px color-mix(in srgb, var(--default-color), transparent 86%);
+  --card-focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Amount of space to keep free at the top when jumping to #hash links */
+:root {
+  --anchor-offset: 98px;
+}
+
+:root {
+  --footer-bg: #ffffff;
+  --footer-fg: var(--default-color);
+  --footer-accent: var(--accent-color);
+  --footer-muted: color-mix(in srgb, var(--default-color), transparent 30%);
+  --footer-border-light: color-mix(in srgb, var(--default-color), transparent 85%);
+  --footer-border-dark: color-mix(in srgb, var(--default-color), transparent 85%);
+}
+/* desktop header height */
+@media (max-width: 1199px) {
+  :root {
+    --anchor-offset: 66px;
+    --logo-height: 48px;
+    --logo-max-width: 132px;
+  }
+
+  /* smaller header on mobile/tablet */
+}
+@media (max-width: 575.98px) {
+  :root {
+    --logo-height: 42px;
+    --logo-max-width: 118px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--anchor-offset); /* makes anchor jumps stop below header */
+}
+
+body {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-family: var(--default-font), sans-serif;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+}
+
+/* === Buttons === */
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 999px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-accent:hover {
+  background: var(--accent-hover);
+  color: var(--contrast-color);
+}
+
+.btn-outline-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 999px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-outline-accent:hover {
+  background: color-mix(in srgb, var(--accent-color) 12%, transparent);
+  color: var(--accent-color);
+}
+
+/* === Page Hero === */
+.page-hero {
+  background: var(--surface-50);
+  border-bottom: 1px solid var(--border-color);
+  padding: 56px 0 40px;
+}
+
+.page-hero-title {
+  font-size: clamp(1.7rem, 2.4vw, 2.6rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.page-hero-text {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 70ch;
+}
+
+/* === Cards === */
+.card-elevated {
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow-2);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--card-shadow-hover-2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: var(--heading-font), system-ui;
+  margin-top: 0;
+}
+
+.dark-background {
+  --background-color: #060606;
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #252525;
+  --contrast-color: #ffffff;
+}
+
+.light-background {
+  --background-color: #e6edf0;
+  --surface-color: #ffffff;
+}
+.default-background {
+  --background-color: var(--background-color);
+  /*--surface-color: #ffffff;*/
+}
+
+/* === Reusable Page Section === */
+.page-section {
+  padding: 56px 0 28px;
+}
+
+.page-section-intro {
+  margin-bottom: 32px;
+}
+
+/* Section heading with underline */
+.page-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--heading-color);
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  position: relative;
+  letter-spacing: -0.015em;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.page-section-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 64px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-color),
+    color-mix(in srgb, var(--accent-color), transparent 50%)
+  );
+  border-radius: 2px;
+}
+
+/* Optional intro paragraph under title */
+.page-section-intro p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+  margin: 0;
+  max-width: 80ch;
+}
+
+/* Responsive refinements */
+@media (max-width: 992px) {
+  .page-section {
+    padding: 44px 0 22px;
+  }
+
+  .page-section-title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-section-intro {
+    margin-bottom: 24px;
+  }
+
+  .page-section-title {
+    font-size: 1.45rem;
+  }
+
+  .page-section-intro p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-section-title {
+    font-size: 1.3rem;
+  }
+
+  .page-section-intro p {
+    font-size: 0.98rem;
+  }
+}
+
+.section {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 60px 0;
+  overflow: clip;
+  scroll-margin-top: var(--anchor-offset);
+}
+
+@media (max-width: 1199px) {
+  .section {
+    scroll-margin-top: 66px;
+  }
+}
+
+.section-title {
+  text-align: center;
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--heading-font), sans-serif;
+  color: var(--heading-color);
+  position: relative;
+  margin: 0;
+}
+
+.section-title h2:before,
+.section-title h2:after {
+  content: '';
+  width: 50px;
+  height: 2px;
+  background: var(--heading-color);
+  display: inline-block;
+}
+
+.section-title h2:before {
+  margin: 0 15px 10px 0;
+}
+
+.section-title h2:after {
+  margin: 0 0 10px 15px;
+}
+
+.section-title p {
+  margin-bottom: 0;
+}

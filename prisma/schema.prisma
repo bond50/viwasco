@@ -1,0 +1,835 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?              @map("email_verified")
+  password              String?
+  role                  UserRole               @default(USER)
+  image                 String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  accounts              Account[]
+  isTwoFAEnabled        Boolean                @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+enum PartnershipType {
+  GOVERNMENT
+  REGULATOR
+  DONOR
+  SUPPLIER
+  NGO
+  COMMUNITY
+  OTHER
+}
+
+enum ProjectStatus {
+  ONGOING
+  COMPLETED
+}
+
+enum TenderStatus {
+  OPEN
+  AWARDED
+  ARCHIVED
+}
+
+enum ContactMessageType {
+  ENQUIRY
+  COMPLAINT
+}
+
+enum ContactMessageStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+}
+
+// ===== Single utility organization (no FK fan-out) =====
+model Organization {
+  id             String  @id @default(cuid())
+  name           String  @unique
+  slug           String  @unique
+  description    String?
+  tagline        String?
+  seoTitle       String?
+  seoDescription String?
+  foundedYear    Int?
+  employeeCount  Int?
+
+  shortName          String?
+  introTitle         String?
+  introDescription   String?
+  adminAllowlist     Json    @default("[]")
+  adminBootstrap     Boolean @default(false)
+  vision             String?
+  mission            String?
+  coreValuesLeadText String?
+  visionIcon         String?
+  missionIcon        String?
+
+  // Media
+  logo            Json
+  featuredImage   Json
+  bannerImage     Json?
+  coreValuesImage Json?
+  introImage      Json?
+
+  // Contacts (kept simple; no geo/branches)
+    websiteUrl   String?
+    contactEmail String?
+    phone        String?
+    address      String?
+    footerAboutText      String?
+    customerPortalEnabled Boolean @default(false)
+    customerPortalLabel   String?
+    customerPortalUrl     String?
+    serviceCentres        Json? // [{name,address}]
+    socialLinks  Json? // [{name,url,icon}]
+    workingHours Json? // [{days,hours}]
+
+  // Utility meta
+  regulatorName       String? // e.g. WASREB
+  licenseNumber       String?
+  licenseExpiry       DateTime?
+  customerCareHotline String?
+  whatsappNumber      String?
+
+  isActive   Boolean @default(true)
+  isVerified Boolean @default(false)
+  isFeatured Boolean @default(false)
+  metadata   Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+// ===== About: Core Values, FAQs, Timeline, Awards, Certs, Testimonials =====
+model OrganizationValue {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  rank        Int     @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rank, createdAt])
+}
+
+model OrganizationMetric {
+  id        String  @id @default(cuid())
+  label     String
+  value     Int
+  unit      String?
+  icon      String?
+  rank      Int     @default(1)
+  published Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, rank])
+}
+
+model OrganizationFaq {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  question  String
+  answer    String
+  published Boolean  @default(true)
+  rank      Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rank])
+}
+
+model OrganizationMilestone {
+  id      String    @id @default(cuid())
+  year    Int?
+  date    DateTime?
+  title   String
+  summary String?
+  image   Json?
+  rank    Int       @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rank])
+}
+
+model OrganizationAward {
+  id        String    @id @default(cuid())
+  title     String
+  issuer    String?
+  date      DateTime?
+  summary   String?
+  badge     Json? // image/logo
+  rank      Int       @default(1)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model OrganizationCertification {
+  id               String    @id @default(cuid())
+  name             String
+  issuingAuthority String?
+  issueDate        DateTime?
+  expiryDate       DateTime?
+  certificateFile  Json?
+  rank             Int       @default(1)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model OrganizationTestimonial {
+  id         String  @id @default(cuid())
+  authorName String
+  authorRole String?
+  message    String
+  avatar     Json?
+  rank       Int     @default(1)
+  published  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rank])
+}
+
+// ===== Documents (category as table for flexibility) =====
+model DocumentCategory {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  rank        Int     @default(1)
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  documents OrganizationDocument[]
+
+  @@index([rank])
+}
+
+model OrganizationDocument {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  description String?
+  file        Json
+  published   Boolean @default(true)
+  rank        Int     @default(1)
+
+  // simple FK to table category (no org FK)
+  categoryId String?
+  category   DocumentCategory? @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rank])
+  @@index([categoryId])
+  @@index([published, categoryId, rank])
+}
+
+// ===== Enums =====
+enum LeadershipCategoryType {
+  BOARD
+  EXECUTIVE
+  MANAGEMENT
+}
+
+model OrganizationMessage {
+  id           String         @id @default(cuid())
+  title        String
+  body         String         @db.Text
+  excerpt      String         @db.Text
+  published    Boolean        @default(true)
+  authorTeamId String         @unique
+  authorTeam   ManagementTeam @relation(fields: [authorTeamId], references: [id])
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+// ===== Leadership (no org FK) =====
+model ManagementCategory {
+  id           String                 @id @default(uuid())
+  name         String
+  slug         String                 @unique
+  description  String?
+  rank         Int                    @default(1)
+  categoryType LeadershipCategoryType @default(MANAGEMENT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teamMembers ManagementTeam[]
+
+  @@index([rank])
+  @@index([categoryType])
+}
+
+model ManagementTeam {
+  id         String @id @default(uuid())
+  categoryId String
+
+  name     String
+  position String
+  bio      String?
+  image    Json
+  slug     String  @unique
+  rank     Int     @default(1)
+
+  isFeatured  Boolean @default(false)
+  socialLinks Json?
+  isActive    Boolean @default(true)
+
+  // --- Contact details & visibility preferences ---
+  email          String?
+  phone          String?
+  expertiseArea  String? // Area of expertise / portfolio
+  officeLocation String? // Physical office / station
+
+  showEmail       Boolean @default(false)
+  showPhone       Boolean @default(false)
+  showSocialLinks Boolean @default(true)
+  allowContact    Boolean @default(false) // If true, show contact form / CTA
+
+  experience       String? @db.Text // Career history / key roles
+  achievements     String? @db.Text // Key achievements, highlights
+  workingHours     Json? // Eg. "Mon–Fri, 8:00am–5:00pm"
+  assistantContact String? // EA contact (phone/email text)
+
+  // --- Lists (simple, display-only) ---
+  languages                String[] @default([]) // Spoken languages
+  boardCommittees          String[] @default([]) // Committee memberships
+  professionalAffiliations String[] @default([]) // Professional bodies
+  awards                   String[] @default([]) // Individual awards
+
+  // More complex, often needs URL + title → keep in JSON
+  publications Json? // e.g. [{ "title": "...", "url": "..." }]
+
+  // Generic metadata bag for future feature flags / config
+  metadata Json?
+
+  // 🔹 New relational education entries
+  educations TeamEducation[]
+
+  category ManagementCategory @relation(fields: [categoryId], references: [id])
+
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  OrganizationMessage OrganizationMessage[]
+  TeamExperience      TeamExperience[]
+  TeamAchievement     TeamAchievement[]
+  TeamPublication     TeamPublication[]
+
+  @@index([rank])
+  @@index([categoryId])
+  @@index([isActive, rank])
+}
+
+model TeamEducation {
+  id     String @id @default(uuid())
+  teamId String
+
+  institution   String
+  qualification String?
+  level         EducationLevel?
+  field         String?
+  startDate     DateTime?
+  endDate       DateTime?
+  isCurrent     Boolean         @default(false)
+  description   String?         @db.Text
+  logo          Json?
+  honor         String?
+  rank          Int             @default(1) // For ordering
+
+  team ManagementTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([rank])
+}
+
+enum EducationLevel {
+  PRIMARY
+  SECONDARY
+  CERTIFICATE
+  DIPLOMA
+  BACHELORS
+  MASTERS
+  DOCTORATE
+  OTHER
+}
+
+/// =============================
+///  TEAM EXPERIENCE (Relational)
+/// =============================
+model TeamExperience {
+  id     String @id @default(uuid())
+  teamId String
+
+  organization String
+  role         String
+  description  String?   @db.Text
+  startDate    DateTime?
+  endDate      DateTime?
+  isCurrent    Boolean   @default(false)
+  logo         Json?
+  achievements String[]  @default([])
+
+  rank Int @default(1)
+
+  team ManagementTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([rank])
+}
+
+/// =============================
+///  TEAM ACHIEVEMENT (Relational)
+/// =============================
+model TeamAchievement {
+  id     String @id @default(uuid())
+  teamId String
+
+  title       String
+  issuer      String?
+  year        Int?
+  description String? @db.Text
+  logo        Json?
+
+  rank Int @default(1)
+
+  team ManagementTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([rank])
+}
+
+/// =============================
+///  TEAM PUBLICATION (Relational)
+/// =============================
+model TeamPublication {
+  id     String @id @default(uuid())
+  teamId String
+
+  title       String
+  publisher   String?
+  year        Int?
+  url         String?
+  description String? @db.Text
+  logo        Json?
+
+  rank Int @default(1)
+
+  team ManagementTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([teamId])
+  @@index([rank])
+}
+
+// ===== Partners (no org join table) =====
+model Partner {
+  id              String          @id @default(uuid())
+  name            String
+  slug            String          @unique
+  description     String?
+  logo            Json?
+  website         String?
+  partnershipType PartnershipType @default(OTHER)
+  rank            Int             @default(1)
+  isActive        Boolean         @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([rank])
+}
+
+model ServiceCategory {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  icon        String?
+  sort_order  Int       @default(0)
+  services    Service[]
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  @@index([slug])
+}
+
+model Service {
+  id      String  @id @default(cuid())
+  title   String
+  slug    String  @unique
+  excerpt String?
+  content Json
+  image   Json?
+
+  category_id String?
+  category    ServiceCategory? @relation(fields: [category_id], references: [id])
+
+  is_active Boolean @default(true)
+  is_public Boolean @default(true)
+
+  sort_order Int @default(0)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  @@index([slug])
+  @@index([category_id])
+}
+
+model ProjectCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  sort_order  Int       @default(0)
+  is_active   Boolean   @default(true)
+  projects    Project[]
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model Project {
+  id                String          @id @default(cuid())
+  title             String
+  slug              String          @unique
+  categoryId        String?
+  category          ProjectCategory? @relation(fields: [categoryId], references: [id])
+  status            ProjectStatus   @default(ONGOING)
+  short_description String
+  content           String
+  hero_image        Json?
+  sort_order        Int             @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([status])
+  @@index([sort_order])
+}
+
+model ResourceKind {
+  id          String              @id @default(cuid())
+  name        String
+  slug        String              @unique
+  description String?
+  sort_order  Int                 @default(0)
+  is_active   Boolean             @default(true)
+  created_at  DateTime            @default(now())
+  updated_at  DateTime            @updatedAt
+  deleted_at  DateTime?
+  resources   Resource[]
+  categories  ResourceCategory[]
+
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model ResourceCategory {
+  id          String        @id @default(cuid())
+  kindId      String
+  name        String
+  slug        String
+  description String?
+  sort_order  Int           @default(0)
+  is_active   Boolean       @default(true)
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  deleted_at  DateTime?
+  kind        ResourceKind  @relation(fields: [kindId], references: [id], onDelete: Cascade)
+  resources   Resource[]
+
+  @@unique([kindId, slug])
+  @@index([kindId])
+  @@index([sort_order])
+}
+
+model Resource {
+  id         String           @id @default(cuid())
+  kindId     String
+  kind       ResourceKind     @relation(fields: [kindId], references: [id])
+  categoryId String?
+  category   ResourceCategory? @relation(fields: [categoryId], references: [id])
+  title      String
+  slug       String           @unique
+  summary    String
+  file       Json?
+  is_active  Boolean          @default(true)
+  sort_order Int              @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([kindId])
+  @@index([slug])
+  @@index([categoryId])
+  @@index([sort_order])
+}
+
+model Tender {
+  id           String       @id @default(cuid())
+  title        String
+  slug         String       @unique
+  status       TenderStatus @default(OPEN)
+  summary      String       @db.Text
+  file         Json?
+  published_at DateTime?
+  closing_at   DateTime?
+  is_active    Boolean      @default(true)
+  sort_order   Int          @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([status])
+  @@index([sort_order])
+}
+
+model CareerType {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  sort_order  Int      @default(0)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+  careers     Career[]
+
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model Career {
+  id         String     @id @default(cuid())
+  typeId     String
+  type       CareerType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  title      String
+  slug       String     @unique
+  department String
+  location   String
+  summary    String?
+  file       Json?
+  closing_at DateTime?
+  is_active  Boolean    @default(true)
+  sort_order Int        @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([typeId])
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model NewsletterCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  sort_order  Int      @default(0)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+  newsletters Newsletter[]
+
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model Newsletter {
+  id           String             @id @default(cuid())
+  categoryId   String
+  category     NewsletterCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title        String
+  slug         String             @unique
+  excerpt      String             @db.Text
+  content      String             @db.Text
+  file         Json?
+  hero_image   Json?
+  published_at DateTime?
+  downloads    Int                @default(0)
+  size_mb      Float              @default(0)
+  is_active    Boolean            @default(true)
+  sort_order   Int                @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model NewsCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  sort_order  Int      @default(0)
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  deleted_at  DateTime?
+
+  @@index([slug])
+  @@index([sort_order])
+}
+
+model News {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  category     String
+  excerpt      String   @db.Text
+  content      String   @db.Text
+  hero_image   Json?
+  published_at DateTime?
+  is_active    Boolean  @default(true)
+  sort_order   Int      @default(0)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([slug])
+  @@index([category])
+  @@index([published_at])
+  @@index([sort_order])
+}
+
+model ContactMessage {
+  id             String              @id @default(cuid())
+  contact_type   ContactMessageType
+  full_name      String
+  email          String
+  phone          String?
+  subject        String
+  account_number String?
+  service_area   String?
+  reference      String?
+  message        String              @db.Text
+  consent        Boolean             @default(false)
+  status         ContactMessageStatus @default(NEW)
+  notified_at    DateTime?
+  responded_at   DateTime?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  @@index([contact_type])
+  @@index([status])
+  @@index([created_at])
+}
+

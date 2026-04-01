@@ -1,0 +1,110 @@
+/* Simple card grid for awards – no outer boxed group */
+
+.card {
+  position: relative;
+  height: 100%;
+  background-color: var(--surface-color);
+  border-radius: 0.9rem;
+  padding: 1.25rem 1.1rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.03);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 96%);
+  border-color: color-mix(in srgb, var(--accent-color), transparent 80%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.04);
+}
+
+/* Badge preview (image only, optional) */
+
+.badgePreview {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--default-color), transparent 94%);
+}
+
+.badgeImage {
+  object-fit: contain;
+}
+
+/* Text content */
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  padding-right: 4.5rem; /* space for badgePreview */
+  color: var(--heading-color, var(--default-color));
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.issuer {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+}
+
+.date {
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+}
+
+.desc {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--default-color), transparent 15%);
+  margin-bottom: 0.75rem;
+}
+
+/* Actions */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.actionLink {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+}
+
+/* Responsive tweaks */
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1.1rem 1rem 0.9rem;
+  }
+
+  .badgePreview {
+    width: 52px;
+    height: 52px;
+  }
+
+  .title {
+    padding-right: 4rem;
+  }
+}

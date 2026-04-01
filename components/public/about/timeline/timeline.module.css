@@ -1,0 +1,315 @@
+/* Section wrapper so it fits your global section layout */
+.timelineSection {
+  padding: 80px 0 ;
+}
+
+/* Root timeline container */
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+}
+
+/* Vertical line running through the milestones */
+.timelineLine {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-color) 0%,
+    color-mix(in srgb, var(--accent-color), transparent 30%) 100%
+  );
+  border-radius: 2px;
+}
+
+/* Each milestone row */
+.timelineItem {
+  position: relative;
+  margin-bottom: 4rem;
+  width: 100%;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Slight stagger for alternating items */
+.timelineItem:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+.timelineItem:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+/* Dot on the line */
+.timelineDot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color);
+  border: 4px solid var(--background-color);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* Content (card) container on either side of the line */
+.timelineContent {
+  width: calc(50% - 60px);
+  position: relative;
+}
+
+/* Left & right alignment for desktop */
+.left .timelineContent {
+  left: 0;
+  text-align: right;
+}
+
+.right .timelineContent {
+  left: calc(50% + 60px);
+}
+
+/* Date badge area */
+.timelineDate {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.year {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.date {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Main card */
+.timelineCard {
+  background: var(--background-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.timelineCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent-color);
+}
+
+/* Accent edges depending on side */
+.left .timelineCard {
+  border-left: 4px solid var(--accent-color);
+}
+
+.right .timelineCard {
+  border-right: 4px solid var(--accent-color);
+}
+
+/* Image wrapper */
+.imageContainer {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.timelineCard:hover .image {
+  transform: scale(1.02);
+}
+
+/* Text content */
+.content {
+  flex: 1;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--default-color);
+  line-height: 1.3;
+}
+
+/* Summary + read-more */
+.summaryContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.summary {
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
+  transition: all 0.3s ease;
+}
+
+/* Truncated summary – use line clamp */
+.summaryTruncated {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 4.8em; /* 3 lines * 1.6 line-height */
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.toggleButton:hover {
+  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  transform: translateY(-1px);
+}
+
+.toggleIcon {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.toggleButton:hover .toggleIcon {
+  transform: translateY(1px);
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================== Responsive ================== */
+
+@media (max-width: 992px) {
+  .timelineLine {
+    left: 30px;
+  }
+
+  .timelineDot {
+    left: 30px;
+  }
+
+  .timelineContent {
+    width: calc(100% - 80px);
+    left: 80px !important;
+    text-align: left !important;
+  }
+
+  .left .timelineCard,
+  .right .timelineCard {
+    border-left: 4px solid var(--accent-color);
+    border-right: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .timelineSection {
+    padding: 24px 0 56px 0;
+  }
+
+  .timeline {
+    padding: 1rem 0;
+  }
+
+  .timelineLine {
+    left: 20px;
+  }
+
+  .timelineDot {
+    left: 20px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .timelineContent {
+    width: calc(100% - 60px);
+    left: 60px !important;
+  }
+
+  .timelineCard {
+    padding: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .timelineItem {
+    margin-bottom: 3rem;
+  }
+
+  .summaryTruncated {
+    -webkit-line-clamp: 4; /* show a bit more on mobile */
+    max-height: 6.4em; /* 4 lines * 1.6 */
+  }
+}
+
+@media (max-width: 576px) {
+  .timelineCard {
+    padding: 1rem;
+  }
+
+  .imageContainer {
+    margin-bottom: 0.75rem;
+  }
+
+  .title {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .summary {
+    font-size: 0.9rem;
+  }
+
+  .year {
+    font-size: 1rem;
+  }
+
+  .date {
+    font-size: 0.85rem;
+  }
+
+  .toggleButton {
+    font-size: 0.85rem;
+  }
+}

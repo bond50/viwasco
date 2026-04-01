@@ -1,0 +1,189 @@
+.topbar {
+    background: var(--accent-color);
+    height: 45px; /* fixed */
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid color-mix(in srgb, var(--contrast-color), transparent 85%);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1; /* renders above branding during slide */
+    transform: translateY(0);
+    opacity: 1;
+    will-change: transform, opacity;
+    transition: transform var(--transition),
+    opacity var(--transition),
+    background-color var(--transition),
+    box-shadow var(--transition),
+    filter var(--transition);
+}
+
+
+.topbar::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 -100%;
+    width: 100%;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            color-mix(in srgb, var(--contrast-color), transparent 90%),
+            transparent
+    );
+    transition: left var(--transition);
+}
+
+.topbar:hover::before {
+    left: 100%;
+}
+
+
+/* LEFT: contacts */
+.contact-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* icons (no hard-coded rgba) */
+.contact-info :global(svg) {
+    color: var(--contrast-color);
+    filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--default-color), transparent 90%));
+    transition: transform var(--transition), filter var(--transition);
+}
+
+.contact-info .iconWrap:hover :global(svg) {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--default-color), transparent 84%));
+}
+
+/* links / spans */
+.contact-info a,
+.contact-info span {
+    padding-left: 6px;
+    color: var(--contrast-color);
+    text-decoration: none;
+    transition: color var(--transition), text-shadow var(--transition);
+    position: relative;
+}
+
+.contact-info a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--contrast-color);
+    transition: width var(--transition);
+}
+
+.contact-info a:hover {
+    color: var(--contrast-color);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--contrast-color), transparent 70%);
+}
+
+.contact-info a:hover::after {
+    width: 100%;
+}
+
+/* RIGHT: socials */
+.social-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+/* RIGHT: socials wrapper in topbar */
+.social-links {
+  gap: 8px;
+}
+
+
+/* Hours (badge style) */
+.hours {
+    display: none;
+    color: var(--contrast-color);
+    background: color-mix(in srgb, var(--contrast-color), transparent 85%);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    backdrop-filter: blur(5px);
+    border: 1px solid color-mix(in srgb, var(--contrast-color), transparent 85%);
+    transition: background-color var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.hours:hover {
+    background: color-mix(in srgb, var(--contrast-color), transparent 85%);
+    transform: translateY(-1px);
+}
+
+@media (min-width: 992px) {
+    .hours {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+}
+
+/* Enhanced icon wrap */
+.iconWrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition), transform var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.iconWrap::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 -100%;
+    width: 100%;
+    background: linear-gradient(
+            90deg,
+            transparent,
+            color-mix(in srgb, var(--contrast-color), transparent 90%),
+            transparent
+    );
+    transition: left var(--transition);
+}
+
+.iconWrap:hover::before {
+    left: 100%;
+}
+
+.iconWrap:hover {
+    background: color-mix(in srgb, var(--contrast-color), transparent 95%);
+    backdrop-filter: blur(5px);
+}
+
+/* Container spacing from a CSS module (must be global) */
+:global(.container) {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+    .topbar {
+        height: auto;
+        min-height: 40px;
+        padding: 8px 0;
+    }
+
+    .contact-info {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .iconWrap {
+        padding: 3px 8px;
+    }
+}

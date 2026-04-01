@@ -1,0 +1,141 @@
+.section {
+  margin-top: 0.5rem;
+}
+
+/* Card item – used inside Bootstrap col */
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 86%);
+  background-color: var(--surface-color);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  height: 100%;
+}
+
+.item:hover {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 97%);
+  border-color: color-mix(in srgb, var(--accent-color), transparent 82%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.04);
+}
+
+/* Icon column */
+
+.iconCol {
+  flex-shrink: 0;
+}
+
+.iconCircle {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: color-mix(in srgb, var(--accent-color), transparent 10%);
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+/* Content column */
+
+.contentCol {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: var(--heading-color, var(--default-color));
+}
+
+/* Meta row */
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  margin-bottom: 0.45rem;
+}
+
+.metaBadge {
+  font-size: 0.76rem;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--default-color), transparent 92%);
+  color: color-mix(in srgb, var(--default-color), transparent 15%);
+}
+
+.metaText {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+}
+
+.actions {
+  margin-top: 0.1rem;
+}
+
+/* 🔹 Keep link within card width */
+.downloadLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent-color);
+  text-decoration: none;
+  max-width: 100%;
+}
+
+/* 🔹 Let the text wrap instead of overflowing */
+.downloadLink span {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;       /* break very long filenames */
+  /* or use: word-wrap: break-word; if you prefer softer breaking */
+}
+
+.downloadLink:hover {
+  text-decoration: underline;
+}
+
+.downloadIcon {
+  font-size: 0.95rem;
+  flex-shrink: 0;              /* keep icon from shrinking when text is long */
+}
+
+
+.downloadLink:hover {
+  text-decoration: underline;
+}
+
+.downloadIcon {
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+
+@media (max-width: 576px) {
+  .item {
+    padding: 0.8rem 0.85rem;
+  }
+
+  .name {
+    font-size: 0.95rem;
+  }
+}

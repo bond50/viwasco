@@ -1,0 +1,253 @@
+.sectionContainer {
+  margin-bottom: 2rem;
+}
+
+/* Shared section heading (for "Office Information", "Professional Background", etc.) */
+.sectionHeading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.9rem;
+  color: var(--heading-color);
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.sectionHeading::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 3px;
+  height: 1.4rem;
+  border-radius: 999px;
+  background-color: var(--accent-color);
+}
+
+/* Grid for info / contact cards */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+@media (min-width: 576px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Card (inspired by NiceAdmin contact-card) */
+.infoCard {
+  background-color: var(--surface-color);
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.infoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Make whole card clickable when wrapped in <a> */
+.infoCardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Icon box (square, colored bg) */
+.iconBox {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  font-size: 22px;
+  color: var(--accent-color);
+}
+
+/* Card text */
+.cardTextWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--heading-color);
+}
+
+.cardBody {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--default-color);
+}
+
+/* Pills list (used inside some cards) */
+.pillList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pillItem {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-color), transparent 96%);
+  color: color-mix(in srgb, var(--accent-color), transparent 10%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
+  white-space: nowrap;
+}
+
+/* Contact form container (right side of “contact” tab) */
+.contactFormContainer {
+  background-color: var(--surface-color);
+  padding: 24px 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .contactFormContainer {
+    padding: 30px 26px;
+  }
+}
+
+.contactFormTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--heading-color);
+  position: relative;
+  padding-left: 0.9rem;
+}
+
+.contactFormTitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  height: 1.6rem;
+  width: 3px;
+  background-color: var(--accent-color);
+  border-radius: 999px;
+}
+
+.contactFormSubtitle {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  color: var(--default-color);
+}
+
+/* Form submit row + button (inspired by contact section) */
+.contactFormSubmitRow {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.contactSubmitButton {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  border: none;
+  padding: 11px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.3s ease;
+}
+
+.contactSubmitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.contactSubmitButton:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--accent-color), #000 15%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px color-mix(in srgb, var(--accent-color), transparent 75%);
+}
+
+/* Small helper for required-note text */
+.contactFormNote {
+  font-size: 0.78rem;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+  margin-top: 0.5rem;
+}
+
+/* Success state card for contact form */
+.contactSuccessCard {
+  background-color: var(--surface-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .contactSuccessCard {
+    padding: 40px 32px;
+  }
+}
+
+.successIcon {
+  font-size: 2.4rem;
+  margin-bottom: 0.75rem;
+  color: #198754; /* fallback; you can replace with CSS var if you have one */
+}
+
+.successTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #198754;
+}
+
+.successText {
+  font-size: 0.9rem;
+  color: var(--default-color);
+  margin-bottom: 1.5rem;
+}
+
+.successButton {
+  background-color: transparent;
+  border-radius: 999px;
+  border: 1px solid #198754;
+  color: #198754;
+  padding: 9px 22px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.successButton:hover {
+  background-color: #198754;
+  color: #fff;
+}

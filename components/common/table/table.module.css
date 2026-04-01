@@ -1,0 +1,97 @@
+/* components/common/table/Table.module.css */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: var(--default-color);
+}
+
+/* Variants */
+.table-default {
+  background-color: var(--surface-color);
+}
+
+.table-striped tr:nth-child(odd) {
+  background-color: color-mix(in srgb, var(--surface-color), transparent 95%);
+}
+
+.table-bordered {
+  border: 1px solid var(--border-color);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border-color);
+}
+
+/* Sizes */
+.table-sm th,
+.table-sm td {
+  padding: 0.375rem 0.75rem;
+}
+
+.table-md th,
+.table-md td {
+  padding: 0.75rem 1rem;
+}
+
+.table-lg th,
+.table-lg td {
+  padding: 1rem 1.25rem;
+}
+
+/* Table Head */
+.tableHead {
+  background-color: color-mix(in srgb, var(--surface-color), transparent 90%);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tableHead th {
+  font-weight: 600;
+  color: var(--heading-color);
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Table Body */
+.tableBody tr:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Hover effect */
+.tableHover tbody tr:hover {
+  background-color: color-mix(in srgb, var(--surface-color), transparent 92%) !important;
+}
+
+/* Table Cell */
+.tableCell {
+  vertical-align: middle;
+}
+
+.tableCell-th {
+  font-weight: 600;
+}
+
+.tableCell-left {
+  text-align: left;
+}
+
+.tableCell-center {
+  text-align: center;
+}
+
+.tableCell-right {
+  text-align: right;
+}
+
+/* Active row */
+.tableRowActive {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%) !important;
+}

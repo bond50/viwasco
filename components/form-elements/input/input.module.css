@@ -1,0 +1,68 @@
+.Input,
+.Textarea {
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  font-size: 0.875rem; /* ~14px */
+  padding: 0.625rem 1rem; /* 10px 15px */
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 0.25rem;
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.Input:focus,
+.Textarea:focus {
+  border-color: color-mix(in srgb, var(--accent-color), transparent 70%);
+  outline: none;
+  box-shadow: none;
+  background-color: color-mix(in srgb, var(--surface-color), white 5%);
+}
+
+.Input::placeholder,
+.Textarea::placeholder {
+  color: color-mix(in srgb, var(--default-color), transparent 70%);
+  font-size: 0.875rem;
+}
+
+.Label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: color-mix(in srgb, var(--heading-color), transparent 20%);
+}
+
+.Textarea {
+  min-height: 140px !important;
+  resize: vertical;
+  line-height: 1.5 !important;
+}
+
+/* components/form-elements/input/input.module.css */
+
+/* Keep existing .Input and .Textarea, add this: */
+.InputWrapper {
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  font-size: 0.875rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 0.25rem;
+  min-height: 140px;
+  line-height: 1.5;
+}
+
+.InputWrapper:focus-within {
+  border-color: color-mix(in srgb, var(--accent-color), transparent 70%);
+  outline: none;
+  background-color: color-mix(in srgb, var(--surface-color), white 5%);
+}
+
+.InputWrapper p {
+  margin: 0;
+}
+
+.InputWrapper.is-invalid {
+  border-color: red;
+}

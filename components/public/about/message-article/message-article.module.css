@@ -1,0 +1,263 @@
+.pageSection {
+  padding: 2.5rem 0 3rem;
+  background: var(--background-color);
+}
+
+/* ───────────── Article card ───────────── */
+
+.articleCard {
+  border-radius: 18px;
+  background-color: var(--surface-color);
+  padding: 1.75rem 1.6rem 1.6rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* Header */
+
+.articleHeader {
+  margin-bottom: 1.25rem;
+}
+
+.kicker {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--accent-color), transparent 30%);
+  margin-bottom: 0.3rem;
+}
+
+.articleTitle {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+}
+
+/* Meta row */
+
+.articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.metaItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.metaLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--text-muted), transparent 10%);
+}
+
+.metaValue {
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.metaPosition {
+  color: var(--text-muted);
+}
+
+/* Excerpt */
+
+.excerpt {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  border-left: 3px solid var(--accent-color);
+  padding-left: 0.9rem;
+  margin: 0.5rem 0 0.5rem;
+}
+
+/* Body */
+
+.articleBody {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--default-color);
+}
+
+.articleBody :global(p) {
+  margin-bottom: 0.9rem;
+}
+
+.articleBody :global(h2),
+.articleBody :global(h3) {
+  margin-top: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.articleBody :global(ul),
+.articleBody :global(ol) {
+  padding-left: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* ───────────── Author card ───────────── */
+
+.authorCard {
+  border-radius: 16px;
+  background-color: var(--surface-color);
+  padding: 1.4rem 1.35rem 1.3rem;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+}
+
+.authorHeading {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin: 0 0 0.85rem;
+  position: relative;
+  padding-left: 0.7rem;
+}
+
+.authorHeading::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  width: 3px;
+  height: 1.3rem;
+  border-radius: 999px;
+  background-color: var(--accent-color);
+}
+
+/* When we have an author */
+
+.authorBody {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.authorAvatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-color), transparent 88%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.authorInitials {
+  text-transform: uppercase;
+}
+
+.authorTextBlock {
+  flex: 1;
+}
+
+.authorName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0;
+}
+
+.authorPosition {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.1rem 0 0;
+}
+
+/* Descriptive text */
+
+.authorText {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 0.9rem;
+}
+
+.authorTextMuted {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 0.9rem;
+}
+
+/* CTA link button */
+
+.authorLinkButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.48rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 15%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 92%);
+  transition: all 0.2s ease;
+}
+
+.authorLinkButton:hover {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  border-color: var(--accent-color);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px
+    color-mix(in srgb, var(--accent-color), transparent 70%);
+}
+
+/* ───────────── Empty state ───────────── */
+
+.emptyCard {
+  border-radius: 16px;
+  background-color: var(--surface-color);
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+}
+
+.emptyTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0 0 0.5rem;
+}
+
+.emptyText {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ───────────── Responsive ───────────── */
+
+@media (max-width: 768px) {
+  .articleCard {
+    padding: 1.4rem 1.2rem 1.2rem;
+    border-radius: 16px;
+  }
+
+  .articleTitle {
+    font-size: 1.35rem;
+  }
+
+  .authorCard {
+    margin-top: 0.5rem;
+  }
+}

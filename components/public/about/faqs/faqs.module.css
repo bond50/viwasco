@@ -1,0 +1,38 @@
+.accordion {
+    background: var(--surface-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, .06);
+    overflow: hidden;
+}
+
+.item + .item {
+    border-top: 1px solid var(--border-color);
+}
+
+.header {
+    width: 100%;
+    text-align: left;
+    padding: 16px 18px;
+    background: transparent;
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.q {
+    font-weight: 500;
+}
+
+.icon {
+    font-weight: 800;
+    color: var(--accent-color);
+}
+
+.body {
+    padding: 0 18px 14px;
+
+}
+.body p{
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+}

@@ -1,0 +1,77 @@
+/* components/new/InputField.module.css */
+
+.wrapper {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--input-focus-color), transparent 80%);
+  border-radius: 0.25rem;
+  /* enforce a consistent, compact field height */
+  min-height: 38px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.wrapper:focus-within {
+  border: 2px solid var(--input-focus-color);
+}
+
+/* remove native input borders */
+.input {
+  flex: 1;
+  background: transparent;
+  border: none !important;
+  box-shadow: none;
+  font: inherit;
+  outline: none !important;
+  border-radius: 0;
+  line-height: 1.2;
+}
+
+/* floating label */
+.label {
+  position: absolute;
+  top: 0.32rem;
+  left: 0.75rem;
+  background: var(--surface-color);
+  color: color-mix(in srgb, var(--default-color), transparent 20%);
+  padding: 0 0.25rem;
+  font-size: 1rem;
+  transform-origin: top left;
+  transition:
+    transform 0.2s ease-out,
+    color 0.2s ease-out;
+  pointer-events: none;
+}
+
+/* float & shrink on focus or when filled */
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  transform: translateY(-50%) scale(0.85);
+  top: 0;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--input-focus-color);
+}
+
+/* error-state border override */
+.error {
+  border-color: #dc3545;
+}
+
+/* error messages below the field (outside wrapper) */
+.feedback {
+  margin-top: 0.25rem;
+  color: #dc3545;
+  font-size: 0.875rem;
+}
+
+/* textarea stays taller; adjust if needed */
+.textareaWrapper {
+  min-height: 6rem;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 4rem;
+  line-height: 1.4;
+}

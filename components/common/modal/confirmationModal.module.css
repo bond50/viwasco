@@ -1,0 +1,86 @@
+/* components/common/ConfirmationModal/ConfirmationModal.module.css */
+.modal {
+  --alert-danger-bg: color-mix(in srgb, var(--secondary-color), transparent 90%);
+  --alert-danger-border: color-mix(in srgb, var(--secondary-color), transparent 95%);
+  --alert-danger-text: var(--secondary-color);
+  --alert-warning-bg: color-mix(in srgb, #ffc107, transparent 90%);
+  --alert-warning-border: color-mix(in srgb, #ffc107, transparent 70%);
+  --alert-warning-text: #856404;
+  --alert-info-bg: color-mix(in srgb, #17a2b8, transparent 90%);
+  --alert-info-border: color-mix(in srgb, #17a2b8, transparent 70%);
+  --alert-info-text: #0c5460;
+}
+
+.modalHeader {
+  background-color: var(--heading-color);
+  color: var(--contrast-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modalTitle {
+  font-weight: 600;
+  color: inherit;
+}
+
+.modalBody {
+  padding: 1.5rem;
+  color: var(--default-color);
+}
+
+.modalFooter {
+  border-top: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+}
+
+.alert {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  margin-bottom: 0;
+}
+
+.alertDanger {
+  background-color: var(--alert-danger-bg);
+  border-color: var(--alert-danger-border);
+  color: var(--alert-danger-text);
+}
+
+.alertWarning {
+  background-color: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--alert-warning-text);
+}
+
+.alertInfo {
+  background-color: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+  color: var(--alert-info-text);
+}
+
+.cancelButton {
+  min-width: 100px;
+}
+
+.confirmButton {
+  min-width: 100px;
+}
+
+.confirmButton:focus {
+  box-shadow: var(--focus-ring);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .modalHeader {
+    background-color: var(--accent-color);
+  }
+
+  .modalBody {
+    background-color: var(--black-color);
+    color: var(--contrast-color);
+  }
+
+  .modalFooter {
+    background-color: var(--black-color);
+  }
+}

@@ -1,0 +1,119 @@
+/* components/common/sortable-list.module.css */
+.container {
+  position: relative;
+}
+
+.instructions {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 92%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left: 3px solid var(--accent-color);
+}
+
+.instructionsIcon {
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.instructionsText {
+  font-size: 0.875rem;
+  color: var(--heading-color);
+  line-height: 1.5;
+}
+
+.gripIcon {
+  color: var(--accent-color);
+  vertical-align: middle;
+  margin: 0 0.25rem;
+}
+
+.items {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  transition: all 0.2s ease;
+  cursor: grab;
+}
+
+.item:hover {
+  border-color: color-mix(in srgb, var(--accent-color), transparent 70%);
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+.itemDragging {
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface-color) !important;
+  border-color: var(--accent-color);
+  opacity: 0.9;
+  cursor: grabbing;
+}
+
+.itemPlaceholder {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 95%) !important;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-grow: 1;
+}
+
+.dragHandleIcon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.item:hover .dragHandleIcon {
+  color: var(--accent-color);
+}
+
+.itemText {
+  flex-grow: 1;
+}
+
+.itemName {
+  font-weight: 400;
+  color: var(--heading-color);
+  margin-bottom: 0.25rem;
+}
+
+.itemDescription {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.rankBadge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+  color: var(--accent-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 2.5rem;
+  text-align: center;
+}

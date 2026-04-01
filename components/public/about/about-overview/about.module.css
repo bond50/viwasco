@@ -1,0 +1,368 @@
+/* components/public/about/about-overview/about.module.css */
+.about {
+    padding-top: 60px;
+    padding-bottom: 0;
+}
+
+.about-image-wrapper {
+    position: relative;
+}
+
+.about-image-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%; /* Adjust this value for the desired aspect ratio */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--default-color), transparent 20%);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.about-content-h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--heading-color);
+}
+
+.about-content-subtitle {
+    display: inline-block;
+    color: var(--accent-color);
+    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.about-content-paragraph {
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    color: color-mix(in srgb, var(--default-color), transparent 15%);
+}
+
+.stats-container {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stat-item {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item__number {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    font-family: var(--heading-font), monospace;
+    white-space: nowrap;
+    line-height: 1.15;
+}
+
+.stat-item__label {
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    text-transform: capitalize;
+    font-weight: 500;
+    letter-spacing: 1px;
+
+    /* ✅ prevent overlap for long labels */
+    line-height: 1.25;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    min-height: 2.5em;
+}
+
+@media (max-width: 768px) {
+    .stat-item {
+        margin-bottom: 2rem;
+    }
+
+    .stat-item__number {
+        font-size: 2rem;
+    }
+}
+
+.about .cta-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .about .cta-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn.btn-secondary {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    border-color: var(--accent-color);
+}
+
+.btn.btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--accent-color), black 15%);
+    transform: translateY(-2px);
+}
+
+.btn.btn-outline {
+    background-color: transparent;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn, .btn a {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+a.btn {
+    text-decoration: none;
+}
+
+.btn.btn-secondary:hover,
+.btn.btn-secondary:focus {
+    background-color: color-mix(in srgb, var(--accent-color), black 15%);
+    transform: translateY(-2px);
+    color: var(--contrast-color);
+}
+
+.btn.btn-outline:hover,
+.btn.btn-outline:focus {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    transform: translateY(-2px);
+}
+
+.btn.btn-outline:hover {
+    background-color: var(--accent-color);
+    color: var(--contrast-color);
+    transform: translateY(-2px);
+}
+
+.mission-vision {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .mission-vision {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mission,
+.vision {
+    background-color: var(--surface-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+.mission-vision-header {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    position: relative;
+    padding-left: 15px;
+}
+
+.mission-vision-header:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 5px;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.mission-vision-paragraph {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* --- At a glance (compact, matches mission/vision vibe) --- */
+.glance {
+  margin-top: 1rem;
+  background-color: var(--surface-color);
+  padding: 16px 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+}
+
+.glanceList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.glanceItem {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed
+    color-mix(in srgb, var(--heading-color), transparent 90%);
+}
+
+
+.glanceItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.glanceLabel {
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--heading-color);
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  flex: 0 0 auto;
+  min-width: 110px;
+}
+
+.glanceValue {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--default-color), transparent 12%);
+  flex: 1 1 auto;
+  text-align: left;
+  margin-left: auto;            /* ← ADD: always push value to far right */
+}
+
+
+.glanceLink {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--accent-color);
+  text-decoration: none;
+  word-break: break-word;
+  flex: 1 1 auto;
+  text-align: left;
+  margin-left: auto;            /* ← ADD: always push link to far right */
+}
+
+
+.glanceLink:hover {
+  text-decoration: underline;
+}
+
+/* Stack label/value nicely on very small screens */
+@media (max-width: 420px) {
+  .glanceItem {
+    flex-direction: column;   /* ← CHANGED: stack */
+    align-items: flex-start;
+    gap: 0.2rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .glanceValue,
+  .glanceLink {
+    text-align: left;         /* stack nicely */
+  }
+
+  .glanceLabel {
+    font-size: 0.78rem;
+    opacity: 0.85;
+    min-width: 0;
+  }
+}
+
+
+
+.statsBelowMV {
+  margin-top: 1.6rem;
+}
+
+.socials {
+  margin-top: 1.4rem;
+  background-color: var(--surface-color);
+  padding: 16px 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+}
+
+.socialLinks {
+  flex-wrap: wrap;
+}
+
+.workingHours {
+  margin-top: 1.4rem;
+  background-color: var(--surface-color);
+  padding: 16px 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+}
+
+.workingHoursList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.workingHoursItem {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--heading-color), transparent 90%);
+}
+
+.workingHoursItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.workingHoursDays {
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.workingHoursValue {
+  color: color-mix(in srgb, var(--default-color), transparent 12%);
+  text-align: right;
+}

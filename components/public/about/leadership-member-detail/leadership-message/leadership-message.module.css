@@ -1,0 +1,49 @@
+
+.messageFigure {
+    margin: 0;
+}
+
+/* The quote block itself */
+.messageQuote {
+    margin: 0;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.6;
+
+}
+
+/* Wrap RichContent so we can draw quotes around it */
+.messageQuoteText {
+    position: relative;
+    display: block;
+}
+
+/* Opening and closing quotes */
+.messageQuoteText::before {
+    content: '“';
+    margin-right: 0.15em;
+    font-size: 2rem;
+}
+
+.messageQuoteText::after {
+    content: '”';
+    margin-left: 0.1em;
+    font-size: 2rem;
+}
+
+/* Let RichContent not add extra margins inside */
+.messageQuoteText :global(.richContent) {
+    margin: 0!important;
+}
+
+/* Meta line under the quote */
+.messageMeta {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+.messageMeta time {
+    font-variant-numeric: tabular-nums;
+}

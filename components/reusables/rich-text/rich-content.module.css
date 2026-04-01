@@ -1,0 +1,641 @@
+.RichHero {
+  position: relative;
+  margin-bottom: 2.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.RichHero .heroImage {
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+}
+
+.RichHero:hover .heroImage {
+  transform: scale(1.02);
+}
+
+.RichHeroBadge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  padding: 8px 16px;
+  border-radius: 25px;
+  font: 600 0.875rem/1 var(--nav-font, Inter, sans-serif);
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+/* ========== ROOT WRAPPER ========== */
+.richContent {
+  color: var(--default-color);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  word-break: break-word;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+}
+
+.richContent :global(h1),
+.richContent :global(h2),
+.richContent :global(h3),
+.richContent :global(h4),
+.richContent :global(h5),
+.richContent :global(h6) {
+  color: var(--heading-color);
+  font-family: var(--heading-font, Barlow, sans-serif), serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 1.5em 0 0.75em;
+}
+
+.richContent :global(h1) {
+  font-size: clamp(2rem, 1.6rem + 2vw, 3rem);
+  margin-top: 0;
+  letter-spacing: -0.02em;
+}
+
+.richContent :global(h2) {
+  font-size: clamp(1.75rem, 1.5rem + 1.25vw, 2.25rem);
+  letter-spacing: -0.01em;
+}
+
+.richContent :global(h3) {
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.875rem);
+}
+
+.richContent :global(h4) {
+  font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+}
+
+.richContent :global(h5) {
+  font-size: clamp(1.125rem, 1.075rem + 0.25vw, 1.25rem);
+}
+
+.richContent :global(h6) {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+}
+
+/* text alignment fallbacks (tiptap sets inline style; these classes are for safety) */
+.richContent :global(.align-left) {
+  text-align: left;
+}
+
+.richContent :global(.align-center) {
+  text-align: center;
+}
+
+.richContent :global(.align-right) {
+  text-align: right;
+}
+
+.richContent :global(.align-justify) {
+  text-align: justify;
+}
+
+/* ========== PARAGRAPHS & INLINE ==========
+   (Bold/Italic/Underline/Strike/Code/Highlight/Color/Sup/Sub) */
+.richContent :global(p) {
+  margin: 1.25em 0;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: color-mix(in srgb, var(--default-color), transparent 15%);
+}
+
+.richContent :global(strong) {
+  font-weight: 700;
+}
+
+.richContent :global(em) {
+  font-style: italic;
+}
+
+.richContent :global(u) {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.richContent :global(s),
+.richContent :global(del) {
+  text-decoration: line-through;
+  opacity: 0.95;
+}
+
+.richContent :global(sup) {
+  font-size: 0.8em;
+  vertical-align: super;
+}
+
+.richContent :global(sub) {
+  font-size: 0.8em;
+  vertical-align: sub;
+}
+
+/* highlight (tiptap Highlight -> <mark>) */
+.richContent :global(mark) {
+  background: color-mix(in srgb, var(--accent-color), white 85%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 85%);
+  border-radius: 0.25rem;
+  padding: 0.05em 0.25em;
+}
+
+/* inline code (tiptap Code mark) */
+.richContent :global(code) {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.9em;
+}
+
+/* code blocks (tiptap CodeBlock/CodeBlockLowlight or <pre><code>) */
+.richContent :global(pre) {
+  background: #0b1020;
+  color: #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  overflow: auto;
+  margin: 1.5rem 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.richContent :global(pre code) {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* keyboard hint & abbr (nice-to-haves) */
+.richContent :global(kbd) {
+  background: #f7f7f7;
+  border: 1px solid #e5e7eb;
+  border-bottom-width: 2px;
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  font:
+    500 0.85em/1 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+}
+
+.richContent :global(abbr[title]) {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.15em;
+  cursor: help;
+}
+
+/* ========== LINKS ========== */
+.richLink {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-thickness 0.2s ease,
+    box-shadow 0.2s ease;
+  font-weight: 500;
+}
+
+.richLink:hover {
+  color: var(--accent-hover);
+  text-decoration-thickness: 0.15em;
+}
+
+.richLink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring, 0 0 0 3px rgba(25, 119, 56, 0.3));
+  border-radius: 6px;
+}
+
+/* ========== BLOCKQUOTE ========== */
+.richContent :global(blockquote) {
+  border-left: 4px solid var(--accent-color);
+  background: color-mix(in srgb, var(--accent-color), transparent 92%);
+  color: var(--default-color);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5em 0;
+  border-radius: 8px;
+  font-style: italic;
+}
+
+/* ========== HORIZONTAL RULE ========== */
+.richContent :global(hr) {
+  border: 0;
+  border-top: 2px solid var(--border-color);
+  margin: 2.5rem 0;
+  position: relative;
+}
+
+.richContent :global(hr::after) {
+  content: '§';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--background-color);
+  padding: 0 10px;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+/* ========== LISTS (bullet/numbered) ========== */
+.richContent :global(ul),
+.richContent :global(ol) {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+}
+
+.richContent :global(ul ul),
+.richContent :global(ol ol) {
+  margin-top: 0.5em;
+}
+
+/* Pretty UL with icons (non-task) */
+.rcList {
+  list-style: none;
+  margin: 1.25em 0;
+  padding: 0;
+  font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+}
+
+.rcList .rcList {
+  padding-left: 1.75em;
+  margin-top: 0.5em;
+}
+
+.rcListItem {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  column-gap: 0.75em;
+  align-items: start;
+  padding: 0.05rem 0;
+  margin: 0.05rem 0;
+  line-height: 1.6;
+}
+
+.rcListIcon {
+  color: var(--accent-color);
+  width: 1.15em;
+  height: 1.15em;
+  line-height: 1;
+  transform: translateY(0.3em);
+  flex-shrink: 0;
+}
+
+.rcListContent {
+  min-width: 0;
+}
+
+.rcListContent > :where(p, ul, ol, blockquote, pre, h1, h2, h3, h4, h5, h6) {
+  margin: 0.65em 0;
+}
+
+.rcListContent > :first-child {
+  margin-top: 0 !important;
+}
+
+.rcListContent > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.richContent :global(li) {
+  margin: 0.4em 0;
+}
+
+/* Ordered list clean look */
+.rcOl {
+  margin: 1.25em 0;
+  padding-left: 1.5em;
+}
+
+/* ========== TASK LIST (tiptap TaskList/TaskItem) ========== */
+.richContent :global(.taskList) {
+  list-style: none;
+  margin: 1.25em 0;
+  padding: 0;
+}
+
+.richContent :global(.taskItem) {
+  display: grid;
+  grid-template-columns: 1.25em 1fr;
+  gap: 0.6em;
+  align-items: start;
+  padding: 0.35em 0;
+  margin: 0.35em 0;
+}
+
+.richContent :global(.taskItem > label) {
+  display: contents;
+}
+
+.richContent :global(.taskItem input[type='checkbox']) {
+  accent-color: var(--accent-color);
+  width: 1.1em;
+  height: 1.1em;
+  margin-top: 0.25em;
+}
+
+.richContent :global(.taskItem[data-checked='true'] > div),
+.richContent :global(.taskItem[data-checked='true'] > p) {
+  text-decoration: line-through;
+  color: color-mix(in srgb, var(--default-color), transparent 45%);
+}
+
+/* ========== TABLES (tiptap Table) ========== */
+.rcTableWrap {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.rcTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+  font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
+}
+
+.rcTable :global(caption) {
+  caption-side: bottom;
+  text-align: left;
+  color: var(--text-muted);
+  padding: 0.5rem 0.25rem 0;
+  font-size: 0.9em;
+}
+
+.rcTable :global(th) {
+  background: #f9fafb;
+  color: var(--heading-color);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.rcTable :global(td) {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.rcTable :global(tbody tr:nth-child(odd)) {
+  background: #fcfcfd;
+}
+
+.rcTable :global(td p),
+.rcTable :global(th p) {
+  margin: 0;
+}
+
+/* ========== VIDEO (iframes: YouTube/Vimeo via renderer safelist) ========== */
+.rcVideo {
+  position: relative;
+  padding-top: 56.25%;
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.rcVideo iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ========== IMAGES (single + grid) ========== */
+
+/* Grid wrapper (tiptap images grouped in one <p>) */
+.rcImgGrid {
+  display: grid;
+  gap: 12px;
+  margin: 1.25rem 0;
+}
+
+.rcImgGrid.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.rcImgGrid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.rcImgGrid.cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive collapse */
+@media (max-width: 991.98px) {
+  .rcImgGrid.cols-3,
+  .rcImgGrid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .rcImgGrid.cols-2,
+  .rcImgGrid.cols-3,
+  .rcImgGrid.cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Grid items */
+.rcImgGridItem {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f4f6;
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.rcImgGridItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.12);
+}
+
+.rcImgGridImg {
+  object-fit: cover;
+}
+
+/* Single image — unknown dims: we use next/image fill inside a ratio box */
+.rcImgWrapAuto {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f4f6;
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.1);
+  margin: 1.25rem 0;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  min-height: clamp(220px, 40vh, 520px); /* ensures a pleasant default height */
+}
+
+.rcImgWrapAuto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.15);
+}
+
+/* Single image — known dims: intrinsic block that spans content column */
+.rcImgInline {
+  display: block;
+  width: 100%;
+  margin: 0.35rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.rcImgInline:hover {
+  transform: translateY(-2px);
+}
+
+/* actual <img> rendered by next/image */
+.rcImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* keep full image visible; no crop */
+  transition: transform 0.35s ease;
+}
+
+.rcImgWrapAuto:hover .rcImg,
+.rcImgInline:hover .rcImg {
+  transform: scale(1.02);
+}
+
+/* Optional figure/caption support (if you ever wrap images) */
+.richContent :global(figure) {
+  margin: 1.25rem 0;
+  text-align: center;
+}
+
+.richContent :global(figcaption) {
+  color: var(--text-muted);
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
+
+/* ========== RESPONSIVE TWEAKS ========== */
+@media (max-width: 768px) {
+  .RichHero {
+    margin-bottom: 2rem;
+  }
+
+  .RichHeroBadge {
+    top: 15px;
+    left: 15px;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .richContent {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .rcTable :global(th),
+  .rcTable :global(td) {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .richContent :global(pre) {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* TASK LIST (TipTap TaskList/TaskItem) */
+.richContent :global(.taskList) {
+  list-style: none;
+  margin: 1.25em 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.richContent :global(.taskItem) {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1.5rem 1fr; /* [checkbox] [content] */
+  align-items: start;
+  gap: 0.7rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 12px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.03);
+}
+
+/* TipTap renders <label><input type="checkbox"></label><div>…</div> */
+.richContent :global(.taskItem > label) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.2rem;
+  user-select: none;
+}
+
+/* Native checkbox — keep it accessible, match theme color */
+.richContent :global(.taskItem > label input[type='checkbox']) {
+  accent-color: var(--accent-color);
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* Content cell */
+.richContent :global(.taskItem > div) {
+  min-width: 0;
+}
+
+.richContent :global(.taskItem > div p) {
+  margin: 0.2rem 0; /* a bit tighter inside the card */
+}
+
+/* Checked state (TipTap sets data-checked="true") */
+.richContent :global(.taskItem[data-checked='true'] > div) {
+  color: color-mix(in srgb, var(--default-color), transparent 45%);
+  text-decoration: line-through;
+}
+
+/* Nested task lists look lighter */
+.richContent :global(.taskItem > div .taskList) {
+  margin-top: 0.4rem;
+  gap: 6px;
+}
+
+.richContent :global(.taskItem > div .taskItem) {
+  background: color-mix(in srgb, var(--surface-color), transparent 10%);
+  border-radius: 10px;
+  padding: 0.45rem 0.6rem;
+  box-shadow: none;
+}

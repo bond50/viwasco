@@ -1,0 +1,117 @@
+.contactWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.infoCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.06);
+}
+
+.infoTitle {
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.infoList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.infoItem strong {
+  display: block;
+}
+
+.hoursList {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.hoursItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--heading-color), transparent 88%);
+}
+
+.hoursItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.hoursDays {
+  font-weight: 600;
+  color: var(--heading-color);
+}
+
+.hoursValue {
+  text-align: right;
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+}
+
+.formCard {
+  padding: 0;
+}
+
+.formBody {
+  padding: 1.5rem;
+}
+
+.portalCTA {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.portalLink {
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.portalLink:hover {
+  background: var(--accent-hover);
+  color: var(--contrast-color);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 992px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.turnstileWrap {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.consentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.consentRow input {
+  margin-top: 0.2rem;
+}

@@ -1,0 +1,50 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.Label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--heading-color), transparent 20%);
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.Item {
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.Grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: end;
+}
+
+.RemoveCol {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.AddBtn {
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 900px) {
+  .Grid {
+    grid-template-columns: 1fr;
+  }
+
+  .RemoveCol {
+    justify-content: flex-start;
+  }
+}
