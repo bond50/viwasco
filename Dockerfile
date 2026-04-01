@@ -49,8 +49,7 @@ COPY . .
 # NOTE: Prisma uses local CLI, not dlx (but we log both for debug).
 RUN node -v && pnpm -v && pnpm dlx next --version || true && pnpm prisma -v || true
 
-# Generate Prisma client (no DB connection needed)
-RUN pnpm prisma generate
+
 
 # Next.js standalone build (requires next.config.js => output: 'standalone')
 ARG CI=1
