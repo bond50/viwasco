@@ -33,6 +33,20 @@ def _wait_cmd(ssm, cmd_id, instance_id, timeout=120, poll=4):
         time.sleep(poll)
     return "TimedOut","", ""
 
+def _classify_db_auth_failure(stdout: str, stderr: str) -> str:
+    text = "\n".join(filter(None, [stdout or "", stderr or ""])).lower()
+    if "missing db vars" in text:
+        return "DB_ENV"
+    if "docker missing" in text:
+        return "DOCKER"
+    if "postgres not running" in text:
+        return "DB_CONTAINER"
+    if "db_auth_fail" in text:
+        return "DB_AUTH"
+    if "timed out" in text:
+        return "DB_AUTH_TIMEOUT"
+    return "DB_AUTH"
+
 def main():
     aws_region = os.getenv("AWS_REGION") or os.getenv("AWS_DEFAULT_REGION") or "us-east-1"
     ecr_repo_name_in = os.getenv("ECR_REPO_NAME","")
@@ -127,7 +141,7 @@ fi
         db_auth_ok = (st == "Success" and "db_auth_ok" in (so or ""))
 
         if not db_auth_ok:
-            missing.append("DB_AUTH")
+            missing.append(_classify_db_auth_failure(so, se))
 
     ready = (ecr_exists and ssm_ready and ec2_ready and db_auth_ok)
 

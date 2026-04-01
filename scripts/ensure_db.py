@@ -169,12 +169,16 @@ docker exec -e PGPASSWORD="$ADMIN_PASS" postgres \
 
 # Optional prisma migrate
 if [ "${RUN_MIGRATIONS}" = "true" ]; then
-  if docker exec "${APP}" sh -lc 'command -v npx >/dev/null 2>&1 && npx prisma --version >/dev/null 2>&1'; then
-  log "running prisma migrate deploy"
-  docker exec "${APP}" sh -lc 'npx prisma migrate deploy'
-else
-  log "migration skipped: app container missing, wrong name, or prisma unavailable"
-fi
+  if docker ps --format '{{.Names}}' | grep -qx "${APP}"; then
+    if docker exec "${APP}" sh -lc 'command -v npx >/dev/null 2>&1 && npx prisma --version >/dev/null 2>&1'; then
+      log "running prisma migrate deploy"
+      docker exec "${APP}" sh -lc 'npx prisma migrate deploy'
+    else
+      log "migration skipped: prisma unavailable in app container"
+    fi
+  else
+    log "migration skipped: app container not created yet"
+  fi
 fi
 
 log "ensure_db_ok ${DB_NAME}"

@@ -25,9 +25,19 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  bootstrap_env_db:
+    name: "🔐 Bootstrap Env + DB"
+    if: github.event_name != 'pull_request' && github.ref_name == 'main'
+    uses: ./.github/workflows/20-app-secrets-sync.yml
+    with:
+      env_name: prod
+    secrets: inherit
+
   preflight:
     name: "🛫 Preflight — AWS/SSM/ECR/DB"
     runs-on: ubuntu-latest
+    needs: [ bootstrap_env_db ]
+    if: always() && (github.event_name == 'pull_request' || needs.bootstrap_env_db.result == 'success')
     permissions:
       id-token: write
       contents: read
@@ -50,15 +60,6 @@ jobs:
           set -e
           test -d scripts || { echo "::error::Missing scripts/"; exit 1; }
           ls -la scripts
-
-      # ✅ Early env sync (only on main, not PR)
-      - name: Early sync env to SSM
-        if: github.event_name != 'pull_request' && github.ref_name == 'main'
-        working-directory: ./scripts
-        env:
-          PUBLIC_ENV_JSON: ${{ env.PUBLIC_ENV_JSON || '' }}
-          RUNTIME_SECURE_JSON: ${{ secrets.RUNTIME_SECURE_JSON || '' }}
-        run: python env_sync.py --env "auto" --app "auto"
 
       - id: pref
         name: "Preflight (strict: SSM+EC2+ECR+DB auth)"
@@ -429,10 +430,10 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # (env sync moved earlier in preflight)
+      # (env sync/bootstrap moved earlier via bootstrap_env_db)
       - name: Ensure DB (python, no migrations)
         working-directory: ./scripts
-        run: python ensure_db.py --env "auto" --app "auto" --run-migrations
+        run: python ensure_db.py --env "auto" --app "auto"
 
       - name: Write deploy meta (python)
         working-directory: ./scripts
@@ -475,8 +476,9 @@ jobs:
 
   notify_failure_main:
     name: "🔔 Notify — FAILURE (main)"
-    needs: [ preflight, quality, build_push, deploy_meta, invoke_render ]
+    needs: [ bootstrap_env_db, preflight, quality, build_push, deploy_meta, invoke_render ]
     if: github.event_name != 'pull_request' && (
+      needs.bootstrap_env_db.result == 'failure' || needs.bootstrap_env_db.result == 'cancelled' ||
       needs.preflight.result    == 'failure' || needs.preflight.result    == 'cancelled' ||
       needs.quality.result      == 'failure' || needs.quality.result      == 'cancelled' ||
       needs.build_push.result   == 'failure' || needs.build_push.result   == 'cancelled' ||
@@ -497,8 +499,9 @@ jobs:
 
   notify_success_main:
     name: "🔔 Notify — SUCCESS"
-    needs: [ preflight, quality, build_push, deploy_meta, invoke_render ]
+    needs: [ bootstrap_env_db, preflight, quality, build_push, deploy_meta, invoke_render ]
     if: github.event_name != 'pull_request' &&
+      needs.bootstrap_env_db.result == 'success' &&
       needs.preflight.result    == 'success' &&
       needs.quality.result      == 'success' &&
       needs.build_push.result   == 'success' &&
