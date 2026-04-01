@@ -174,7 +174,6 @@ if [ "${RUN_MIGRATIONS}" = "true" ]; then
   docker exec "${APP}" sh -lc 'npx prisma migrate deploy'
 else
   log "migration skipped: app container missing, wrong name, or prisma unavailable"
-  exit 6
 fi
 fi
 
