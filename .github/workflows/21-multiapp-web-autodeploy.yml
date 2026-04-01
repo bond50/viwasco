@@ -364,7 +364,14 @@ jobs:
         run: |
           set -euo pipefail
           SG_ID="${{ steps.ec2.outputs.sg_id }}"
-          IP="${{ steps.runner_ip.outputs.ip }}/32"
+          RUNNER_IP="${{ steps.runner_ip.outputs.ip }}"
+
+          if [ -z "${SG_ID}" ] || [ -z "${RUNNER_IP}" ]; then
+            echo "Skipping DB ingress revoke: missing sg_id or runner_ip."
+            exit 0
+          fi
+
+          IP="${RUNNER_IP}/32"
           echo "Revoking $IP on sg $SG_ID (5432/tcp)…"
           aws ec2 revoke-security-group-ingress \
             --group-id "$SG_ID" \
