@@ -41,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       data-scroll-behavior="smooth"
       className={`${defaultFont.variable} ${headingFont.variable} ${navFont.variable}`}
     >
-      <body>
+      <body id="top">
         {children}
         <ToastContainer position="top-right" />
       </body>

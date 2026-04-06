@@ -1,7 +1,7 @@
 /* components/public/about/about-overview/about.module.css */
 .about {
-    padding-top: 60px;
-    padding-bottom: 0;
+    padding: 60px 0;
+
 }
 
 .about-image-wrapper {
@@ -11,8 +11,63 @@
 .about-image-container {
     position: relative;
     width: 100%;
-    padding-bottom: 75%; /* Adjust this value for the desired aspect ratio */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 14px;
+    padding-bottom: 88%;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
+}
+
+.imageCaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    align-items: baseline;
+    margin-top: 0.85rem;
+    padding-left: 0.1rem;
+}
+
+.imageCaptionTitle {
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--heading-color);
+}
+
+.imageCaptionMeta {
+    font-size: 0.84rem;
+    color: color-mix(in srgb, var(--default-color), transparent 24%);
+}
+
+.surfacePanel {
+    background-color: var(--surface-color);
+    border: 1px solid color-mix(in srgb, var(--heading-color), transparent 92%);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.045);
+}
+
+.primaryContent {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.ctaGroup {
+    padding-bottom: 1.35rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--heading-color), transparent 88%);
+}
+
+.secondaryContent {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.6rem;
+}
+
+.secondaryHeader {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--default-color), transparent 38%);
 }
 
 .lead {
@@ -49,6 +104,57 @@
     color: color-mix(in srgb, var(--default-color), transparent 15%);
 }
 
+.trustSignals {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+}
+
+.trustSignal {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    border: 1px solid color-mix(in srgb, var(--accent-color), transparent 78%);
+    color: color-mix(in srgb, var(--heading-color), transparent 10%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.statsTransition {
+    margin-top: 2.8rem;
+}
+
+.statsLead {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.15rem;
+    padding-top: 0.25rem;
+}
+
+.statsLeadEyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--default-color), transparent 38%);
+}
+
+.statsLeadText {
+    margin: 0;
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--default-color), transparent 22%);
+}
+
 .stats-container {
     margin: 3rem 0;
     padding: 2rem 0;
@@ -56,27 +162,62 @@
     border-bottom: 1px solid var(--border-color);
 }
 
+.statsFullWidth {
+    margin: 0;
+    padding: 1.25rem 1rem 0.35rem;
+    background:
+        radial-gradient(circle at top left,
+            color-mix(in srgb, var(--accent-color), white 88%) 0%,
+            transparent 38%),
+        linear-gradient(180deg,
+            color-mix(in srgb, var(--accent-color), white 95%) 0%,
+            color-mix(in srgb, var(--surface-color), white 18%) 100%);
+    border: 1px solid color-mix(in srgb, var(--heading-color), transparent 90%);
+    border-radius: 14px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.045);
+}
+
+.statsHeader {
+    margin-bottom: 1.1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--default-color), transparent 38%);
+}
+
+.statsRow {
+    row-gap: 0.9rem;
+}
+
+.statsGridCell {
+    position: relative;
+}
+
 .stat-item {
     text-align: center;
-    margin-bottom: 1.5rem;
+    height: 100%;
+    margin-bottom: 0;
+    padding: 0.95rem 0.7rem 1rem;
 }
 
 .stat-item__number {
-    font-size: 1.75rem;
+    font-size: clamp(1.85rem, 2.4vw, 2.5rem);
     font-weight: 700;
     color: var(--accent-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
     font-family: var(--heading-font), monospace;
     white-space: nowrap;
-    line-height: 1.15;
+    line-height: 1.05;
+    text-shadow: 0 1px 0 color-mix(in srgb, white, transparent 40%);
 }
 
 .stat-item__label {
-    font-size: 0.9rem;
-    color: color-mix(in srgb, var(--default-color), transparent 30%);
+    font-size: 0.82rem;
+    color: color-mix(in srgb, var(--default-color), transparent 24%);
     text-transform: capitalize;
-    font-weight: 500;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
 
     /* ✅ prevent overlap for long labels */
     line-height: 1.25;
@@ -91,12 +232,26 @@
 }
 
 @media (max-width: 768px) {
+    .about-image-container {
+        padding-bottom: 76%;
+    }
+
+    .statsGridCell:nth-child(n + 3) {
+        border-top: 1px solid color-mix(in srgb, var(--heading-color), transparent 92%);
+    }
+
     .stat-item {
-        margin-bottom: 2rem;
+        padding: 0.9rem 0.55rem 0.95rem;
     }
 
     .stat-item__number {
-        font-size: 2rem;
+        font-size: 1.9rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .statsGridCell + .statsGridCell {
+        border-left: 1px solid color-mix(in srgb, var(--heading-color), transparent 92%);
     }
 }
 
@@ -110,6 +265,28 @@
     .about .cta-wrapper {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .trustSignals {
+        gap: 0.5rem;
+    }
+
+    .trustSignal {
+        min-height: 2.1rem;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.76rem;
+    }
+
+    .statsTransition {
+        margin-top: 2.1rem;
+    }
+
+    .statsLead {
+        margin-bottom: 0.85rem;
+    }
+
+    .statsLeadText {
+        font-size: 0.88rem;
     }
 }
 
@@ -127,11 +304,6 @@
     background-color: var(--accent-color);
     color: var(--contrast-color);
     border-color: var(--accent-color);
-}
-
-.btn.btn-secondary:hover {
-    background-color: color-mix(in srgb, var(--accent-color), black 15%);
-    transform: translateY(-2px);
 }
 
 .btn.btn-outline {
@@ -165,17 +337,11 @@ a.btn {
     transform: translateY(-2px);
 }
 
-.btn.btn-outline:hover {
-    background-color: var(--accent-color);
-    color: var(--contrast-color);
-    transform: translateY(-2px);
-}
-
 .mission-vision {
-    margin-top: 30px;
+    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -186,27 +352,26 @@ a.btn {
 
 .mission,
 .vision {
-    background-color: var(--surface-color);
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+    padding: 1.15rem 1.2rem;
 }
 
 .mission-vision-header {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+    font-size: 0.98rem;
+    margin-bottom: 0.8rem;
     font-weight: 600;
     position: relative;
-    padding-left: 15px;
+    letter-spacing: 0.04em;
+    padding-left: 12px;
+    color: color-mix(in srgb, var(--heading-color), transparent 14%);
 }
 
 .mission-vision-header:before {
     content: '';
     position: absolute;
     left: 0;
-    top: 8px;
-    width: 5px;
-    height: 20px;
+    top: 5px;
+    width: 3px;
+    height: 14px;
     background-color: var(--accent-color);
     border-radius: 3px;
 }
@@ -218,31 +383,23 @@ a.btn {
 
 /* --- At a glance (compact, matches mission/vision vibe) --- */
 .glance {
-  margin-top: 1rem;
-  background-color: var(--surface-color);
-  padding: 16px 18px;
-  border-radius: 10px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+  padding: 1rem 1.05rem;
 }
 
 .glanceList {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  display: grid;
+  gap: 0.75rem;
 }
 
 .glanceItem {
-  display: flex;
-  gap: 0.6rem;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px dashed
-    color-mix(in srgb, var(--heading-color), transparent 90%);
+  display: grid;
+  gap: 0.3rem;
+  align-content: start;
+  padding: 0 0 0.85rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--heading-color), transparent 92%);
 }
 
 
@@ -255,19 +412,15 @@ a.btn {
   font-weight: 600;
   font-size: 0.78rem;
   color: var(--heading-color);
-  white-space: nowrap;
-  letter-spacing: 0.2px;
-  flex: 0 0 auto;
-  min-width: 110px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .glanceValue {
   font-size: 0.88rem;
   line-height: 1.45;
   color: color-mix(in srgb, var(--default-color), transparent 12%);
-  flex: 1 1 auto;
   text-align: left;
-  margin-left: auto;            /* ← ADD: always push value to far right */
 }
 
 
@@ -277,9 +430,7 @@ a.btn {
   color: var(--accent-color);
   text-decoration: none;
   word-break: break-word;
-  flex: 1 1 auto;
   text-align: left;
-  margin-left: auto;            /* ← ADD: always push link to far right */
 }
 
 
@@ -287,51 +438,93 @@ a.btn {
   text-decoration: underline;
 }
 
+.glanceSubsection {
+  margin-top: 0.95rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid color-mix(in srgb, var(--heading-color), transparent 90%);
+}
+
+@media (min-width: 992px) {
+  .glanceList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+    row-gap: 0.9rem;
+  }
+
+  .glanceItem {
+    min-height: 100%;
+  }
+}
+
 /* Stack label/value nicely on very small screens */
 @media (max-width: 420px) {
   .glanceItem {
-    flex-direction: column;   /* ← CHANGED: stack */
-    align-items: flex-start;
-    gap: 0.2rem;
     padding-bottom: 0.55rem;
   }
 
   .glanceValue,
   .glanceLink {
-    text-align: left;         /* stack nicely */
+    text-align: left;
   }
 
   .glanceLabel {
     font-size: 0.78rem;
     opacity: 0.85;
-    min-width: 0;
   }
 }
 
 
 
-.statsBelowMV {
-  margin-top: 1.6rem;
+.socials {
+  padding: 0.95rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--heading-color), transparent 90%);
 }
 
-.socials {
-  margin-top: 1.4rem;
-  background-color: var(--surface-color);
-  padding: 16px 18px;
-  border-radius: 10px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+.socialsCue {
+  margin: -0.15rem 0 0.7rem;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--default-color), transparent 22%);
 }
 
 .socialLinks {
   flex-wrap: wrap;
 }
 
-.workingHours {
-  margin-top: 1.4rem;
-  background-color: var(--surface-color);
-  padding: 16px 18px;
-  border-radius: 10px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+@media (max-width: 576px) {
+    .ctaGroup {
+        padding-bottom: 1.1rem;
+    }
+
+    .secondaryContent {
+        gap: 0.85rem;
+        margin-top: 1.25rem;
+    }
+
+    .imageCaption {
+        margin-top: 0.7rem;
+    }
+
+    .imageCaptionTitle {
+        font-size: 0.8rem;
+    }
+
+    .imageCaptionMeta {
+        font-size: 0.78rem;
+    }
+
+    .glance {
+        padding: 0.9rem 0.95rem;
+    }
+
+    .glanceSubsection {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+    }
+
+    .socialsCue {
+        margin-bottom: 0.6rem;
+        font-size: 0.84rem;
+    }
 }
 
 .workingHoursList {
@@ -348,8 +541,8 @@ a.btn {
   justify-content: space-between;
   align-items: baseline;
   flex-wrap: wrap;
-  padding-bottom: 0.4rem;
-  border-bottom: 1px dashed color-mix(in srgb, var(--heading-color), transparent 90%);
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--heading-color), transparent 92%);
 }
 
 .workingHoursItem:last-child {
@@ -365,4 +558,22 @@ a.btn {
 .workingHoursValue {
   color: color-mix(in srgb, var(--default-color), transparent 12%);
   text-align: right;
+}
+
+@media (max-width: 576px) {
+    .socials {
+        padding-top: 0.85rem;
+    }
+
+    .statsFullWidth {
+        padding: 1rem 0.8rem 0.2rem;
+    }
+
+    .statsHeader {
+        margin-bottom: 0.75rem;
+    }
+
+    .statsRow {
+        row-gap: 0.4rem;
+    }
 }

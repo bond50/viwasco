@@ -44,7 +44,7 @@ export const FooterMain: React.FC<Props> = ({
       <div className="container">
         <div className="row gy-4 align-items-start">
           {/* About / Logo */}
-          <div className="col-lg-4 col-md-6">
+          <div className="col-lg-4 col-md-6 order-1">
             <div className={`${styles.footerWidget} ${styles.footerAbout}`}>
               {aboutText.trim().length > 0 && (
                 <p className={styles.footerAboutText}>
@@ -67,7 +67,7 @@ export const FooterMain: React.FC<Props> = ({
           </div>
 
           {/* Support links */}
-          <div className="col-lg-2 col-md-6 col-sm-6">
+          <div className="col-lg-2 col-md-6 col-sm-6 order-3 order-md-2">
             <div className={styles.footerWidget}>
               <h4 className={styles.footerWidgetTitle}>Support</h4>
               <FooterLinkList links={supportLinks} />
@@ -75,7 +75,7 @@ export const FooterMain: React.FC<Props> = ({
           </div>
 
           {/* Services links */}
-          <div className="col-lg-2 col-md-6 col-sm-6">
+          <div className="col-lg-2 col-md-6 col-sm-6 order-4 order-md-3">
             <div className={styles.footerWidget}>
               <h4 className={styles.footerWidgetTitle}>Our Services</h4>
               <FooterLinkList links={services} />
@@ -83,7 +83,7 @@ export const FooterMain: React.FC<Props> = ({
           </div>
 
           {/* Contact info */}
-          <div className="col-lg-4 col-md-6">
+          <div className="col-lg-4 col-md-6 order-2 order-md-4">
             <div className={styles.footerWidget}>
               <h4 className={styles.footerWidgetTitle}>Contact Information</h4>
               {contactInfo.length > 0 ? (

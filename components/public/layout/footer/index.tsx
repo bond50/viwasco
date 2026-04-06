@@ -1,11 +1,11 @@
 import React from 'react';
-import { FiArrowUp } from 'react-icons/fi';
 import styles from '@/components/public/layout/footer/footer.module.css';
 import { getOrganizationShell } from '@/lib/data/public/about/shell';
 import { fetchAboutForNav } from '@/lib/data/public/about/fetch-about-for-nav';
 import { getServices } from '@/lib/data/public/services/getters';
 import { FooterMain } from '@/components/public/layout/footer/footer-main';
 import { FooterBottom } from '@/components/public/layout/footer/footer-bottom';
+import { BackToTopButton } from '@/components/public/layout/footer/back-to-top.client';
 import Image from 'next/image';
 
 export const Footer = async () => {
@@ -85,9 +85,7 @@ export const Footer = async () => {
         companyLabel={companyLabel}
       />
 
-      <a href="#top" className={styles.backToTop} aria-label="Back to top">
-        <FiArrowUp />
-      </a>
+      <BackToTopButton />
 
       <div className={`${styles.footerImages} ${styles.footerBottomLeft}`}>
         <Image
