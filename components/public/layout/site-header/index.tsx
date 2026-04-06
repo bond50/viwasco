@@ -152,15 +152,25 @@ export async function SiteHeader() {
   const logoSrc =
     getBestImageUrl(logoImg, ['avatar', 'small', 'medium', 'large', 'original']) ??
     '/assets/img/logo.png';
+  const hasTopbarContent = Boolean(
+    org?.contactEmail ||
+      org?.phone ||
+      org?.customerCareHotline ||
+      org?.workingHoursLabel ||
+      org?.socialLinks?.length,
+  );
 
   return (
-    <header id="top" className={`${styles.header} sticky-top`}>
+    <header
+      id="top"
+      className={`${styles.header} ${hasTopbarContent ? styles.withTopbar : ''} sticky-top`}
+    >
       <HeaderScrollWatcher />
-      <TopBar />
+      {hasTopbarContent ? <TopBar /> : null}
       <div className={styles.branding}>
         <div className="container position-relative d-flex align-items-center justify-content-between">
           <Logo logoSrc={logoSrc} />
-          <NavMenu tree={tree} />
+          <NavMenu tree={tree} logoSrc={logoSrc} />
         </div>
       </div>
     </header>

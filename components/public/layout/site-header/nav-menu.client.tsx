@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { RxCross1, RxHamburgerMenu } from 'react-icons/rx';
 import { BiChevronDown } from 'react-icons/bi';
 import { usePathname } from 'next/navigation';
@@ -13,9 +15,12 @@ import type { MenuNode } from './nav.types';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { isActiveHref, makeId, nodeActive } from '@/components/public/layout/site-header/nav-helpers';
 
-type Props = { tree: MenuNode[] };
+type Props = {
+    tree: MenuNode[];
+    logoSrc: string;
+};
 
-export function NavMenu({tree}: Props) {
+export function NavMenu({tree, logoSrc}: Props) {
     const pathname = usePathname();
     const isDesktop = useMediaQuery('(min-width: 1200px)'); // matches your desktop behavior
 
@@ -108,7 +113,7 @@ export function NavMenu({tree}: Props) {
             </div>
 
             {/* Mobile toggle (inline, no portal) */}
-            <div className={s.onlyMobileCenterFallback}>
+            <div className={cn(s.onlyMobileCenterFallback, mobileOpen && s.toggleLauncherHidden)}>
                 <button
                     type="button"
                     aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
@@ -139,6 +144,29 @@ export function NavMenu({tree}: Props) {
             >
                 <div className={s.backdrop} onClick={closeAll}/>
                 <aside className={s.dropPanel}>
+                    <div className={s.drawerHeader}>
+                        <Link href="/" className={s.drawerBrand} onClick={closeAll} aria-label="Go to homepage">
+                            <Image
+                                src={logoSrc}
+                                alt="Viwasco Logo"
+                                width={505}
+                                height={494}
+                                className={s.drawerLogo}
+                            />
+                            <span className={s.drawerBrandText}>VIWASCO</span>
+                        </Link>
+
+                        <button
+                            type="button"
+                            aria-label="Close menu"
+                            className={cn(s.barToggle, s.drawerClose)}
+                            onClick={closeAll}
+                        >
+                            <span className={s.icon}>
+                                <RxCross1/>
+                            </span>
+                        </button>
+                    </div>
                     <ul className={s.mobileList}>{tree.map((n) => renderNode(n, [], true))}</ul>
                 </aside>
             </div>

@@ -15,10 +15,10 @@ export async function HeaderBrand() {
           <Image
             src={logo}
             alt={`${name} logo`}
-            width={120}
-            height={26}
+            width={505}
+            height={494}
             priority
-            style={{ height: 26, width: 'auto', objectFit: 'contain' }}
+            style={{ height: 'var(--admin-logo-height)', width: 'auto', objectFit: 'contain' }}
           />
         ) : (
           <span className="d-none d-lg-block">{name}</span>

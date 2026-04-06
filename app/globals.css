@@ -56,13 +56,16 @@
   --space-4: 20px;
   --space-5: 30px;
 
-  --admin-header-h: 60px;
+  --admin-header-h: 84px;
+  --admin-logo-height: 48px;
+  --admin-logo-scale: 1.28;
   /* Motion */
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --transition: 180ms var(--ease);
   --rte-toolbar-offset: var(--admin-header-h);
-  --logo-height: 56px;
-  --logo-max-width: 150px;
+  --logo-height: 88px;
+  --logo-max-width: 240px;
+  --logo-scale: 1.28;
 }
 
 :root {
@@ -93,16 +96,21 @@
 @media (max-width: 1199px) {
   :root {
     --anchor-offset: 66px;
-    --logo-height: 48px;
-    --logo-max-width: 132px;
+    --admin-header-h: 84px;
+    --admin-logo-height: 48px;
+    --admin-logo-scale: 1;
+    --logo-height: 72px;
+    --logo-max-width: 200px;
+    --logo-scale: 1;
   }
 
   /* smaller header on mobile/tablet */
 }
 @media (max-width: 575.98px) {
   :root {
-    --logo-height: 42px;
-    --logo-max-width: 118px;
+    --logo-height: 60px;
+    --logo-max-width: 160px;
+    --logo-scale: 1;
   }
 }
 

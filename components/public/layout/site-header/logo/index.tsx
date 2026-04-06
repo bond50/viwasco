@@ -17,8 +17,8 @@ export const Logo = ({
   logoSrc,
   className,
   imageClassName,
-  imageHeight = 56,
-  imageMaxWidth = 150,
+  imageHeight = 88,
+  imageMaxWidth = 240,
   priority = true,
 }: Props) => {
   return (
@@ -36,9 +36,9 @@ export const Logo = ({
       <Image
         src={logoSrc ?? '/assets/img/logo.png'}
         alt="Viwasco Logo"
-        width={504}
-        height={594}
-        sizes="(max-width: 575.98px) 118px, (max-width: 1199px) 132px, 150px"
+        width={505}
+        height={494}
+        sizes="(max-width: 575.98px) 160px, (max-width: 1199px) 200px, 240px"
         className={cn(styles.image, imageClassName)}
         style={{
           width: 'auto',

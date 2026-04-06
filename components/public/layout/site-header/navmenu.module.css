@@ -7,6 +7,16 @@
   position: relative;
 }
 
+.barToggle {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 /* ---------------- Desktop (≥1200px) ---------------- */
 @media (min-width: 1200px) {
   .desktopBar {
@@ -169,14 +179,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--surface-color);
     color: var(--nav-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-    box-shadow: var(--shadow-sm);
     cursor: pointer;
     transition:
       transform 180ms var(--ease),
-      box-shadow 180ms var(--ease),
       background-color 180ms var(--ease),
       border-color 180ms var(--ease);
   }
@@ -204,17 +210,14 @@
   }
 
   .barToggle[data-open="true"] {
-    background: color-mix(
-      in srgb,
-      var(--accent-color) 10%,
-      var(--surface-color)
-    );
-    border-color: color-mix(
-      in srgb,
-      var(--accent-color) 30%,
-      var(--surface-color)
-    );
+    background: transparent;
+    border-color: transparent;
     transform: translateY(0) scale(1.02);
+  }
+
+  .toggleLauncherHidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .barToggle[data-open="true"]::after {
@@ -268,19 +271,18 @@
   .onlyMobileCenterFallback {
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 70px;
-    background: var(--surface-color);
-    border-bottom: 1px solid var(--border-color);
-    padding: 8px 24px;
+    justify-content: flex-end;
+    min-height: 56px;
+    background: transparent;
+    border-bottom: 0;
+    padding: 8px 20px 10px;
   }
 
-  /* Sheet anchored to bottom of Bar 3 (slight overlap) */
+  /* Full-height drawer */
   .dropSheet {
     position: fixed;
-    left: 0;
-    right: 0;
-    top: calc(var(--mbar3-bottom, 0px) - var(--toggle-overlap, 6px));
+    inset: 0;
+    top: 0;
     bottom: 0;
     pointer-events: none;
     z-index: 10000;
@@ -301,19 +303,20 @@
   .dropPanel {
     position: absolute;
     left: 0;
-    right: 0;
+    width: min(88vw, 360px);
+    max-width: 360px;
+    height: 100%;
     top: 0;
     background: var(--nav-mobile-background-color);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
-    max-height: 70vh;
+    border-right: 1px solid color-mix(in srgb, var(--default-color), transparent 88%);
+    box-shadow: 18px 0 45px rgba(0, 0, 0, 0.14);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 
-    transform: translateY(-12px);
+    transform: translateX(-100%);
     opacity: 0;
     transition:
-      transform 240ms var(--ease),
+      transform 260ms var(--ease),
       opacity 200ms var(--ease);
   }
 
@@ -322,45 +325,93 @@
   }
 
   .open .dropPanel {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
+  }
+
+  .drawerHeader {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 18px 14px;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 8%, white), white 72%);
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  }
+
+  .drawerBrand {
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--nav-color);
+    text-decoration: none;
+  }
+
+  .drawerLogo {
+    width: 52px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .drawerBrandText {
+    font-family: var(--nav-font), system-ui;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .drawerClose {
+    flex-shrink: 0;
   }
 
   /* Mobile list */
   .mobileList {
     list-style: none;
     margin: 0;
-    padding: 10px 20px;
+    padding: 12px 18px 26px;
+  }
+
+  .mobileList > li + li {
+    margin-top: 6px;
   }
 
   .mobileList > li > a {
     text-decoration: none;
     color: var(--nav-dropdown-color);
-    padding: 12px 16px;
+    min-height: 56px;
+    padding: 14px 16px;
     font-family: var(--nav-font), system-ui;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 14px;
     transition:
       background-color 0.2s ease,
-      color 0.2s ease;
+      color 0.2s ease,
+      transform 0.2s ease;
   }
 
   .mobileList > li > a:hover {
-    background: color-mix(in srgb, var(--default-color), transparent 96%);
+    background: color-mix(in srgb, var(--accent-color) 7%, white);
+    transform: translateX(2px);
   }
 
   /* Mobile submenus */
   .mobileSub {
     list-style: none;
-
-    margin: 6px 12px 10px;
-    padding: 6px 0;
+    margin: 8px 10px 12px;
+    padding: 8px;
     background: var(--nav-dropdown-background-color);
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-    border-radius: var(--radius-md);
+    border-radius: 16px;
     display: none;
   }
 
@@ -374,15 +425,17 @@
     justify-content: space-between;
     text-decoration: none;
     color: var(--nav-dropdown-color);
+    min-height: 48px;
     padding: 10px 14px;
     font-size: 14px;
+    border-radius: 12px;
     transition:
       background-color 0.2s ease,
       color 0.2s ease;
   }
 
   .mobileSub a:hover {
-    background: color-mix(in srgb, var(--default-color), transparent 96%);
+    background: color-mix(in srgb, var(--accent-color) 7%, white);
   }
 
   .toggler :global(svg) {

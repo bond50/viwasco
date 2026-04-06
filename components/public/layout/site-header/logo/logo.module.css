@@ -1,5 +1,5 @@
 .logo {
-  padding: 4px 0;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   min-width: 0;
@@ -12,12 +12,14 @@
   max-width: 100%;
   object-fit: contain;
   display: block;
+  transform: scale(var(--logo-scale, 1));
+  transform-origin: left center;
   transition: transform 0.25s ease;
 }
 
 .logo:hover .image,
 .logo:focus-visible .image {
-  transform: scale(1.02);
+  transform: scale(calc(var(--logo-scale, 1) * 1.02));
 }
 
 @media (max-width: 575.98px) {

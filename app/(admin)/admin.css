@@ -375,8 +375,10 @@
 }
 
 .logo img {
-  max-height: 26px;
-  margin-right: 6px;
+  max-height: var(--admin-logo-height);
+  margin-right: 10px;
+  transform: scale(var(--admin-logo-scale, 1));
+  transform-origin: left center;
 }
 
 .logo span {

@@ -94,7 +94,7 @@ export const Footer = async () => {
           src="/assets/img/figures/figure1.png"
           alt="Decorative element"
           width={309}
-          height={329}
+          height={235}
           loading="lazy"
           className={styles.footerImage}
         />
