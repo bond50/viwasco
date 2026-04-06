@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import ServiceCard from '@/components/card/service-card';
 import { Breadcrumb } from '@/components/reusables/breadcrumb';
 import { generatePageMetadata, PageSeo } from '@/components/seo/page-seo';
@@ -41,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function ServicesPage({ searchParams }: PageProps) {
+async function ServicesContent({ searchParams }: PageProps) {
   const params = (await searchParams) ?? {};
   const services = await getServices();
   const pageParam = params.page;
@@ -69,7 +70,7 @@ export default async function ServicesPage({ searchParams }: PageProps) {
   }));
 
   return (
-    <main>
+    <>
       <PageSeo
         title={`Services | ${SITE.shortName}`}
         description="Explore our water and sanitation services, including supply, sewer services, and training."
@@ -155,6 +156,16 @@ export default async function ServicesPage({ searchParams }: PageProps) {
           )}
         </div>
       </Section>
+    </>
+  );
+}
+
+export default function ServicesPage(props: PageProps) {
+  return (
+    <main>
+      <Suspense fallback={<div className="p-6">Loading services…</div>}>
+        <ServicesContent {...props} />
+      </Suspense>
     </main>
   );
 }
