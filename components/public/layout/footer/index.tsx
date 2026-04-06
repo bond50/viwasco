@@ -18,7 +18,7 @@ export const Footer = async () => {
   const services = serviceRows.map((service) => ({
     text: service.name,
     url: `/services/${service.slug}`,
-  }));
+  })).slice(0, 4);
 
   const supportLinks = [
     { text: 'Contact Form', url: '/contact#contact-form' },
