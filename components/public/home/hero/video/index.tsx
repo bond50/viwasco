@@ -1,5 +1,4 @@
 // components/public/home/hero/video/index.tsx
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { NextVideo } from '@/components/common/media/next-video';
 import { SmoothLoop } from './smooth-loop.client';
@@ -41,9 +40,6 @@ type Props = {
   contentMode?: ContentMode;
 
   overlayStrength?: OverlayStrength;
-  showScrollCue?: boolean;
-  scrollHref?: string;
-
   /**
    * Optional slides for swiper mode.
    * Swiper is only enabled when contentMode === 'swiper' and slides.length >= 2.
@@ -65,8 +61,6 @@ export function VideoHero({
                             className,
                             contentMode = 'single',
                             overlayStrength = 'medium',
-                            showScrollCue = true,
-                            scrollHref = '#scroll',
                             slides,
                           }: Props) {
   const alignClass = textAlign === 'left' ? styles.tvLeft : styles.tvCenter;
@@ -110,6 +104,7 @@ export function VideoHero({
       : overlayStrength === 'strong'
         ? styles.overlayStrong
         : undefined;
+  const overlayPositionClass = textAlign === 'left' ? styles.overlayLeft : undefined;
 
   return (
     <section
@@ -145,7 +140,7 @@ export function VideoHero({
             className={cn(
               styles.overlay,
               overlayStrengthClass,
-              // we can re-add a special "left" variation later if needed
+              overlayPositionClass,
             )}
           />
         )}
@@ -178,14 +173,6 @@ export function VideoHero({
           </div>
         )}
       </div>
-
-      {showScrollCue && (
-        <Link href={scrollHref} className={styles.scrollCue} aria-label="Scroll down">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.scrollIcon}>
-            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
-          </svg>
-        </Link>
-      )}
     </section>
   );
 }

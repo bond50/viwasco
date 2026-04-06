@@ -2,6 +2,7 @@
 .hero {
   --hero-min-height: 50svh;
   --content-gap: 1.25rem;
+  --hero-media-position: center center;
 
   /* Title - Reduced sizes */
   --title-size: 2.5rem;
@@ -89,6 +90,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: var(--hero-media-position);
 }
 
 /* Enhanced overlays */
@@ -133,7 +135,7 @@
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: min(1120px, 92vw);
+  max-width: min(1280px, 94vw);
   margin: 0 auto;
   padding: 0 2rem;
   padding-bottom: 3.5rem;
@@ -145,7 +147,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--content-gap);
-  max-width: 56rem;
+  max-width: 46rem;
   margin: 0 auto;
   min-height: calc(var(--hero-min-height) - 7rem);
 }
@@ -275,7 +277,8 @@
   text-align: left;
   margin-left: 0;
   margin-right: auto;
-  max-width: 54rem;
+  max-width: 42rem;
+  width: min(100%, 42rem);
 }
 
 .tvCenter {
@@ -290,6 +293,13 @@
     align-items: center;
     text-align: center;
     margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .tvLeft {
+    margin-top: clamp(1rem, 4vh, 2.75rem);
   }
 }
 
@@ -301,6 +311,7 @@
   color: var(--heading-color);
   margin: 0;
   letter-spacing: -0.02em;
+  max-width: none;
 }
 
 .subtitle {
@@ -313,17 +324,72 @@
   max-width: 48rem;
 }
 
+.subtitleBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  gap: 0.8rem;
+}
+
+.subtitleActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.45rem;
+}
+
+.heroPrimaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.8rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  background: var(--accent-color);
+  color: #ffffff;
+  text-decoration: none;
+  font-family: var(--nav-font), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  box-shadow:
+    0 14px 28px color-mix(in srgb, var(--accent-color), transparent 75%),
+    inset 0 1px 0 color-mix(in srgb, white, transparent 15%);
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.heroPrimaryCta:hover {
+  color: #ffffff;
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 30px color-mix(in srgb, var(--accent-color), transparent 68%);
+}
+
+.heroPrimaryCta:focus-visible {
+  outline: 2px solid color-mix(in srgb, white, transparent 12%);
+  outline-offset: 3px;
+}
+
 /* ---------- Enhanced Subtitle Toggle ---------- */
 .subtitleToggle {
-  border: none;
-  background: none;
-  padding: 0;
-  margin-left: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 62%);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-color) 14%, white),
+      color-mix(in srgb, var(--accent-color) 7%, white)
+    );
+  padding: 0.4rem 0.85rem;
+  margin-left: 0;
   font: inherit;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
-  color: color-mix(in srgb, var(--accent-color), transparent 20%);
+  color: color-mix(in srgb, var(--accent-color), black 18%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   display: inline-flex;
@@ -331,17 +397,33 @@
   gap: 0.25rem;
   font-size: 0.95em;
   letter-spacing: -0.01em;
+  border-radius: 999px;
+  box-shadow:
+    0 8px 18px color-mix(in srgb, var(--accent-color), transparent 86%),
+    inset 0 1px 0 color-mix(in srgb, white, transparent 15%);
+  vertical-align: middle;
+  margin-top: 0;
 }
 
 .subtitleToggle:hover {
-  color: var(--accent-color);
+  color: color-mix(in srgb, var(--accent-color), black 12%);
+  border-color: color-mix(in srgb, var(--accent-color), transparent 38%);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-color) 22%, white),
+      color-mix(in srgb, var(--accent-color) 12%, white)
+    );
   transform: translateY(-1px);
+  box-shadow:
+    0 12px 24px color-mix(in srgb, var(--accent-color), transparent 80%),
+    inset 0 1px 0 color-mix(in srgb, white, transparent 10%);
 }
 
 .subtitleToggle:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 999px;
 }
 
 .subtitleToggle::after {
@@ -370,20 +452,19 @@
 }
 
 .tvBoxed .subtitleToggle {
-  background: color-mix(in srgb, var(--accent-color), transparent 92%);
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.375rem;
-  margin-left: 0.5rem;
-  text-decoration: none;
-  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 70%);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-color) 12%, white),
+      color-mix(in srgb, var(--accent-color) 6%, white)
+    );
   backdrop-filter: blur(8px);
 }
 
 .tvBoxed .subtitleToggle:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 88%);
-  border-color: color-mix(in srgb, var(--accent-color), transparent 50%);
-  transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent-color), transparent 30%);
+  border-color: color-mix(in srgb, var(--accent-color), transparent 34%);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-color), transparent 74%);
 }
 
 .tvShadow .subtitleToggle {
@@ -408,12 +489,21 @@
   }
 
   .subtitleToggle {
-    margin-left: 0.375rem;
     font-size: 0.92em;
+    padding: 0.38rem 0.8rem;
+  }
+
+  .subtitleActions {
+    gap: 0.65rem;
+  }
+
+  .heroPrimaryCta {
+    min-height: 2.6rem;
+    padding: 0.68rem 1rem;
+    font-size: 0.9rem;
   }
 
   .tvBoxed .subtitleToggle {
-    padding: 0.25rem 0.75rem;
     margin-top: 0.5rem;
     display: inline-flex;
     align-items: center;
@@ -436,6 +526,18 @@
   }
 }
 
+@media (min-width: 768px) {
+  .hero {
+    --hero-media-position: 64% 58%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    --hero-media-position: 68% center;
+  }
+}
+
 @media (max-width: 480px) {
   .title {
     font-size: var(--title-size-mobile);
@@ -454,47 +556,87 @@
   .content {
     min-height: calc(var(--hero-min-height) - 5rem);
   }
+
+  .subtitleActions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .heroPrimaryCta,
+  .subtitleToggle {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 /* ---------- Fixed Scroll cue positioning ---------- */
 .scrollCue {
   position: absolute;
   left: 50%;
-  bottom: 1.25rem;
+  bottom: 1.35rem;
   transform: translateX(-50%);
   z-index: 4;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
+  min-width: 132px;
+  height: 48px;
+  padding: 0 1rem 0 0.85rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
   text-decoration: none;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 60%);
-  background: color-mix(in srgb, var(--background-color), transparent 92%);
-  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 45%);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-color) 16%, white),
+      color-mix(in srgb, var(--accent-color) 6%, white)
+    );
+  backdrop-filter: blur(18px) saturate(180%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: float 3s ease-in-out infinite;
+  box-shadow:
+    0 12px 30px color-mix(in srgb, var(--accent-color), transparent 82%),
+    inset 0 1px 0 color-mix(in srgb, white, transparent 12%);
 }
 
 .scrollCue:hover {
   transform: translateX(-50%) translateY(-4px);
   border-color: var(--accent-color);
-  background: color-mix(in srgb, var(--accent-color), transparent 94%);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-color) 24%, white),
+      color-mix(in srgb, var(--accent-color) 10%, white)
+    );
   box-shadow:
-    0 8px 24px color-mix(in srgb, var(--accent-color), transparent 80%),
-    0 0 0 1px color-mix(in srgb, var(--accent-color), transparent 60%);
+    0 18px 36px color-mix(in srgb, var(--accent-color), transparent 72%),
+    0 0 0 1px color-mix(in srgb, var(--accent-color), transparent 55%);
 }
 
 .scrollIcon {
   width: 20px;
   height: 20px;
-  fill: color-mix(in srgb, var(--default-color), transparent 25%);
+  fill: color-mix(in srgb, var(--accent-color), black 10%);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .scrollCue:hover .scrollIcon {
-  fill: var(--accent-color);
+  fill: color-mix(in srgb, var(--accent-color), black 4%);
   transform: translateY(1px);
+}
+
+.scrollCue::before {
+  content: 'Explore More';
+  font-family: var(--nav-font), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent-color), black 18%);
+  white-space: nowrap;
 }
 
 @keyframes float {
@@ -617,5 +759,18 @@
 
   .subtitleToggle::after {
     opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .scrollCue {
+    min-width: 48px;
+    width: 48px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .scrollCue::before {
+    content: '';
   }
 }

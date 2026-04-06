@@ -5,7 +5,6 @@ import { ImageHero } from '@/components/public/home/hero/image';
 import heroStyles from '@/components/public/home/hero/hero-base.module.css';
 
 const FALLBACK_VIDEO_SRC = '/assets/video/water-hd.mp4';
-const FALLBACK_MOBILE_SRC = '/assets/video/water-sd.mp4';
 const FALLBACK_POSTER = '/assets/video/water-hero-poster.jpg';
 
 function resolveMode(useVideo: boolean, mode: HeroContentMode): HeroContentMode {
@@ -13,6 +12,21 @@ function resolveMode(useVideo: boolean, mode: HeroContentMode): HeroContentMode 
   if (useVideo && mode === 'carousel') return 'single';
   if (!useVideo && mode === 'swiper') return 'single';
   return mode;
+}
+
+function buildMobileSubheading(text: string | null | undefined): string | undefined {
+  const value = text?.trim();
+  if (!value) return undefined;
+
+  const sentenceMatch = value.match(/^.*?[.!?](?:\s|$)/);
+  const firstSentence = sentenceMatch?.[0]?.trim() ?? value;
+
+  if (firstSentence.length <= 110) {
+    return firstSentence;
+  }
+
+  const sliced = firstSentence.slice(0, 107).replace(/\s+\S*$/, '');
+  return `${sliced}...`;
 }
 
 export async function HeroResolver() {
@@ -29,13 +43,18 @@ export async function HeroResolver() {
 
   // Video fallbacks
   const videoSrc = cfg.video?.src ?? FALLBACK_VIDEO_SRC;
-  const mobileVideoSrc = cfg.video?.mobile ?? FALLBACK_MOBILE_SRC;
+  const mobileVideoSrc = cfg.video?.mobile ?? videoSrc;
   const poster = cfg.video?.poster ?? FALLBACK_POSTER;
 
   const desktopMode = resolveMode(desktop.useVideo, cfg.contentMode);
   const mobileMode = resolveMode(mobile.useVideo, cfg.contentMode);
 
+  const mobileSubheading = buildMobileSubheading(cfg.subheading);
   const slides = cfg.slides;
+  const mobileSlides = slides.map((slide) => ({
+    ...slide,
+    subheading: buildMobileSubheading(slide.subheading) ?? slide.subheading,
+  }));
 
   return (
     <>
@@ -55,7 +74,6 @@ export async function HeroResolver() {
             subheading={cfg.subheading ?? undefined}
             contentMode={desktopMode}
             overlayStrength={desktop.overlayStrength}
-            showScrollCue={desktop.showScrollCue}
             slides={slides}
           />
         ) : (
@@ -70,7 +88,6 @@ export async function HeroResolver() {
             subheading={cfg.subheading ?? undefined}
             contentMode={desktopMode}
             overlayStrength={desktop.overlayStrength}
-            showScrollCue={desktop.showScrollCue}
             slides={slides}
           />
         ))}
@@ -88,11 +105,10 @@ export async function HeroResolver() {
             mobileSrc={mobileVideoSrc}
             poster={poster}
             heading={cfg.heading}
-            subheading={cfg.subheading ?? undefined}
+            subheading={mobileSubheading}
             contentMode={mobileMode}
             overlayStrength={mobile.overlayStrength}
-            showScrollCue={mobile.showScrollCue}
-            slides={slides}
+            slides={mobileSlides}
           />
         ) : (
           <ImageHero
@@ -103,11 +119,10 @@ export async function HeroResolver() {
             kicker={cfg.kicker ?? undefined}
             imageSrc={imageSrc}
             heading={cfg.heading}
-            subheading={cfg.subheading ?? undefined}
+            subheading={mobileSubheading}
             contentMode={mobileMode}
             overlayStrength={mobile.overlayStrength}
-            showScrollCue={mobile.showScrollCue}
-            slides={slides}
+            slides={mobileSlides}
           />
         ))}
     </>

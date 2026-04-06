@@ -1,5 +1,4 @@
 // components/public/home/hero/image/index.tsx
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import styles from '@/components/public/home/hero/hero-base.module.css';
 import { ImageHeroCarousel } from './image-carousel.client';
@@ -29,9 +28,6 @@ type Props = {
 
   contentMode?: ContentMode;
   overlayStrength?: OverlayStrength;
-  showScrollCue?: boolean;
-  scrollHref?: string;
-
   /**
    * Optional slides for carousel mode.
    * Carousel is only enabled when contentMode === 'carousel' and slides.length >= 2.
@@ -50,8 +46,6 @@ export function ImageHero({
                             className,
                             contentMode = 'single',
                             overlayStrength = 'medium',
-                            showScrollCue = true,
-                            scrollHref = '#scroll',
                             slides,
                           }: Props) {
   const alignClass = textAlign === 'left' ? styles.tvLeft : styles.tvCenter;
@@ -113,7 +107,7 @@ export function ImageHero({
           style={{
             backgroundImage: `url(${imageSrc})`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'var(--hero-media-position)',
             width: '100%',
             height: '100%',
           }}
@@ -143,14 +137,6 @@ export function ImageHero({
           </div>
         )}
       </div>
-
-      {showScrollCue && (
-        <Link href={scrollHref} className={styles.scrollCue} aria-label="Scroll down">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.scrollIcon}>
-            <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
-          </svg>
-        </Link>
-      )}
     </section>
   );
 }

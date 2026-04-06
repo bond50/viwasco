@@ -16,6 +16,10 @@ export type HeroOverlayStrength = 'none' | 'soft' | 'medium' | 'strong';
 
 type UploadedImage = { url?: string | null } | null | undefined;
 
+const HERO_SUBHEADING_FALLBACK =
+  'Access clean water services, customer support, and service updates from one place. Find what you need quickly, from billing tools to contact information and project news.';
+const HERO_KICKER_FALLBACK = 'Serving Vihiga County';
+
 export type ResolvedHeroDeviceConfig = {
   show: boolean;
   useVideo: boolean;
@@ -67,6 +71,22 @@ function imgUrl(x: UploadedImage): string | null {
   if (!x || typeof x !== 'object') return null;
   if ('url' in x && typeof x.url === 'string') return x.url;
   return null;
+}
+
+function normalizeHeroSubheading(raw: string | null | undefined): string | null {
+  return HERO_SUBHEADING_FALLBACK;
+}
+
+function normalizeHeroKicker(raw: string | null | undefined): string | null {
+  const text = raw?.trim();
+  if (!text) return HERO_KICKER_FALLBACK;
+
+  const lower = text.toLowerCase();
+  if (lower.includes('lorem ipsum') || lower.includes('water is life we care')) {
+    return HERO_KICKER_FALLBACK;
+  }
+
+  return text;
 }
 
 function normalizeVariant(raw: unknown): HeroVariant {
@@ -166,8 +186,8 @@ export async function fetchHeroConfig(): Promise<ResolvedHeroConfig | null> {
 
   // --- Text mapping: matches your admin text mapping guide ------------------
   const heading = row.introTitle ?? row.name ?? 'Welcome';
-  const subheading = row.introDescription ?? null;
-  const kicker = row.tagline ?? null;
+  const subheading = normalizeHeroSubheading(row.introDescription);
+  const kicker = normalizeHeroKicker(row.tagline);
 
   const metaObj = (row.metadata ?? {}) as Record<string, unknown>;
   const heroRaw = (metaObj.hero ?? {}) as Record<string, unknown>;
