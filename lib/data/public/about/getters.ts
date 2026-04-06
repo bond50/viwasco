@@ -25,6 +25,7 @@ import { CategoryWithActiveMembers } from '@/lib/types/about/management';
 import { SocialLink } from '@/lib/schemas/shared/social';
 import { EducationLevel, LeadershipCategoryType } from '@/generated/prisma/client';
 import { workingHoursTopbarLabel } from '@/lib/working-hours';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 /**Types*/
 export type TeamEducationItem = {
@@ -462,50 +463,53 @@ export async function getOrganizationOverview() {
   cacheTag(ABOUT_NAV_TAG);
 
   // Single org app → pick the first (or constrain by slug if you add one)
-  return db.organization.findFirst({
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      description: true,
-      tagline: true,
-      shortName: true,
-      introTitle: true,
-      introDescription: true,
-      vision: true,
-      mission: true,
-      missionIcon: true,
-      visionIcon: true,
-      coreValuesLeadText: true,
-      logo: true,
-      featuredImage: true,
-      bannerImage: true,
-      coreValuesImage: true,
-        introImage: true,
-        websiteUrl: true,
-        contactEmail: true,
-        phone: true,
-        address: true,
-        footerAboutText: true,
-        customerPortalEnabled: true,
-        customerPortalLabel: true,
-        customerPortalUrl: true,
-        serviceCentres: true,
-        socialLinks: true,
-        workingHours: true,
-      regulatorName: true,
-      licenseNumber: true,
-      licenseExpiry: true,
-      customerCareHotline: true,
-      whatsappNumber: true,
-      isActive: true,
-      isVerified: true,
-      isFeatured: true,
-      metadata: true,
-      updatedAt: true,
-    },
-    orderBy: { updatedAt: 'desc' },
-  });
+  return failSoftPublicQuery(
+    db.organization.findFirst({
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        tagline: true,
+        shortName: true,
+        introTitle: true,
+        introDescription: true,
+        vision: true,
+        mission: true,
+        missionIcon: true,
+        visionIcon: true,
+        coreValuesLeadText: true,
+        logo: true,
+        featuredImage: true,
+        bannerImage: true,
+        coreValuesImage: true,
+          introImage: true,
+          websiteUrl: true,
+          contactEmail: true,
+          phone: true,
+          address: true,
+          footerAboutText: true,
+          customerPortalEnabled: true,
+          customerPortalLabel: true,
+          customerPortalUrl: true,
+          serviceCentres: true,
+          socialLinks: true,
+          workingHours: true,
+        regulatorName: true,
+        licenseNumber: true,
+        licenseExpiry: true,
+        customerCareHotline: true,
+        whatsappNumber: true,
+        isActive: true,
+        isVerified: true,
+        isFeatured: true,
+        metadata: true,
+        updatedAt: true,
+      },
+      orderBy: { updatedAt: 'desc' },
+    }),
+    { label: 'getOrganizationOverview', fallback: null },
+  );
 }
 
 /** Leadership — Team (active only) */
@@ -728,11 +732,14 @@ export async function getMetrics() {
   cacheTag(ABOUT_METRICS_TAG);
   cacheTag(ABOUT_NAV_TAG);
 
-  return db.organizationMetric.findMany({
-    where: { published: true },
-    orderBy: [{ rank: 'asc' }, { label: 'asc' }],
-    select: { id: true, label: true, value: true, unit: true, icon: true, rank: true },
-  });
+  return failSoftPublicQuery(
+    db.organizationMetric.findMany({
+      where: { published: true },
+      orderBy: [{ rank: 'asc' }, { label: 'asc' }],
+      select: { id: true, label: true, value: true, unit: true, icon: true, rank: true },
+    }),
+    { label: 'getMetrics', fallback: [] },
+  );
 }
 
 /** Milestones (timeline) */
@@ -763,11 +770,14 @@ export async function getFaqs() {
   cacheTag(ABOUT_FAQS_TAG);
   cacheTag(ABOUT_NAV_TAG);
 
-  return db.organizationFaq.findMany({
-    where: { published: true },
-    orderBy: [{ rank: 'asc' }, { question: 'asc' }],
-    select: { id: true, question: true, answer: true, rank: true },
-  });
+  return failSoftPublicQuery(
+    db.organizationFaq.findMany({
+      where: { published: true },
+      orderBy: [{ rank: 'asc' }, { question: 'asc' }],
+      select: { id: true, question: true, answer: true, rank: true },
+    }),
+    { label: 'getFaqs', fallback: [] },
+  );
 }
 
 /** Awards */
@@ -840,21 +850,24 @@ export async function getPartners() {
   cacheTag(ABOUT_PARTNERS_TAG);
   cacheTag(ABOUT_NAV_TAG);
 
-  return db.partner.findMany({
-    where: { isActive: true },
-    orderBy: [{ rank: 'asc' }, { name: 'asc' }],
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      description: true,
-      logo: true,
-      website: true,
-      partnershipType: true,
-      rank: true,
-      isActive: true,
-    },
-  });
+  return failSoftPublicQuery(
+    db.partner.findMany({
+      where: { isActive: true },
+      orderBy: [{ rank: 'asc' }, { name: 'asc' }],
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        logo: true,
+        website: true,
+        partnershipType: true,
+        rank: true,
+        isActive: true,
+      },
+    }),
+    { label: 'getPartners', fallback: [] },
+  );
 }
 
 /** Documents (published) */
@@ -912,4 +925,3 @@ export async function getDocumentsByCategorySlug(slug: string) {
     },
   });
 }
-

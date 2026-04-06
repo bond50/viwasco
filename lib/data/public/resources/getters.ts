@@ -5,6 +5,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 import { assetUrl, ensureUploadedAsset, isFileAsset, isImageAsset } from '@/lib/assets/core';
 import { db } from '@/lib/db';
 import { RESOURCES_TAG } from '@/lib/cache/tags';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 export type ResourceKind = string;
 
@@ -58,17 +59,20 @@ export async function getResourceSections(): Promise<ResourceSection[]> {
   cacheLife('weeks');
   cacheTag(RESOURCES_TAG);
 
-  const rows = await db.resourceKind.findMany({
-    where: { deleted_at: null, is_active: true },
-    orderBy: [{ sort_order: 'asc' }, { name: 'asc' }],
-    select: {
-      id: true,
-      slug: true,
-      name: true,
-      description: true,
-      _count: { select: { resources: true } },
-    },
-  });
+  const rows = await failSoftPublicQuery(
+    db.resourceKind.findMany({
+      where: { deleted_at: null, is_active: true },
+      orderBy: [{ sort_order: 'asc' }, { name: 'asc' }],
+      select: {
+        id: true,
+        slug: true,
+        name: true,
+        description: true,
+        _count: { select: { resources: true } },
+      },
+    }),
+    { label: 'getResourceSections', fallback: [] },
+  );
 
   return rows.map((row) => ({
     id: row.id,

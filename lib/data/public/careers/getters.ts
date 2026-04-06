@@ -5,6 +5,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 import { assetUrl } from '@/lib/assets/core';
 import { db } from '@/lib/db';
 import { CAREER_TYPES_TAG, CAREERS_TAG } from '@/lib/cache/tags';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 export type CareerType = { id: string; slug: string; label: string };
 export type JobItem = {
@@ -32,11 +33,14 @@ export async function getCareerTypes(): Promise<CareerType[]> {
   'use cache';
   cacheLife('weeks');
   cacheTag(CAREER_TYPES_TAG);
-  const rows = await db.careerType.findMany({
-    where: { deleted_at: null, is_active: true },
-    orderBy: [{ sort_order: 'asc' }, { name: 'asc' }],
-    select: { id: true, slug: true, name: true },
-  });
+  const rows = await failSoftPublicQuery(
+    db.careerType.findMany({
+      where: { deleted_at: null, is_active: true },
+      orderBy: [{ sort_order: 'asc' }, { name: 'asc' }],
+      select: { id: true, slug: true, name: true },
+    }),
+    { label: 'getCareerTypes', fallback: [] },
+  );
   return (rows as CareerTypeRow[]).map((row: CareerTypeRow) => ({ id: row.id, slug: row.slug, label: row.name }));
 }
 

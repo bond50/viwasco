@@ -4,6 +4,7 @@ import 'server-only';
 import { cacheLife, cacheTag } from 'next/cache';
 import { db } from '@/lib/db';
 import { ABOUT_NAV_TAG, ORG_HERO_TAG } from '@/lib/cache/tags';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 // === Base types (v2 – no legacy) ===========================================
 
@@ -147,16 +148,19 @@ export async function fetchHeroConfig(): Promise<ResolvedHeroConfig | null> {
   cacheTag(ORG_HERO_TAG);
   cacheTag(ABOUT_NAV_TAG);
 
-  const row = await db.organization.findFirst({
-    select: {
-      name: true,
-      introTitle: true,
-      tagline: true,
-      introDescription: true,
-      featuredImage: true,
-      metadata: true,
-    },
-  });
+  const row = await failSoftPublicQuery(
+    db.organization.findFirst({
+      select: {
+        name: true,
+        introTitle: true,
+        tagline: true,
+        introDescription: true,
+        featuredImage: true,
+        metadata: true,
+      },
+    }),
+    { label: 'fetchHeroConfig', fallback: null },
+  );
 
   if (!row) return null;
 

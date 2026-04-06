@@ -2,6 +2,7 @@ import { type UploadedImageResponse, uploadedImageResponseSchema } from '@/lib/s
 import { ABOUT_NAV_TAG, SERVICES_TAG } from '@/lib/cache/tags';
 import { cacheLife, cacheTag } from 'next/cache';
 import { db } from '@/lib/db';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 export type PublicServiceCard = {
   id: string;
@@ -44,21 +45,24 @@ export async function getServices(): Promise<PublicServiceCard[]> {
   cacheTag(SERVICES_TAG);
   cacheTag(ABOUT_NAV_TAG);
 
-  const rows = await db.service.findMany({
-    where: {
-      deleted_at: null,
-      is_active: true,
-      is_public: true,
-    },
-    orderBy: [{ sort_order: 'asc' }, { created_at: 'desc' }],
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      excerpt: true,
-      image: true,
-    },
-  });
+  const rows = await failSoftPublicQuery(
+    db.service.findMany({
+      where: {
+        deleted_at: null,
+        is_active: true,
+        is_public: true,
+      },
+      orderBy: [{ sort_order: 'asc' }, { created_at: 'desc' }],
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        excerpt: true,
+        image: true,
+      },
+    }),
+    { label: 'getServices', fallback: [] },
+  );
 
   return rows.map((row) => ({
     id: row.id,

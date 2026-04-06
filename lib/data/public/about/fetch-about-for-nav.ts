@@ -4,6 +4,7 @@ import 'server-only';
 import { db } from '@/lib/db';
 import { cacheLife, cacheTag } from 'next/cache';
 import { ABOUT_NAV_TAG } from '@/lib/cache/tags';
+import { failSoftPublicQuery } from '@/lib/data/public/failsafe';
 
 export type NavAboutData = {
   hasValues: boolean;
@@ -36,34 +37,39 @@ export async function fetchAboutForNav(): Promise<NavAboutData> {
     partnersCount,
     leadershipTeamCount,
     messageCount,
-    // 🔹 NEW: any org with either vision or mission set
     missionVisionCount,
     docCats,
-  ] = await Promise.all([
-    db.organizationValue.count(),
-    db.organizationMetric.count({ where: { published: true } }),
-    db.organizationMilestone.count(),
-    db.organizationFaq.count({ where: { published: true } }),
-    db.organizationAward.count(),
-    db.organizationCertification.count(),
-    db.organizationTestimonial.count({ where: { published: true } }),
-    db.partner.count({ where: { isActive: true } }),
-    db.managementTeam.count({ where: { isActive: true } }),
-    db.organizationMessage.count({ where: { published: true } }),
-    db.organization.count({
-      where: {
-        OR: [
-          { vision: { not: null } },
-          { mission: { not: null } },
-        ],
-      },
-    }),
-    db.documentCategory.findMany({
-      where: { isActive: true, documents: { some: { published: true } } },
-      select: { name: true, slug: true },
-      orderBy: { rank: 'asc' },
-    }),
-  ]);
+  ] = await failSoftPublicQuery(
+    Promise.all([
+      db.organizationValue.count(),
+      db.organizationMetric.count({ where: { published: true } }),
+      db.organizationMilestone.count(),
+      db.organizationFaq.count({ where: { published: true } }),
+      db.organizationAward.count(),
+      db.organizationCertification.count(),
+      db.organizationTestimonial.count({ where: { published: true } }),
+      db.partner.count({ where: { isActive: true } }),
+      db.managementTeam.count({ where: { isActive: true } }),
+      db.organizationMessage.count({ where: { published: true } }),
+      db.organization.count({
+        where: {
+          OR: [
+            { vision: { not: null } },
+            { mission: { not: null } },
+          ],
+        },
+      }),
+      db.documentCategory.findMany({
+        where: { isActive: true, documents: { some: { published: true } } },
+        select: { name: true, slug: true },
+        orderBy: { rank: 'asc' },
+      }),
+    ]),
+    {
+      label: 'fetchAboutForNav',
+      fallback: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, []] as const,
+    },
+  );
 
   return {
     hasValues: valuesCount > 0,
