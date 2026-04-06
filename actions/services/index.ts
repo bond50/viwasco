@@ -69,6 +69,7 @@ function toCreateData(
     title: data.title,
     slug: data.slug,
     excerpt: data.excerpt?.trim() || null,
+    icon: data.icon?.trim() || null,
     content: toContentJson(data.content),
     image: typeof data.image !== 'undefined' ? jsonForPrisma(data.image ?? null) : Prisma.JsonNull,
     is_active: typeof data.is_active === 'boolean' ? data.is_active : true,
@@ -82,6 +83,7 @@ function toUpdateData(data: ServiceFormValues, slug: string): Prisma.ServiceUpda
     title: data.title,
     slug,
     excerpt: data.excerpt?.trim() || null,
+    icon: data.icon?.trim() || null,
     content: toContentJson(data.content),
   };
 

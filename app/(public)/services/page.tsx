@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-
+import ServiceCard from '@/components/card/service-card';
 import { Breadcrumb } from '@/components/reusables/breadcrumb';
 import { generatePageMetadata, PageSeo } from '@/components/seo/page-seo';
 import { SITE } from '@/lib/seo/config';
@@ -9,6 +8,22 @@ import { Section } from '@/components/reusables/sections/section';
 import { ServicePicker } from '@/components/public/services/service-picker.client';
 import styles from '@/components/public/services/services.module.css';
 import { getServices } from '@/lib/data/public/services/getters';
+import { MdOutlineSupportAgent } from 'react-icons/md';
+
+function getServiceCardSummary(summary: string): string {
+  const text = summary.trim();
+  if (!text) return '';
+
+  const firstSentenceMatch = text.match(/^.*?[.!?](?:\s|$)/);
+  const firstSentence = firstSentenceMatch?.[0]?.trim() ?? '';
+
+  if (firstSentence && firstSentence.length <= 120) {
+    return firstSentence;
+  }
+
+  const shortened = text.slice(0, 120).trim();
+  return shortened.length < text.length ? `${shortened}…` : shortened;
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePageMetadata({
@@ -73,15 +88,18 @@ export default async function ServicesPage() {
         <div className="container">
           <div className={styles.cardGrid}>
             {services.length > 0 ? (
-              services.map((service) => (
-                <div key={service.id} className={styles.serviceCard}>
-                  <div className={styles.serviceTitle}>{service.name}</div>
-                  <p className="text-muted">{service.summary}</p>
-                  <Link className={styles.serviceLink} href={`/services/${service.slug}`}>
-                    View details →
-                  </Link>
-                </div>
-              ))
+              services.map((service) => {
+                return (
+                  <ServiceCard
+                    key={service.id}
+                    href={`/services/${service.slug}`}
+                    iconKey={service.icon}
+                    iconFallback={<MdOutlineSupportAgent aria-hidden="true" />}
+                    title={service.name}
+                    summary={getServiceCardSummary(service.summary)}
+                  />
+                );
+              })
             ) : (
               <div className="alert alert-info mb-0">No services have been published yet.</div>
             )}

@@ -36,7 +36,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--accent-color);
+  color: var(--brand-green-700);
   margin-bottom: 8px;
 }
 
@@ -63,8 +63,13 @@
   content: '';
   width: 50px;
   height: 2px;
-  background: currentColor;
-  opacity: 0.3;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--brand-blue-600) 82%, white),
+    color-mix(in srgb, var(--brand-green-600) 78%, white),
+    color-mix(in srgb, var(--brand-earth-500) 72%, white)
+  );
+  opacity: 0.9;
   flex-shrink: 0;
 }
 

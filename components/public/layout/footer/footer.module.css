@@ -197,7 +197,12 @@
   left: 0;
   width: 2.4rem;
   height: 0.16rem;
-  background-color: var(--footer-accent);
+  background: linear-gradient(
+    90deg,
+    var(--brand-green-700) 0%,
+    color-mix(in srgb, var(--brand-blue-600) 72%, white) 58%,
+    color-mix(in srgb, var(--brand-earth-500) 72%, white) 100%
+  );
 }
 
 /* Links */
@@ -218,7 +223,7 @@
 }
 
 .footerLinkIcon {
-  color: var(--footer-accent);
+  color: color-mix(in srgb, var(--brand-green-700) 72%, var(--brand-blue-600));
   font-size: 1rem;
   flex-shrink: 0;
   transition: transform 0.2s ease;
@@ -257,7 +262,7 @@
 .contactIcon {
   font-size: 1.125rem;
   margin-right: 0;
-  color: var(--footer-accent);
+  color: color-mix(in srgb, var(--brand-green-700) 72%, var(--brand-blue-600));
   margin-top: 0.25rem;
 }
 

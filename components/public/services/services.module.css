@@ -1,5 +1,28 @@
+.sectionIntro,
+.picker,
+.cardGrid,
+.detailHero,
+.detailContent,
+.relatedSectionHeader {
+  --service-accent: #1e78d7;
+  --service-accent-strong: #14395d;
+  --service-text: #465467;
+  --service-text-muted: #66788a;
+  --service-border: rgba(20, 82, 147, 0.1);
+  --service-border-soft: rgba(20, 82, 147, 0.08);
+  --service-surface: #ffffff;
+  --service-surface-muted: #f8fbfe;
+  --service-shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.04);
+  --service-hover-shadow: 0 10px 22px rgba(15, 23, 42, 0.07);
+}
+
 .sectionIntro {
   max-width: 720px;
+}
+
+.sectionIntroTitle :global(p),
+.relatedSectionHeader :global(p) {
+  color: var(--service-text-muted);
 }
 
 .picker {
@@ -12,55 +35,211 @@
   margin-bottom: 0.5rem;
 }
 
+.compactPickerSelect {
+  min-height: 48px;
+  border-color: var(--service-border);
+}
+
+.compactPickerSummary {
+  margin: 0.7rem 0 0;
+  padding: 0.8rem 0.9rem;
+  color: var(--service-text-muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  border: 1px solid var(--service-border);
+  border-left-width: 4px;
+  border-left-color: color-mix(in srgb, var(--brand-green-700), transparent 70%);
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-blue-600) 5%, white),
+      color-mix(in srgb, var(--brand-green-600) 4%, white)
+    );
+}
+
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
-.serviceCard {
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 1.25rem;
-  background: #fff;
-  box-shadow: var(--card-shadow-2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.relatedSection {
+  background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--brand-blue-600) 8%, white) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at top right,
+      color-mix(in srgb, var(--brand-green-600) 8%, white) 0%,
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--brand-blue-50) 72%, white) 0%,
+      color-mix(in srgb, var(--brand-green-50) 60%, white) 100%
+    );
+  border-top: 1px solid color-mix(in srgb, var(--brand-blue-600) 12%, white);
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-green-700) 12%, white);
 }
 
-.serviceCard:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--card-shadow-hover-2);
+.relatedSection::before {
+  content: none;
 }
 
-.serviceTitle {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.relatedSection::after {
+  content: none;
 }
 
-.serviceLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-weight: 600;
-  text-decoration: none;
+.relatedSection :global(.container) {
+  position: relative;
+  z-index: 1;
+}
+
+.relatedSectionHeader {
+  margin-bottom: 1rem;
+  padding-top: 0.15rem;
+}
+
+.relatedSectionHeader :global(h2) {
+  color: var(--service-accent-strong);
 }
 
 .detailHero {
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 18px 40px rgba(16, 24, 40, 0.18);
+  background: #eef4f9;
+  box-shadow: 0 14px 30px rgba(16, 24, 40, 0.12);
+}
+
+.detailHero :global(img) {
+  display: block;
+  width: 100%;
+  height: clamp(360px, 44vw, 560px);
+  object-fit: cover;
+  object-position: 58% center;
+  transform: scale(1.02);
 }
 
 .detailContent h1 {
   font-size: clamp(1.6rem, 2.2vw, 2.3rem);
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.55rem;
+  color: var(--service-accent-strong);
+}
+
+.detailEyebrow {
+  margin-bottom: 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--service-accent);
 }
 
 .detailContent p {
-  color: #4b5563;
+  color: var(--service-text);
   margin-bottom: 1rem;
+}
+
+.serviceRichContent {
+  margin-top: 0;
+  max-width: 62ch;
+}
+
+.serviceRichContent :global(h2),
+.serviceRichContent :global(h3),
+.serviceRichContent :global(h4) {
+  color: var(--service-accent-strong);
+  letter-spacing: -0.02em;
+}
+
+.serviceRichContent :global(h2) {
+  margin-top: 1.85rem;
+  margin-bottom: 0.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--service-border);
+}
+
+.serviceRichContent :global(h3) {
+  margin-top: 1.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.serviceRichContent :global(p) {
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--service-text);
+}
+
+.serviceRichContent :global(blockquote) {
+  border-left-width: 5px;
+  border-left-color: var(--brand-green-700);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-blue-600) 4%, white),
+      color-mix(in srgb, var(--brand-green-600) 5%, white)
+    );
+  border-radius: 14px;
+  padding: 1.2rem 1.35rem;
+}
+
+.serviceRichContent :global(.taskList) .taskItem,
+.serviceRichContent :global(.rcListItem) {
+  margin: 0.16rem 0;
+}
+
+.serviceRichContent :global(.rcList) {
+  margin: 1.4rem 0;
+}
+
+.serviceRichContent :global(ul ul),
+.serviceRichContent :global(ol ol),
+.serviceRichContent :global(ul ol),
+.serviceRichContent :global(ol ul) {
+  margin-top: 0.35rem;
+  margin-left: 0;
+  padding-left: 0.45rem !important;
+}
+
+.serviceRichContent :global(.rcList .rcList) {
+  margin: 0.45rem 0 0;
+  padding-left: 0.05rem !important;
+  margin-left: 0;
+}
+
+.serviceRichContent :global(.rcListItem) {
+  grid-template-columns: 1.65em 1fr;
+  column-gap: 0.65em;
+  padding: 0.22rem 0;
+  border-bottom: 1px solid var(--service-border-soft);
+}
+
+.serviceRichContent :global(.rcListContent > p) {
+  margin: 0.12rem 0 !important;
+  line-height: 1.55;
+}
+
+.serviceRichContent :global(.rcListContent > ul),
+.serviceRichContent :global(.rcListContent > ol) {
+  margin: 0.18rem 0 0 !important;
+}
+
+.serviceRichContent :global(.rcList .rcListItem) {
+  grid-template-columns: 0.95em 1fr;
+  column-gap: 0.35em;
+  padding: 0.14rem 0;
+}
+
+.serviceRichContent :global(.rcListItem:last-child) {
+  border-bottom: 0;
+}
+
+.serviceRichContent :global(.rcListIcon) {
+  color: var(--service-accent);
 }
 
 .detailList {
@@ -72,5 +251,61 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1.5rem;
+  max-width: 62ch;
+  margin-top: 1.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--service-border);
+}
+
+@media (max-width: 991.98px) {
+  .detailHero :global(img) {
+    height: clamp(280px, 55vw, 420px);
+    object-position: center center;
+  }
+
+  .detailHero {
+    margin-bottom: 0.2rem;
+  }
+
+  .detailContent h1 {
+    margin-bottom: 0.45rem;
+  }
+
+  .serviceQuickLinks,
+  .serviceRichContent,
+  .actionRow {
+    max-width: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .cardGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .cardGrid {
+    gap: 0.9rem;
+  }
+
+  .detailEyebrow {
+    margin-bottom: 0.18rem;
+  }
+
+  .detailHero :global(img) {
+    height: 240px;
+  }
+
+  .actionRow {
+    gap: 0.6rem;
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+  }
 }

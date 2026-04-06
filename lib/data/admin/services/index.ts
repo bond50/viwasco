@@ -10,6 +10,7 @@ export type AdminServiceRow = {
   title: string;
   slug: string;
   excerpt: string | null;
+  icon: string | null;
   content: Prisma.JsonValue;
   image: Prisma.JsonValue | null;
   category_id: string | null;
@@ -29,6 +30,7 @@ export async function listServices(): Promise<AdminServiceRow[]> {
       title: true,
       slug: true,
       excerpt: true,
+      icon: true,
       content: true,
       image: true,
       category_id: true,
@@ -46,6 +48,7 @@ export type AdminServiceById = {
   title: string;
   slug: string;
   excerpt: string | null;
+  icon: string | null;
   content: Prisma.JsonValue;
   image: Prisma.JsonValue | null;
   category_id: string | null;
@@ -66,6 +69,7 @@ export async function getServiceById(id: string): Promise<AdminServiceById | nul
       title: true,
       slug: true,
       excerpt: true,
+      icon: true,
       content: true,
       image: true,
       category_id: true,

@@ -5,6 +5,7 @@ import type { Prisma } from '@/generated/prisma/client';
 import { useFormAction } from '@/hooks/use-form-action';
 import { useExcerpt } from '@/hooks/use-excerpt';
 import { CardWrapper2 } from '@/components/card/card-2';
+import { IconPicker } from '@/components/common/icons/IconPicker';
 import { Input } from '@/components/form-elements/input';
 import { ExcerptControls } from '@/components/form-elements/excerpt-controls';
 import { FileDropzone } from '@/components/form-elements/image-dropzone';
@@ -25,6 +26,7 @@ type ServiceEditInput = {
   title: string;
   slug: string;
   excerpt: string | null;
+  icon: string | null;
   content: Prisma.JsonValue;
   image: Prisma.JsonValue | null;
   is_active: boolean;
@@ -81,7 +83,7 @@ export function ServiceCreateForm() {
     <CardWrapper2 headerLabel="New Service">
       <form action={formAction}>
         <div className="row g-3 mb-3">
-          <div className="col-12">
+          <div className="col-md-7">
             <Input
               name="title"
               label="Title *"
@@ -89,6 +91,16 @@ export function ServiceCreateForm() {
               defaultValue={state?.values?.title ?? ''}
               error={getError('title')}
             />
+          </div>
+          <div className="col-md-5">
+            <label className="form-label mb-1">Icon</label>
+            <IconPicker
+              defaultIcon={(state?.values?.icon as string | undefined) ?? null}
+              hiddenFieldName="icon"
+            />
+            {getError('icon') ? (
+              <div className="text-danger small mt-1">{getError('icon')}</div>
+            ) : null}
           </div>
         </div>
 
@@ -176,7 +188,7 @@ export function ServiceEditForm({ row }: { row: ServiceEditInput }) {
     <CardWrapper2 headerLabel="Edit Service">
       <form action={formAction}>
         <div className="row g-3 mb-3">
-          <div className="col-12">
+          <div className="col-md-7">
             <Input
               name="title"
               label="Title *"
@@ -184,6 +196,16 @@ export function ServiceEditForm({ row }: { row: ServiceEditInput }) {
               defaultValue={state?.values?.title ?? row.title}
               error={getError('title')}
             />
+          </div>
+          <div className="col-md-5">
+            <label className="form-label mb-1">Icon</label>
+            <IconPicker
+              defaultIcon={(state?.values?.icon as string | undefined) ?? row.icon ?? null}
+              hiddenFieldName="icon"
+            />
+            {getError('icon') ? (
+              <div className="text-danger small mt-1">{getError('icon')}</div>
+            ) : null}
           </div>
         </div>
 

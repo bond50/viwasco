@@ -24,7 +24,12 @@ export async function failSoftPublicQuery<T>(
       }),
     ]);
   } catch (error) {
-    console.error(`[public-data] ${label} failed`, error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Unknown public data failure';
+
+    console.warn(`[public-data] ${label} failed; using fallback. ${message}`);
     return fallback;
   } finally {
     if (timer) {

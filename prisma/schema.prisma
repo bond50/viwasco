@@ -557,6 +557,7 @@ model Service {
   excerpt String?
   content Json
   image   Json?
+  icon    String?
 
   category_id String?
   category    ServiceCategory? @relation(fields: [category_id], references: [id])
@@ -832,4 +833,3 @@ model ContactMessage {
   @@index([status])
   @@index([created_at])
 }
-

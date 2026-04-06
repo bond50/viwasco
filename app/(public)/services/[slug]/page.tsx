@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
+import { MdOutlineSupportAgent } from 'react-icons/md';
 
+import ServiceCard from '@/components/card/service-card';
 import { Breadcrumb } from '@/components/reusables/breadcrumb';
+import SectionTitle2 from '@/components/reusables/sections/section-title-2';
 import { generatePageMetadata, PageSeo } from '@/components/seo/page-seo';
 import { SITE } from '@/lib/seo/config';
 import { toUiBreadcrumbs } from '@/lib/seo/breadcrumb-utils';
@@ -18,6 +20,72 @@ import { getServiceBySlug, getServices } from '@/lib/data/public/services/getter
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+function getServiceLabel(slug: string): string {
+  const labelMap: Record<string, string> = {
+    'new-water-connection': 'Customer Service',
+    'water-supply': 'Utility Service',
+    'sewer-services': 'Sanitation Service',
+    'water-bower-services': 'Emergency Support',
+    'exhauster-services': 'Sanitation Support',
+    'water-quality-training': 'Capacity Building',
+  };
+
+  return labelMap[slug] ?? 'Customer Service';
+}
+
+function normalizeTextContent(value: string): string {
+  return value
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function slugifyHeading(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function normalizeServiceBodyHtml(html: string): string {
+  let nextHtml = html.replace(/<p\b[^>]*>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>/gi, '');
+
+  const paragraphMatches = Array.from(nextHtml.matchAll(/<p\b[^>]*>[\s\S]*?<\/p>/gi));
+  if (paragraphMatches.length >= 2) {
+    const firstParagraph = normalizeTextContent(paragraphMatches[0][0]);
+    const secondParagraph = normalizeTextContent(paragraphMatches[1][0]);
+
+    if (firstParagraph && firstParagraph === secondParagraph) {
+      nextHtml = nextHtml.replace(paragraphMatches[1][0], '');
+    }
+  }
+
+  const seenIds = new Set<string>();
+
+  nextHtml = nextHtml.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (_, level, attrs, content) => {
+    const label = normalizeTextContent(content);
+    if (!label) return `<h${level}${attrs}>${content}</h${level}>`;
+
+    let id = slugifyHeading(label) || `section-${seenIds.size + 1}`;
+    const baseId = id;
+    let suffix = 2;
+    while (seenIds.has(id)) {
+      id = `${baseId}-${suffix++}`;
+    }
+    seenIds.add(id);
+
+    const cleanedAttrs = /\sid=/i.test(attrs)
+      ? attrs.replace(/\sid=(["']).*?\1/i, '')
+      : attrs;
+
+    return `<h${level}${cleanedAttrs} id="${id}">${content}</h${level}>`;
+  });
+
+  return nextHtml;
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -61,6 +129,7 @@ async function ServiceDetailContent({ params }: PageProps) {
     name: item.name,
     summary: item.summary,
   }));
+  const relatedServices = services.filter((item) => item.slug !== service.slug).slice(0, 3);
 
   const heroSrc =
     service.heroImage?.variants?.large?.secure_url ||
@@ -71,6 +140,8 @@ async function ServiceDetailContent({ params }: PageProps) {
 
   const heroWidth = service.heroImage?.main.width ?? 640;
   const heroHeight = service.heroImage?.main.height ?? 520;
+  const serviceLabel = getServiceLabel(service.slug);
+  const normalizedBody = normalizeServiceBodyHtml(service.bodyHtml);
 
   return (
     <>
@@ -88,10 +159,14 @@ async function ServiceDetailContent({ params }: PageProps) {
         <div className="container">
           <div className="row align-items-start">
             <div className="col-lg-7">
-              <div className={styles.sectionIntro}>
-                <h2 className="mb-3">Explore Our Services</h2>
-                <p className="text-muted mb-4">Pick another service to view the full details.</p>
-              </div>
+              <SectionTitle2
+                title="Explore Our Services"
+                subtitle="Switch services to compare requirements, application guidance, and available support."
+                align="left"
+                underline
+                size="md"
+                className={styles.sectionIntroTitle}
+              />
             </div>
 
             <div className="col-lg-5">
@@ -119,30 +194,50 @@ async function ServiceDetailContent({ params }: PageProps) {
 
             <div className="col-lg-7">
               <div className={styles.detailContent}>
+                <div className={styles.detailEyebrow}>{serviceLabel}</div>
                 <h1>{service.name}</h1>
 
-                {service.summary ? <p className="text-muted mb-4">{service.summary}</p> : null}
-
+                <div id="service-overview" />
                 <RichContent
-                  html={service.bodyHtml}
+                  html={normalizedBody}
+                  className={styles.serviceRichContent}
                   imageSizes="(max-width: 768px) 100vw,
                              (max-width: 1200px) 80vw,
                              900px"
                 />
-
-                <div className={styles.actionRow}>
-                  <Link href="/contact" className="btn-accent">
-                    Apply
-                  </Link>
-                  <Link href="/about/documents" className="btn-outline-accent">
-                    Download Form
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </Section>
+
+      {relatedServices.length ? (
+        <Section background="light" padding="lg" className={styles.relatedSection}>
+          <div className="container">
+            <SectionTitle2
+              title="Related Services"
+              subtitle="Explore other support options and customer service pathways."
+              align="center"
+              underline
+              size="sm"
+              className={styles.relatedSectionHeader}
+            />
+
+            <div className={styles.cardGrid}>
+              {relatedServices.map((item) => (
+                <ServiceCard
+                  key={item.id}
+                  href={`/services/${item.slug}`}
+                  iconKey={item.icon}
+                  iconFallback={<MdOutlineSupportAgent aria-hidden="true" />}
+                  title={item.name}
+                  summary={item.summary}
+                />
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
     </>
   );
 }

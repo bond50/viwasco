@@ -5,6 +5,7 @@ import { SmoothLoop } from './smooth-loop.client';
 import { TextSwiper } from './text-swiper.client';
 import styles from '@/components/public/home/hero/hero-base.module.css';
 import { HeroSubtitle } from '@/components/public/home/hero/subtitle-accordion.client';
+import Link from 'next/link';
 
 type Stat = { number: number | string; label: string };
 
@@ -40,6 +41,7 @@ type Props = {
   contentMode?: ContentMode;
 
   overlayStrength?: OverlayStrength;
+  showScrollCue?: boolean;
   /**
    * Optional slides for swiper mode.
    * Swiper is only enabled when contentMode === 'swiper' and slides.length >= 2.
@@ -61,6 +63,7 @@ export function VideoHero({
                             className,
                             contentMode = 'single',
                             overlayStrength = 'medium',
+                            showScrollCue = false,
                             slides,
                           }: Props) {
   const alignClass = textAlign === 'left' ? styles.tvLeft : styles.tvCenter;
@@ -173,6 +176,14 @@ export function VideoHero({
           </div>
         )}
       </div>
+
+      {showScrollCue ? (
+        <Link href="#service-overview" className={styles.scrollCue} aria-label="Scroll to next section">
+          <svg className={styles.scrollIcon} viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 16.5a1 1 0 0 1-.7-.29l-6-6a1 1 0 1 1 1.4-1.42L12 14.08l5.3-5.29a1 1 0 1 1 1.4 1.42l-6 6a1 1 0 0 1-.7.29Z" />
+          </svg>
+        </Link>
+      ) : null}
     </section>
   );
 }

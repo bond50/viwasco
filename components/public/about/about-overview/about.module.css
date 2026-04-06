@@ -88,8 +88,11 @@
 
 .about-content-subtitle {
     display: inline-block;
-    color: var(--accent-color);
-    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--brand-green-700);
+    background:
+        linear-gradient(135deg,
+            color-mix(in srgb, var(--brand-green-700) 10%, white),
+            color-mix(in srgb, var(--brand-earth-500) 8%, white));
     padding: 8px 16px;
     border-radius: 6px;
     font-size: 16px;
@@ -119,12 +122,23 @@
     min-height: 2.25rem;
     padding: 0.45rem 0.85rem;
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
-    border: 1px solid color-mix(in srgb, var(--accent-color), transparent 78%);
+    background:
+        linear-gradient(135deg,
+            color-mix(in srgb, var(--brand-blue-600) 7%, white),
+            color-mix(in srgb, var(--brand-green-600) 6%, white));
+    border: 1px solid color-mix(in srgb, var(--brand-blue-600), transparent 78%);
     color: color-mix(in srgb, var(--heading-color), transparent 10%);
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.04em;
+}
+
+.trustSignal:nth-child(even) {
+    background:
+        linear-gradient(135deg,
+            color-mix(in srgb, var(--brand-green-700) 8%, white),
+            color-mix(in srgb, var(--brand-earth-500) 6%, white));
+    border-color: color-mix(in srgb, var(--brand-green-700), transparent 78%);
 }
 
 .statsTransition {
@@ -167,10 +181,13 @@
     padding: 1.25rem 1rem 0.35rem;
     background:
         radial-gradient(circle at top left,
-            color-mix(in srgb, var(--accent-color), white 88%) 0%,
+            color-mix(in srgb, var(--brand-blue-600), white 90%) 0%,
             transparent 38%),
+        radial-gradient(circle at bottom right,
+            color-mix(in srgb, var(--brand-green-600), white 92%) 0%,
+            transparent 34%),
         linear-gradient(180deg,
-            color-mix(in srgb, var(--accent-color), white 95%) 0%,
+            color-mix(in srgb, var(--brand-blue-600), white 96%) 0%,
             color-mix(in srgb, var(--surface-color), white 18%) 100%);
     border: 1px solid color-mix(in srgb, var(--heading-color), transparent 90%);
     border-radius: 14px;
@@ -204,12 +221,16 @@
 .stat-item__number {
     font-size: clamp(1.85rem, 2.4vw, 2.5rem);
     font-weight: 700;
-    color: var(--accent-color);
+    color: color-mix(in srgb, var(--brand-green-700) 45%, var(--brand-blue-600));
     margin-bottom: 0.35rem;
     font-family: var(--heading-font), monospace;
     white-space: nowrap;
     line-height: 1.05;
     text-shadow: 0 1px 0 color-mix(in srgb, white, transparent 40%);
+}
+
+.statsGridCell:nth-child(even) .stat-item__number {
+    color: color-mix(in srgb, var(--brand-blue-600) 42%, var(--brand-green-700));
 }
 
 .stat-item__label {
@@ -372,7 +393,7 @@ a.btn {
     top: 5px;
     width: 3px;
     height: 14px;
-    background-color: var(--accent-color);
+    background-color: var(--brand-green-700);
     border-radius: 3px;
 }
 

@@ -74,6 +74,7 @@ export async function HeroResolver() {
             subheading={cfg.subheading ?? undefined}
             contentMode={desktopMode}
             overlayStrength={desktop.overlayStrength}
+            showScrollCue={desktop.showScrollCue}
             slides={slides}
           />
         ) : (
@@ -88,6 +89,7 @@ export async function HeroResolver() {
             subheading={cfg.subheading ?? undefined}
             contentMode={desktopMode}
             overlayStrength={desktop.overlayStrength}
+            showScrollCue={desktop.showScrollCue}
             slides={slides}
           />
         ))}
@@ -108,6 +110,7 @@ export async function HeroResolver() {
             subheading={mobileSubheading}
             contentMode={mobileMode}
             overlayStrength={mobile.overlayStrength}
+            showScrollCue={mobile.showScrollCue}
             slides={mobileSlides}
           />
         ) : (
@@ -122,6 +125,7 @@ export async function HeroResolver() {
             subheading={mobileSubheading}
             contentMode={mobileMode}
             overlayStrength={mobile.overlayStrength}
+            showScrollCue={mobile.showScrollCue}
             slides={mobileSlides}
           />
         ))}

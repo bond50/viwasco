@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import styles from '@/components/public/home/hero/hero-base.module.css';
 import { ImageHeroCarousel } from './image-carousel.client';
 import { HeroSubtitle } from '@/components/public/home/hero/subtitle-accordion.client';
+import Link from 'next/link';
 
 export type Variant = 'compact' | 'normal' | 'tall' | 'full';
 export type ContentMode = 'single' | 'carousel' | 'swiper';
@@ -28,6 +29,7 @@ type Props = {
 
   contentMode?: ContentMode;
   overlayStrength?: OverlayStrength;
+  showScrollCue?: boolean;
   /**
    * Optional slides for carousel mode.
    * Carousel is only enabled when contentMode === 'carousel' and slides.length >= 2.
@@ -46,6 +48,7 @@ export function ImageHero({
                             className,
                             contentMode = 'single',
                             overlayStrength = 'medium',
+                            showScrollCue = false,
                             slides,
                           }: Props) {
   const alignClass = textAlign === 'left' ? styles.tvLeft : styles.tvCenter;
@@ -88,6 +91,7 @@ export function ImageHero({
       : overlayStrength === 'strong'
         ? styles.overlayStrong
         : undefined; // "medium" = base .overlay
+  const overlayPositionClass = textAlign === 'left' ? styles.overlayLeft : undefined;
 
 
   return (
@@ -117,6 +121,7 @@ export function ImageHero({
             className={cn(
               styles.overlay,
               overlayStrengthClass,
+              overlayPositionClass,
             )}
           />
         )}
@@ -137,6 +142,14 @@ export function ImageHero({
           </div>
         )}
       </div>
+
+      {showScrollCue ? (
+        <Link href="#service-overview" className={styles.scrollCue} aria-label="Scroll to next section">
+          <svg className={styles.scrollIcon} viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 16.5a1 1 0 0 1-.7-.29l-6-6a1 1 0 1 1 1.4-1.42L12 14.08l5.3-5.29a1 1 0 1 1 1.4 1.42l-6 6a1 1 0 0 1-.7.29Z" />
+          </svg>
+        </Link>
+      ) : null}
     </section>
   );
 }

@@ -6,6 +6,7 @@ export const serviceSchema = z.object({
   title: z.string().min(2).max(200),
   slug: z.string().min(2).max(220).optional().nullable(),
   excerpt: z.string().max(600).optional().nullable(),
+  icon: z.string().max(120).optional().nullable(),
 
   // Stored in DB JSON as { html: string }
   content: z.string().min(10, 'Content is required'),

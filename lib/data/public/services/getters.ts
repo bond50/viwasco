@@ -9,6 +9,7 @@ export type PublicServiceCard = {
   slug: string;
   name: string;
   summary: string;
+  icon: string | null;
   heroImage: UploadedImageResponse | null;
 };
 
@@ -58,6 +59,7 @@ export async function getServices(): Promise<PublicServiceCard[]> {
         slug: true,
         title: true,
         excerpt: true,
+        icon: true,
         image: true,
       },
     }),
@@ -69,6 +71,7 @@ export async function getServices(): Promise<PublicServiceCard[]> {
     slug: row.slug,
     name: row.title,
     summary: row.excerpt?.trim() || '',
+    icon: row.icon?.trim() || null,
     heroImage: toUploadedImage(row.image),
   }));
 }
@@ -93,6 +96,7 @@ export async function getServiceBySlug(
       slug: true,
       title: true,
       excerpt: true,
+      icon: true,
       content: true,
       image: true,
     },
@@ -105,6 +109,7 @@ export async function getServiceBySlug(
     slug: row.slug,
     name: row.title,
     summary: row.excerpt?.trim() || '',
+    icon: row.icon?.trim() || null,
     bodyHtml: extractServiceHtml(row.content),
     heroImage: toUploadedImage(row.image),
   };

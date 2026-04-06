@@ -69,7 +69,7 @@
 
   .navmenu a:hover,
   .active {
-    color: var(--nav-hover-color);
+    color: color-mix(in srgb, var(--brand-green-700) 52%, var(--brand-blue-600));
   }
 
   .toggler :global(svg) {
@@ -100,7 +100,8 @@
       top 0.3s;
     border-radius: 4px;
     z-index: 99;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.09);
+    border: 1px solid color-mix(in srgb, var(--brand-blue-600) 8%, white);
   }
 
   .dropdown > ul li {
@@ -115,11 +116,20 @@
   }
 
 .dropdown > ul a:hover {
-  color: var(--nav-dropdown-hover-color);
+  color: color-mix(in srgb, var(--brand-green-700) 52%, var(--brand-blue-600));
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--brand-blue-600) 5%, white),
+    color-mix(in srgb, var(--brand-green-600) 4%, white)
+  );
 }
 
 .navmenu a.portalCta {
-  background: var(--accent-color);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-blue-600) 92%, white),
+    color-mix(in srgb, var(--brand-blue-700) 88%, white)
+  );
   color: #ffffff !important;
   padding: 0.4rem 0.95rem;
   border-radius: 999px;
@@ -129,7 +139,11 @@
 }
 
 .navmenu a.portalCta:hover {
-  background: var(--accent-hover);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-blue-700) 92%, white),
+    color-mix(in srgb, var(--brand-green-700) 24%, var(--brand-blue-700))
+  );
   color: #ffffff !important;
 }
 
@@ -339,7 +353,11 @@
     gap: 12px;
     padding: 18px 18px 14px;
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 8%, white), white 72%);
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--brand-blue-600) 7%, white) 0%,
+        color-mix(in srgb, var(--brand-green-600) 4%, white) 100%
+      );
     border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
   }
 
@@ -400,7 +418,11 @@
   }
 
   .mobileList > li > a:hover {
-    background: color-mix(in srgb, var(--accent-color) 7%, white);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--brand-blue-600) 5%, white),
+      color-mix(in srgb, var(--brand-green-600) 4%, white)
+    );
     transform: translateX(2px);
   }
 
@@ -410,7 +432,7 @@
     margin: 8px 10px 12px;
     padding: 8px;
     background: var(--nav-dropdown-background-color);
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    border: 1px solid color-mix(in srgb, var(--brand-green-700) 10%, white);
     border-radius: 16px;
     display: none;
   }
@@ -435,7 +457,11 @@
   }
 
   .mobileSub a:hover {
-    background: color-mix(in srgb, var(--accent-color) 7%, white);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--brand-blue-600) 5%, white),
+      color-mix(in srgb, var(--brand-green-600) 4%, white)
+    );
   }
 
   .toggler :global(svg) {
@@ -452,7 +478,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    background-color: color-mix(in srgb, var(--brand-blue-600) 10%, white);
   }
 
   .dropdownActive ~ a .toggler :global(svg) {

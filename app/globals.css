@@ -14,6 +14,32 @@
   --secondary-color: #179849;
   --danger-color: #dc2626;
 
+  /* Brand palette from logo */
+  --brand-earth-600: #9d4209;
+  --brand-earth-500: #a45724;
+  --brand-green-700: #1c732e;
+  --brand-green-600: #298a54;
+  --brand-blue-600: #147ee7;
+  --brand-blue-700: #0f5fad;
+  --brand-warm-50: #fbf6ef;
+  --brand-green-50: #f1f8f3;
+  --brand-blue-50: #eef6fd;
+  --brand-divider: color-mix(in srgb, var(--brand-blue-600) 10%, var(--brand-green-700) 6%);
+  --brand-glow:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-blue-600) 7%, white) 0%,
+      color-mix(in srgb, var(--brand-green-600) 6%, white) 54%,
+        color-mix(in srgb, var(--brand-earth-500) 6%, white) 100%
+    );
+  --brand-accent-hover:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-green-700) 16%, white) 0%,
+      color-mix(in srgb, var(--brand-blue-600) 12%, white) 56%,
+      color-mix(in srgb, var(--brand-earth-500) 12%, white) 100%
+    );
+
   /* Surfaces */
   --surface-color: #ffffff;
   --background-color: #f1f5f7;
@@ -141,7 +167,12 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  background: var(--accent-color);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-blue-600) 92%, white) 0%,
+      color-mix(in srgb, var(--brand-blue-700) 88%, white) 100%
+    );
   color: var(--contrast-color);
   border: 1px solid var(--accent-color);
   border-radius: 999px;
@@ -153,7 +184,12 @@ a:hover {
 }
 
 .btn-accent:hover {
-  background: var(--accent-hover);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-blue-700) 92%, white) 0%,
+      color-mix(in srgb, var(--brand-green-700) 22%, var(--brand-blue-700)) 100%
+    );
   color: var(--contrast-color);
 }
 
@@ -162,9 +198,9 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  background: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
+  background: color-mix(in srgb, var(--brand-green-600) 3%, white);
+  color: var(--brand-blue-700);
+  border: 1px solid color-mix(in srgb, var(--brand-green-700) 32%, white);
   border-radius: 999px;
   padding: 0.6rem 1.3rem;
   font-weight: 600;
@@ -173,8 +209,14 @@ a:hover {
 }
 
 .btn-outline-accent:hover {
-  background: color-mix(in srgb, var(--accent-color) 12%, transparent);
-  color: var(--accent-color);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-green-700) 9%, white),
+      color-mix(in srgb, var(--brand-earth-500) 8%, white)
+    );
+  color: var(--brand-green-700);
+  border-color: color-mix(in srgb, var(--brand-green-700) 48%, white);
 }
 
 /* === Page Hero === */
@@ -266,8 +308,9 @@ h6 {
   height: 3px;
   background: linear-gradient(
     90deg,
-    var(--accent-color),
-    color-mix(in srgb, var(--accent-color), transparent 50%)
+    var(--brand-blue-600) 0%,
+    var(--brand-green-600) 52%,
+    color-mix(in srgb, var(--brand-earth-500) 72%, white) 100%
   );
   border-radius: 2px;
 }

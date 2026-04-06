@@ -11,6 +11,7 @@ import {
   MdFormatAlignJustify,
   MdFormatAlignLeft,
   MdFormatAlignRight,
+  MdSubject,
   MdFormatBold,
   MdFormatClear,
   MdFormatColorReset,
@@ -34,7 +35,6 @@ import {
   TbH3,
   TbHighlight,
   TbList,
-  TbListCheck,
   TbListNumbers,
   TbRowInsertBottom,
   TbRowInsertTop,
@@ -243,7 +243,7 @@ export function Toolbar({
         </button>
       </span>
 
-      {/* Text structure: headings + lists in a dropdown */}
+      {/* Text structure: headings in a dropdown */}
       <span className={styles.RteGroup} aria-label="Headings and lists">
         <div className={styles.RteDropdownWrapper}>
           <button
@@ -261,6 +261,21 @@ export function Toolbar({
 
           {textMenuOpen && (
             <div className={styles.RteDropdown} role="menu">
+              <button
+                type="button"
+                className={styles.RteDropdownItem}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  closeTextMenu();
+                  run(() => editor?.chain().setParagraph().run());
+                }}
+              >
+                <MdSubject />
+                <span>Paragraph</span>
+              </button>
+
+              <div className={styles.RteDropdownDivider} />
+
               <button
                 type="button"
                 className={styles.RteDropdownItem}
@@ -306,39 +321,42 @@ export function Toolbar({
                 onMouseDown={(e) => {
                   e.preventDefault();
                   closeTextMenu();
-                  run(() => editor?.chain().toggleBulletList().run());
+                  run(() => editor?.chain().toggleCodeBlock().run());
                 }}
               >
-                <TbList />
-                <span>Bullet list</span>
-              </button>
-              <button
-                type="button"
-                className={styles.RteDropdownItem}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  closeTextMenu();
-                  run(() => editor?.chain().toggleOrderedList().run());
-                }}
-              >
-                <TbListNumbers />
-                <span>Numbered list</span>
-              </button>
-              <button
-                type="button"
-                className={styles.RteDropdownItem}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  closeTextMenu();
-                  run(() => editor?.chain().toggleTaskList().run());
-                }}
-              >
-                <TbListCheck />
-                <span>Task list</span>
+                <MdCode />
+                <span>Code block</span>
               </button>
             </div>
           )}
         </div>
+      </span>
+
+      <span className={styles.RteGroup} aria-label="Lists">
+        <button
+          type="button"
+          className={styles.RteButton}
+          aria-pressed={isActive('bulletList')}
+          data-tip="Bullet list"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            run(() => editor?.chain().toggleBulletList().run());
+          }}
+        >
+          <TbList />
+        </button>
+        <button
+          type="button"
+          className={styles.RteButton}
+          aria-pressed={isActive('orderedList')}
+          data-tip="Numbered list"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            run(() => editor?.chain().toggleOrderedList().run());
+          }}
+        >
+          <TbListNumbers />
+        </button>
       </span>
 
       {/* Blocks & Links */}
