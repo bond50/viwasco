@@ -41,7 +41,7 @@
 }
 
 .normal {
-  --hero-min-height: 54svh;
+  --hero-min-height: 60svh;
   --content-gap: 1.25rem;
   --title-size: 2.5rem;
   --title-size-tablet: 2rem;
@@ -52,14 +52,14 @@
 }
 
 .tall {
-  --hero-min-height: 60svh;
+  --hero-min-height: 66svh;
   --content-gap: 1.5rem;
   --title-size: 2.8rem;
   --title-size-tablet: 2.2rem;
   --title-size-mobile: 1.6rem;
   --subtitle-size: 1.05rem;
   --subtitle-size-mobile: 0.95rem;
-  padding: 4rem 0;
+  padding: 4.75rem 0;
 }
 
 .full {
@@ -599,6 +599,14 @@
 }
 
 @media (min-width: 768px) {
+  .normal {
+    --hero-min-height: 60svh;
+  }
+
+  .tall {
+    --hero-min-height: 74svh;
+  }
+
   .hero {
     --hero-media-position: 64% 58%;
   }
