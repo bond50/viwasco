@@ -1,37 +1,43 @@
 #!/usr/bin/env python3
 import os, sys, json, time, base64, boto3
 
+
 def _branch_env():
     ref = (os.getenv("GITHUB_REF_NAME") or "").lower()
     if ref == "main": return "prod"
-    if ref in ("develop","dev"): return "develop"
+    if ref in ("develop", "dev"): return "develop"
     return "develop"
 
+
 def _app_slug():
-    s = os.getenv("APP") or os.getenv("APP_RAW") or os.getenv("GITHUB_REPOSITORY","").split("/")[-1]
+    s = os.getenv("APP") or os.getenv("APP_RAW") or os.getenv("GITHUB_REPOSITORY", "").split("/")[-1]
     s = (s or "app").lower()
-    import re; s = re.sub(r"[^a-z0-9]+","-", s).strip("-")
+    import re;
+    s = re.sub(r"[^a-z0-9]+", "-", s).strip("-")
     return s or "app"
+
 
 def _write_outputs(**kv):
     out = os.environ.get("GITHUB_OUTPUT")
     if not out: return
-    with open(out,"a") as fh:
-        for k,v in kv.items():
+    with open(out, "a") as fh:
+        for k, v in kv.items():
             fh.write(f"{k}={v}\n")
+
 
 def _wait_cmd(ssm, cmd_id, instance_id, timeout=120, poll=4):
     t0 = time.time()
-    while time.time()-t0 < timeout:
+    while time.time() - t0 < timeout:
         try:
             r = ssm.get_command_invocation(CommandId=cmd_id, InstanceId=instance_id, PluginName='aws:runShellScript')
-            st = r.get("Status","")
-            if st in ("Success","Failed","Cancelled","TimedOut"):
-                return st, r.get("StandardOutputContent",""), r.get("StandardErrorContent","")
+            st = r.get("Status", "")
+            if st in ("Success", "Failed", "Cancelled", "TimedOut"):
+                return st, r.get("StandardOutputContent", ""), r.get("StandardErrorContent", "")
         except Exception:
             pass
         time.sleep(poll)
-    return "TimedOut","", ""
+    return "TimedOut", "", ""
+
 
 def _classify_db_auth_failure(stdout: str, stderr: str) -> str:
     text = "\n".join(filter(None, [stdout or "", stderr or ""])).lower()
@@ -47,6 +53,7 @@ def _classify_db_auth_failure(stdout: str, stderr: str) -> str:
         return "DB_AUTH_TIMEOUT"
     return "DB_AUTH"
 
+
 def _trim_remote_output(text: str, limit: int = 12) -> str:
     lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
     if not lines:
@@ -56,9 +63,10 @@ def _trim_remote_output(text: str, limit: int = 12) -> str:
         trimmed.append("... (truncated)")
     return " | ".join(trimmed)
 
+
 def main():
     aws_region = os.getenv("AWS_REGION") or os.getenv("AWS_DEFAULT_REGION") or "us-east-1"
-    ecr_repo_name_in = os.getenv("ECR_REPO_NAME","")
+    ecr_repo_name_in = os.getenv("ECR_REPO_NAME", "")
     env_name = _branch_env()
     app = _app_slug()
     ecr_repo = ecr_repo_name_in or f"{app}-app"
@@ -97,7 +105,8 @@ def main():
         if ec2_id:
             # Using SSM DescribeInstanceInformation by ID
             ssm_mgmt = boto3.client("ssm", region_name=aws_region)
-            info = ssm_mgmt.describe_instance_information(Filters=[{"Key":"InstanceIds","Values":[ec2_id]}]).get("InstanceInformationList",[])
+            info = ssm_mgmt.describe_instance_information(Filters=[{"Key": "InstanceIds", "Values": [ec2_id]}]).get(
+                "InstanceInformationList", [])
             ping = (info[0]["PingStatus"] if info else "Inactive")
             ec2_ready = (ping == "Online")
             if not ec2_ready:
@@ -143,7 +152,7 @@ fi
         resp = ssm.send_command(
             DocumentName="AWS-RunShellScript",
             InstanceIds=[ec2_id],
-            Parameters={"commands":[cmd]},
+            Parameters={"commands": [cmd]},
             Comment=f"preflight db auth check for {app} ({env_name})"
         )
         st, so, se = _wait_cmd(ssm, resp["Command"]["CommandId"], ec2_id, timeout=120, poll=4)
@@ -175,6 +184,7 @@ fi
     if not ready:
         print("Preflight not ready. Missing/Issues:", ",".join(missing))
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
