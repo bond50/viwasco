@@ -1,94 +1,94 @@
 .sectionTitle {
-  position: relative;
-  padding-bottom: 60px;
+    position: relative;
+    padding-bottom: 60px;
 }
 
 /* ALIGNMENTS */
 .center {
-  text-align: center;
+    text-align: center;
 }
 
 .left {
-  text-align: left;
+    text-align: left;
 }
 
 /* TITLE BASE */
 .sectionTitle h2 {
-  font-weight: 700;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  position: relative;
-  color: var(--heading-color);
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    color: var(--heading-color);
 }
 
 /* SIZES */
 .sm h2 {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 .md h2 {
-  font-size: 32px;
+    font-size: 32px;
 }
 
 .lg h2 {
-  font-size: 40px;
+    font-size: 40px;
 }
 
 /* UNDERLINE */
 .underline::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 50px;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--brand-blue-600) 0%,
-    var(--brand-green-600) 58%,
-    color-mix(in srgb, var(--brand-earth-500) 74%, white) 100%
-  );
-  bottom: 0;
-  border-radius: 999px;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(
+            90deg,
+            var(--brand-blue-600) 0%,
+            var(--brand-green-600) 58%,
+            color-mix(in srgb, var(--brand-earth-500) 74%, white) 100%
+    );
+    bottom: 0;
+    border-radius: 999px;
 }
 
 /* Center underline */
 .center .underline::after {
-  left: 0;
-  right: 0;
-  margin: auto;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 /* Left underline */
 .left .underline::after {
-  left: 0;
+    left: 0;
 }
 
 /* SUBTITLE */
 .sectionTitle p {
-  margin-bottom: 0;
-  color: var(--default-color);
-  font-size: 16px;
-  line-height: 1.6;
-  max-width: 600px;
+    margin-bottom: 0;
+    color: var(--default-color);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 600px;
 }
 
 /* Center subtitle */
 .center p {
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .sectionTitle {
-    padding-bottom: 40px;
-  }
+    .sectionTitle {
+        padding-bottom: 40px;
+    }
 
-  .md h2 {
-    font-size: 28px;
-  }
+    .md h2 {
+        font-size: 28px;
+    }
 
-  .lg h2 {
-    font-size: 32px;
-  }
+    .lg h2 {
+        font-size: 32px;
+    }
 }
